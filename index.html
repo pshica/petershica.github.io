@@ -1,108 +1,149 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peter Shica</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f4f4f4;
+      background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      background-color: #f9fcff;
       color: #333;
-      line-height: 1.6;
     }
-    header {
-      background-color: #222;
-      color: #fff;
+
+    .hero {
+      background-image: url('img/fondo_header.png'); /* Ruta local */
+      background-size: cover;
+      background-position: center;
+      padding: 120px 20px;
       text-align: center;
-      padding: 2rem 1rem;
-    }
-    nav {
-      background-color: #0077b6;
-      padding: 0.5rem;
-      text-align: center;
-    }
-    nav a {
       color: white;
-      text-decoration: none;
-      margin: 0 1rem;
-      font-weight: bold;
+      position: relative;
     }
-    section {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.4); /* oscurece el fondo */
+      z-index: 0;
     }
-    h2 {
-      color: #0077b6;
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      font-weight: 300;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 3rem 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      color: #222;
       margin-bottom: 0.5rem;
     }
-    .project-card {
-      background: white;
-      padding: 1rem;
-      margin: 1rem 0;
-      border-left: 4px solid #0077b6;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    footer {
-      background-color: #ddd;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-    }
-    .social-icons a {
-      margin: 0 10px;
-      color: #0077b6;
-      font-size: 1.3rem;
+
+    .card a {
       text-decoration: none;
+      color: #0077b6;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: #888;
+      background: #fff;
+      border-top: 1px solid #ddd;
+    }
+
+    @media (min-width: 768px) {
+      .cards {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .card {
+        width: 30%;
+      }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>Peter Shica</h1>
-    <p>Bienvenido a mi sitio personal</p>
+
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Peter Shica Ramirez</h1>
+      <p>Conoce mi trayectoria académica, mi experiencia y reflexiones</p>
+    </div>
   </header>
 
-  <nav>
-    <a href="#sobremi">Sobre mí</a>
-    <a href="#proyectos">Proyectos</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-
-  <section id="sobremi">
-    <h2>Sobre mí</h2>
-    <p>Soy un estudiante apasionado por la tecnología, desarrollo web y proyectos creativos.</p>
-  </section>
-
-  <section id="proyectos">
-    <h2>Proyectos</h2>
-    <div class="project-card">
-      <strong>Mi portafolio:</strong> próximamente
+  <main>
+    <div class="cards">
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135765.png" alt="Académico">
+        <h2>Académico</h2>
+        <a href="academico.html">VER TODO</a>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Currículum">
+        <h2>Currículum</h2>
+        <a href="curriculum.html">VER TODO</a>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" alt="Blog">
+        <h2>Blog</h2>
+        <a href="blog.html">VER TODO</a>
+      </div>
     </div>
-    <div class="project-card">
-      <strong>Blog personal:</strong> próximamente
-    </div>
-  </section>
-
-  <section id="contacto">
-    <h2>Contacto</h2>
-    <p>Puedes escribirme a: <a href="mailto:petershica@email.com">petershica@email.com</a></p>
-    <div class="social-icons">
-      <a href="https://github.com/pshica" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="mailto:petershica@email.com"><i class="fas fa-envelope"></i></a>
-    </div>
-  </section>
+  </main>
 
   <footer>
     © 2025 Peter Shica — Todos los derechos reservados
   </footer>
+
 </body>
 </html>
