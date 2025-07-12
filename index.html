@@ -1,49 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peter Shica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f7f9fc;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f4;
       color: #333;
+      line-height: 1.6;
     }
     header {
-      background: #222;
-      color: white;
+      background-color: #222;
+      color: #fff;
+      text-align: center;
       padding: 2rem 1rem;
+    }
+    nav {
+      background-color: #0077b6;
+      padding: 0.5rem;
       text-align: center;
     }
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-    }
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: bold;
     }
     section {
-      margin-bottom: 2rem;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
     }
     h2 {
-      color: #005f73;
+      color: #0077b6;
+      margin-bottom: 0.5rem;
+    }
+    .project-card {
+      background: white;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-left: 4px solid #0077b6;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     footer {
+      background-color: #ddd;
       text-align: center;
       padding: 1rem;
-      background: #e5e5e5;
-      font-size: 0.9rem;
+      margin-top: 2rem;
     }
-    a {
-      color: #0066cc;
+    .social-icons a {
+      margin: 0 10px;
+      color: #0077b6;
+      font-size: 1.3rem;
       text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -53,28 +71,38 @@
     <p>Bienvenido a mi sitio personal</p>
   </header>
 
-  <main>
-    <section>
-      <h2>Sobre mí</h2>
-      <p>Soy un estudiante apasionado por la tecnología, desarrollo web y proyectos creativos. En este sitio comparto un poco de quién soy y lo que hago.</p>
-    </section>
+  <nav>
+    <a href="#sobremi">Sobre mí</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
 
-    <section>
-      <h2>Proyectos</h2>
-      <ul>
-        <li><strong>Mi portafolio:</strong> próximamente</li>
-        <li><strong>Blog personal:</strong> próximamente</li>
-      </ul>
-    </section>
+  <section id="sobremi">
+    <h2>Sobre mí</h2>
+    <p>Soy un estudiante apasionado por la tecnología, desarrollo web y proyectos creativos.</p>
+  </section>
 
-    <section>
-      <h2>Contacto</h2>
-      <p>Puedes escribirme a: <a href="mailto:petershica@email.com">petershica@email.com</a></p>
-    </section>
-  </main>
+  <section id="proyectos">
+    <h2>Proyectos</h2>
+    <div class="project-card">
+      <strong>Mi portafolio:</strong> próximamente
+    </div>
+    <div class="project-card">
+      <strong>Blog personal:</strong> próximamente
+    </div>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <p>Puedes escribirme a: <a href="mailto:petershica@email.com">petershica@email.com</a></p>
+    <div class="social-icons">
+      <a href="https://github.com/pshica" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="mailto:petershica@email.com"><i class="fas fa-envelope"></i></a>
+    </div>
+  </section>
 
   <footer>
-    &copy; 2025 Peter Shica — Todos los derechos reservados
+    © 2025 Peter Shica — Todos los derechos reservados
   </footer>
 </body>
 </html>
