@@ -3,69 +3,245 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Peter Shica Ramirez</title>
+  <title>Peter Shica Ramirez - Inicio</title>
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary-color: #0056b3; /* Darker blue for accents */
-      --secondary-color: #007bff; /* Original blue */
+      --primary-color: #0056b3; /* Azul oscuro para acentos */
+      --secondary-color: #007bff; /* Azul original */
       --text-color: #333;
       --light-gray: #f8f9fa;
       --white: #ffffff;
       --shadow: 0 4px 12px rgba(0,0,0,0.08);
       --border-radius: 10px;
+
+      /* Colores para el Glassmorfismo */
+      --glass-bg: rgba(255, 255, 255, 0.2); /* Fondo blanco semitransparente (usado como fallback) */
+      --glass-border: rgba(255, 255, 255, 0.5); /* Borde semitransparente más claro */
+      --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidad */
+      --navbar-glass-bg: rgba(255, 255, 255, 0.1); /* Fondo Navbar glassmorfismo */
+      --navbar-glass-border: rgba(255, 255, 255, 0.3); /* Borde Navbar glassmorfismo */
     }
 
+    /* Reset básico y box-sizing */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* Estilos generales del cuerpo */
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: var(--light-gray);
+      background: linear-gradient(135deg, #a8dadc 0%, #457b9d 100%); /* Degradado vibrante */
       color: var(--text-color);
       line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth; /* Desplazamiento suave para anclas */
     }
 
+    /* Contenedor principal para centrar contenido */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Barra de Navegación */
+    .navbar {
+      background-color: var(--navbar-glass-bg); /* Fondo glassmorfismo */
+      backdrop-filter: blur(10px); /* Desenfoque del fondo */
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--navbar-glass-border); /* Borde sutil */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Sombra suave */
+      position: sticky; /* Sticky Navbar */
+      top: 0;
+      z-index: 1000; /* Asegura que esté sobre otros elementos */
+      padding: 15px 0;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      transition: color 0.3s ease;
+    }
+
+    .navbar-brand:hover {
+      color: var(--light-gray);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li {
+      margin-left: 30px;
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 5px 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      display: block;
+      margin-top: 5px;
+      right: 0;
+      background: var(--secondary-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+      left: 0;
+      background: var(--secondary-color);
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color);
+    }
+
+    /* Menú hamburguesa para móvil (oculto por defecto) */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .menu-toggle .bar {
+      width: 25px;
+      height: 3px;
+      background-color: var(--white);
+      margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    /* Hero Section */
     .hero {
-      background-image: url('img/fondo_header.png'); /* Local path */
+      background-image: url('img/fondo_header.png'); /* Ruta local */
       background-size: cover;
       background-position: center;
       padding: 150px 20px;
       text-align: center;
       color: var(--white);
       position: relative;
-      overflow: hidden; /* To contain potential parallax effects or overlays */
+      overflow: hidden;
+      display: flex; /* Para centrar el contenido verticalmente */
+      align-items: center; /* Centrado vertical */
+      justify-content: center; /* Centrado horizontal */
+      min-height: 60vh; /* Altura mínima para la sección hero */
     }
 
     .hero::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.55); /* Darker overlay for better text readability */
+      background-color: rgba(0, 0, 0, 0.7); /* Oscurecido para mejor contraste del texto */
       z-index: 0;
     }
 
     .hero-content {
       position: relative;
       z-index: 1;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      animation: fadeIn 1.5s ease-out; /* Fade-in animation for hero content */
+      animation: fadeIn 1.5s ease-out;
     }
 
     .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 15px;
+      font-size: 3.8rem;
+      margin-bottom: 20px;
       font-weight: 700;
-      letter-spacing: 1px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      letter-spacing: 1.5px;
+      text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
     }
 
     .hero p {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: 400;
-      opacity: 0.9;
+      opacity: 0.98;
+      max-width: 700px;
+      margin: 0 auto 30px auto;
     }
 
+    .hero .cta-button {
+      display: inline-block;
+      background-color: var(--secondary-color);
+      color: var(--white);
+      text-decoration: none;
+      padding: 15px 35px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .hero .cta-button:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Sección "Acerca de mí" */
+    .about-me {
+      background-color: var(--white);
+      padding: 6rem 1rem;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.05); /* Sombra suave para la sección */
+      margin-top: -80px; /* Superpone un poco con el hero */
+      position: relative;
+      z-index: 10; /* Asegura que esté sobre el hero si hay solapamiento */
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .about-me .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 25px;
+      border: 5px solid var(--secondary-color);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .about-me h2 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .about-me p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    /* Contenedor de Tarjetas (Secciones principales) */
     .cards-container {
       padding: 4rem 1rem;
       max-width: 1100px;
@@ -73,71 +249,214 @@
       display: flex;
       flex-direction: column;
       gap: 2.5rem;
+      flex-grow: 1;
     }
 
+    /* Estilos base para las tarjetas */
     .card {
-      background-color: var(--white);
-      box-shadow: var(--shadow);
-      padding: 2rem;
+      background-color: var(--glass-bg); /* Fondo semitransparente (fallback sin imagen) */
+      border: 1px solid var(--glass-border); /* Borde sutil */
+      box-shadow: var(--glass-shadow); /* Sombra que simula profundidad */
+      backdrop-filter: blur(15px); /* ¡El efecto clave de desenfoque! */
+      -webkit-backdrop-filter: blur(15px); /* Compatibilidad con navegadores Webkit */
+      padding: 2rem; /* El padding será el espacio del contenido interno */
       border-radius: var(--border-radius);
       text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-end; /* Alinea el contenido (h2, a) al final de la tarjeta */
       align-items: center;
+      position: relative; /* Para el pseudo-elemento de overlay */
+      overflow: hidden; /* Asegura que la imagen de fondo no se desborde */
+      min-height: 320px; /* Altura mínima para que las tarjetas se vean uniformes */
+      color: var(--white); /* Texto blanco para mejor contraste sobre la imagen */
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    /* Pseudo-elemento para oscurecer la imagen de fondo y mejorar la legibilidad del texto */
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.4); /* Capa oscura semitransparente sobre la imagen */
+      z-index: 0; /* Detrás del contenido de la tarjeta */
+      transition: background-color 0.3s ease;
     }
 
-    .card img {
-      width: 90px; /* Fixed size for icons */
-      height: 90px;
-      object-fit: contain;
-      margin-bottom: 1.5rem;
-      transition: transform 0.3s ease;
+    .card:hover::before {
+      background-color: rgba(0, 0, 0, 0.55); /* Se oscurece más al pasar el ratón */
     }
 
-    .card:hover img {
-      transform: scale(1.1); /* Slight zoom on icon on hover */
+    /* Imágenes de fondo para cada tarjeta */
+    .card-academico {
+      background-image: url('img/aca.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .card-curriculum {
+      background-image: url('img/CV.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .card-blog {
+      background-image: url('img/blog.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Ajustes para el contenido de la tarjeta */
+    .card h2,
+    .card a {
+      position: relative; /* Para que estén sobre el pseudo-elemento de overlay */
+      z-index: 1;
     }
 
     .card h2 {
-      font-size: 1.6rem;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-      font-weight: 600;
+      font-size: 1.8rem;
+      color: var(--white); /* Texto del título en blanco */
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8); /* Sombra más fuerte para contraste */
     }
 
     .card a {
       display: inline-block;
       text-decoration: none;
-      color: var(--secondary-color);
+      color: var(--white); /* Color del texto del botón en blanco */
       font-weight: 700;
-      font-size: 1rem;
-      padding: 10px 20px;
-      border: 2px solid var(--secondary-color);
-      border-radius: 5px;
+      font-size: 1.05rem;
+      padding: 12px 25px;
+      border: 2px solid var(--white); /* Borde del botón en blanco */
+      border-radius: 8px;
       transition: all 0.3s ease;
+      background-color: rgba(255, 255, 255, 0.2); /* Fondo ligeramente transparente para el botón */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .card a:hover {
-      background-color: var(--secondary-color);
+      background-color: var(--secondary-color); /* Fondo azul en hover */
+      border-color: var(--secondary-color); /* Borde azul en hover */
       color: var(--white);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3); /* Sombra más fuerte para el botón en hover */
     }
 
+    /* Eliminar los <img> de las cards si se usa background-image */
+    .card img {
+      display: none;
+    }
+
+
+    /* Sección de Últimas Publicaciones/Proyectos Destacados */
+    .featured-section {
+      padding: 5rem 1rem;
+      background-color: var(--light-gray);
+      text-align: center;
+      box-shadow: inset 0 5px 15px rgba(0,0,0,0.03); /* Sombra interna sutil */
+    }
+
+    .featured-section h2 {
+      font-size: 2.8rem;
+      color: var(--primary-color);
+      margin-bottom: 3rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    .featured-section h2::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background-color: var(--secondary-color);
+      border-radius: 2px;
+    }
+
+    .featured-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .featured-item {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden; /* Asegura que la imagen no se salga del radio */
+    }
+
+    .featured-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .featured-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      margin: -1.5rem -1.5rem 1.5rem -1.5rem; /* Ajuste para bordes redondeados */
+    }
+
+    .featured-item h3 {
+      font-size: 1.4rem;
+      color: var(--primary-color);
+      margin-bottom: 0.7rem;
+      font-weight: 600;
+    }
+
+    .featured-item .date {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 1rem;
+    }
+
+    .featured-item p {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+
+    .featured-item a {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--secondary-color);
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-bottom: 2px solid var(--secondary-color);
+      padding-bottom: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .featured-item a:hover {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    /* Footer */
     footer {
       text-align: center;
       padding: 2.5rem 1rem;
       font-size: 0.95rem;
-      color: #777;
+      color: #666; /* Color ligeramente más oscuro para el footer */
       background: var(--white);
       border-top: 1px solid #eee;
-      margin-top: 3rem;
+      margin-top: auto;
     }
 
     /* Animations */
@@ -147,36 +466,96 @@
     }
 
     /* Responsive Design */
-    @media (min-width: 768px) {
-      .cards-container {
-        flex-direction: row;
-        justify-content: center; /* Center cards horizontally */
-        flex-wrap: wrap; /* Allow cards to wrap if needed */
+    @media (max-width: 768px) {
+      .navbar .container {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      .card {
-        width: 30%; /* Adjust width for three columns */
-        min-width: 280px; /* Ensure cards don't get too small */
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+        display: none; /* Oculto por defecto */
+        background-color: rgba(0,0,0,0.8); /* Fondo oscuro para el menú desplegado */
+        padding: 10px 0;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        position: absolute; /* Para que no afecte el flujo del contenido principal */
+        top: 60px; /* Debajo de la marca */
+        left: 0;
+        right: 0;
+        z-index: 999;
       }
-    }
-
-    @media (max-width: 767px) {
+      .nav-links.active {
+        display: flex; /* Muestra cuando está activo */
+      }
+      .nav-links li {
+        margin: 10px 20px;
+        width: calc(100% - 40px);
+        text-align: center;
+      }
+      .nav-links a {
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Separador entre enlaces */
+      }
+      .nav-links li:last-child a {
+        border-bottom: none;
+      }
+      .menu-toggle {
+        display: flex; /* Muestra el icono de hamburguesa */
+      }
       .hero {
         padding: 100px 20px;
       }
       .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
       }
       .hero p {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
       }
+      .hero .cta-button {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+
+      .about-me {
+        padding: 4rem 1rem;
+        margin-top: -60px;
+      }
+      .about-me h2 {
+        font-size: 2rem;
+      }
+      .about-me p {
+        font-size: 1rem;
+      }
+
       .cards-container {
+        flex-direction: column;
+        gap: 2rem;
         padding: 2.5rem 1rem;
       }
       .card {
+        width: 100%;
         padding: 1.5rem;
       }
+      /* Las imágenes de fondo en las tarjetas se escalarán automáticamente */
+      /* .card img { display: none; } */ /* Ya no es necesario si se eliminan del HTML */
       .card h2 {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
+      }
+
+      .featured-section {
+        padding: 3rem 1rem;
+      }
+      .featured-section h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+      .featured-items-grid {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+      }
+      .featured-item img {
+        height: 150px;
       }
     }
   </style>
@@ -184,36 +563,105 @@
 
 <body>
 
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">Peter Shica</a>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-links" id="nav-list">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="academico.html">Académico</a></li>
+        <li><a href="curriculum.html">Currículum</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
   <header class="hero">
     <div class="hero-content">
       <h1>Peter Shica Ramirez</h1>
       <p>Explora mi trayectoria académica, experiencia profesional y reflexiones personales.</p>
+      <a href="#about" class="cta-button">Conoce Más</a>
     </div>
   </header>
 
+  <section id="about" class="about-me">
+    <div class="container">
+      <img src="img/foto_perfil.jpg" alt="Foto de Peter Shica Ramirez" class="profile-pic" loading="lazy">
+      <h2>Un poco sobre mí</h2>
+      <p>
+        Soy un apasionado de las **Matemáticas, la Física, la Estadística y el Machine Learning**. Mi objetivo es combinar estos campos para resolver problemas complejos y aportar soluciones innovadoras. En este espacio, compartiré mi conocimiento, mis proyectos y mis reflexiones sobre la ciencia y la tecnología.
+      </p>
+    </div>
+  </section>
+
   <main>
-    <div class="cards-container">
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135765.png" alt="Académico">
+    <div class="cards-container container">
+      <div class="card card-academico">
         <h2>Académico</h2>
         <a href="academico.html">VER TODO</a>
       </div>
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Currículum">
+      <div class="card card-curriculum">
         <h2>Currículum</h2>
         <a href="curriculum.html">VER TODO</a>
       </div>
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" alt="Blog">
+      <div class="card card-blog">
         <h2>Blog</h2>
         <a href="blog.html">VER TODO</a>
       </div>
     </div>
+
+    <section class="featured-section">
+      <div class="container">
+        <h2>Últimas Publicaciones</h2>
+        <div class="featured-items-grid">
+          <div class="featured-item">
+            <img src="img/blog-ia.jpg" alt="Imagen de artículo sobre IA" loading="lazy">
+            <h3>El Futuro de la IA y sus Implicaciones</h3>
+            <span class="date">15 de Julio, 2025</span>
+            <p>Una reflexión profunda sobre cómo la inteligencia artificial está redefiniendo nuestro mundo y los desafíos éticos que presenta...</p>
+            <a href="blog/2025/07/futuro-ia.html">Leer Más</a>
+          </div>
+          <div class="featured-item">
+            <img src="img/blog-matematicas.jpg" alt="Imagen de artículo de matemáticas" loading="lazy">
+            <h3>La Belleza Oculta del Cálculo Multivariable</h3>
+            <span class="date">1 de Julio, 2025</span>
+            <p>Exploramos conceptos clave del cálculo multivariable y cómo se aplican en la física y la ingeniería...</p>
+            <a href="academico/matematicas/calculo-multivariable.html">Leer Más</a>
+          </div>
+          <div class="featured-item">
+            <img src="img/blog-fisica.jpg" alt="Imagen de artículo de física" loading="lazy">
+            <h3>Entendiendo la Relatividad General de Einstein</h3>
+            <span class="date">20 de Junio, 2025</span>
+            <p>Un recorrido simplificado por los principios fundamentales de la teoría de la relatividad general...</p>
+            <a href="academico/fisica/relatividad.html">Leer Más</a>
+          </div>
+        </div>
+        <a href="blog.html" class="cta-button" style="margin-top: 3rem;">Ver Todas las Publicaciones</a>
+      </div>
+    </section>
+
   </main>
 
   <footer>
-    © 2025 Peter Shica — Todos los derechos reservados
+    <div class="container">
+      © 2025 Peter Shica — Todos los derechos reservados
+    </div>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('mobile-menu');
+      const navList = document.getElementById('nav-list');
+
+      menuToggle.addEventListener('click', function() {
+        navList.classList.toggle('active');
+      });
+    });
+  </script>
 
 </body>
 </html>
