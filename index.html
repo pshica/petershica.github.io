@@ -4,109 +4,179 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Peter Shica Ramirez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --primary-color: #0056b3; /* Darker blue for accents */
+      --secondary-color: #007bff; /* Original blue */
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-      background-color: #f9fcff;
-      color: #333;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
     }
 
     .hero {
-      background-image: url('img/fondo_header.png'); /* Ruta local */
+      background-image: url('img/fondo_header.png'); /* Local path */
       background-size: cover;
       background-position: center;
-      padding: 120px 20px;
+      padding: 150px 20px;
       text-align: center;
-      color: white;
+      color: var(--white);
       position: relative;
+      overflow: hidden; /* To contain potential parallax effects or overlays */
     }
 
     .hero::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.4); /* oscurece el fondo */
+      background-color: rgba(0, 0, 0, 0.55); /* Darker overlay for better text readability */
       z-index: 0;
     }
 
     .hero-content {
       position: relative;
       z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      animation: fadeIn 1.5s ease-out; /* Fade-in animation for hero content */
     }
 
     .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-      font-weight: 600;
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
 
     .hero p {
-      font-size: 1.3rem;
-      font-weight: 300;
+      font-size: 1.4rem;
+      font-weight: 400;
+      opacity: 0.9;
     }
 
-    .cards {
+    .cards-container {
+      padding: 4rem 1rem;
+      max-width: 1100px;
+      margin: auto;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
-      padding: 3rem 1rem;
-      max-width: 1000px;
-      margin: auto;
+      gap: 2.5rem;
     }
 
     .card {
-      background-color: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      padding: 1.5rem;
-      border-radius: 8px;
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      border-radius: var(--border-radius);
       text-align: center;
-      transition: transform 0.2s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
 
     .card img {
-      width: 100%;
-      max-height: 200px;
+      width: 90px; /* Fixed size for icons */
+      height: 90px;
       object-fit: contain;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.1); /* Slight zoom on icon on hover */
     }
 
     .card h2 {
-      font-size: 1.3rem;
-      color: #222;
-      margin-bottom: 0.5rem;
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-weight: 600;
     }
 
     .card a {
+      display: inline-block;
       text-decoration: none;
-      color: #0077b6;
-      font-weight: bold;
-      font-size: 0.95rem;
+      color: var(--secondary-color);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 10px 20px;
+      border: 2px solid var(--secondary-color);
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .card a:hover {
+      background-color: var(--secondary-color);
+      color: var(--white);
+      transform: translateY(-2px);
     }
 
     footer {
       text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #888;
-      background: #fff;
-      border-top: 1px solid #ddd;
+      padding: 2.5rem 1rem;
+      font-size: 0.95rem;
+      color: #777;
+      background: var(--white);
+      border-top: 1px solid #eee;
+      margin-top: 3rem;
     }
 
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
     @media (min-width: 768px) {
-      .cards {
+      .cards-container {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center; /* Center cards horizontally */
+        flex-wrap: wrap; /* Allow cards to wrap if needed */
       }
       .card {
-        width: 30%;
+        width: 30%; /* Adjust width for three columns */
+        min-width: 280px; /* Ensure cards don't get too small */
+      }
+    }
+
+    @media (max-width: 767px) {
+      .hero {
+        padding: 100px 20px;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      .cards-container {
+        padding: 2.5rem 1rem;
+      }
+      .card {
+        padding: 1.5rem;
+      }
+      .card h2 {
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -117,12 +187,12 @@
   <header class="hero">
     <div class="hero-content">
       <h1>Peter Shica Ramirez</h1>
-      <p>Conoce mi trayectoria académica, mi experiencia y reflexiones</p>
+      <p>Explora mi trayectoria académica, experiencia profesional y reflexiones personales.</p>
     </div>
   </header>
 
   <main>
-    <div class="cards">
+    <div class="cards-container">
       <div class="card">
         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135765.png" alt="Académico">
         <h2>Académico</h2>

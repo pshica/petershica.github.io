@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Importancia del Pensamiento Crítico en la Era Digital - Blog Peter Shica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+      --blog-color: #dc3545;
+      --philosophy-color: #fd7e14;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.8;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 800px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Article Container */
+    .article-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Article Header */
+    .article-header {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .article-category {
+      background: var(--philosophy-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Article Content */
+    .article-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .article-content h2 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin: 2rem 0 1rem 0;
+      border-left: 4px solid var(--philosophy-color);
+      padding-left: 1rem;
+    }
+
+    .article-content h3 {
+      font-size: 1.4rem;
+      color: var(--text-color);
+      margin: 1.5rem 0 1rem 0;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      color: #444;
+      text-align: justify;
+    }
+
+    .article-content blockquote {
+      background: var(--light-gray);
+      border-left: 4px solid var(--secondary-color);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin: 1.5rem 0;
+      padding-left: 2rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.5rem;
+      color: #444;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #fff3e0, #f8f9fa);
+      border: 1px solid #ffcc80;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .highlight-box h4 {
+      color: var(--philosophy-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Critical Thinking Framework */
+    .framework-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .framework-item {
+      background: var(--light-gray);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--philosophy-color);
+    }
+
+    .framework-item h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Example Box */
+    .example-box {
+      background: #e8f5e8;
+      border: 1px solid #4caf50;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .example-box h4 {
+      color: #2e7d32;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Comments Section */
+    .comments-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .comments-title {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .comment-form {
+      background: var(--light-gray);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+    }
+
+    .form-group textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: var(--blog-color);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+    }
+
+    .existing-comments {
+      margin-top: 2rem;
+    }
+
+    .comment-item {
+      background: var(--light-gray);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--secondary-color);
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .comment-date {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .comment-text {
+      color: #444;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .article-navigation {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .nav-article {
+      flex: 1;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .nav-article:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .nav-direction {
+      font-size: 0.9rem;
+      color: var(--secondary-color);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .article-header {
+        padding: 2rem 1.5rem;
+      }
+
+      .article-title {
+        font-size: 2rem;
+      }
+
+      .article-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .framework-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .article-navigation {
+        flex-direction: column;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .article-header,
+      .article-content,
+      .comments-section {
+        padding: 1.5rem 1rem;
+      }
+
+      .article-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="../academico.html">Académico</a></li>
+        <li><a href="../curriculum.html">Currículum</a></li>
+        <li><a href="../blog.html" class="active">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../index.html">Inicio</a> > 
+    <a href="../blog.html">Blog</a> > 
+    <span>La Importancia del Pensamiento Crítico en la Era Digital</span>
+  </nav>
+
+  <div class="article-container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <span class="article-category">Filosofía</span>
+      <h1 class="article-title">La Importancia del Pensamiento Crítico en la Era Digital</h1>
+      <div class="article-meta">
+        <div class="meta-item">
+          <span>📅</span>
+          <span>12 enero, 2025</span>
+        </div>
+        <div class="meta-item">
+          <span>⏱️</span>
+          <span>10 min de lectura</span>
+        </div>
+        <div class="meta-item">
+          <span>👤</span>
+          <span>Peter Shica</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Article Content -->
+    <article class="article-content">
+      <p>
+        Vivimos en la era de la información, pero paradójicamente, también en la era de la 
+        desinformación. Nunca antes hemos tenido acceso a tanta información, pero tampoco 
+        nunca antes ha sido tan crucial nuestra capacidad para evaluarla críticamente.
+      </p>
+
+      <p>
+        El pensamiento crítico no es simplemente una habilidad académica; es una competencia 
+        fundamental para navegar exitosamente en el mundo moderno. Como profesional que ha 
+        trabajado en entornos donde las decisiones basadas en datos pueden tener impactos 
+        significativos, he aprendido que la calidad de nuestras decisiones depende directamente 
+        de la calidad de nuestro pensamiento.
+      </p>
+
+      <h2>¿Qué es el Pensamiento Crítico?</h2>
+
+      <p>
+        El pensamiento crítico es mucho más que simplemente ser escéptico o crítico. 
+        Es un proceso disciplinado de evaluación activa y hábil de la información, 
+        que incluye la capacidad de:
+      </p>
+
+      <ul>
+        <li>Analizar argumentos y evidencias de manera objetiva</li>
+        <li>Identificar sesgos y falacias lógicas</li>
+        <li>Evaluar la credibilidad de las fuentes</li>
+        <li>Sintetizar información de múltiples perspectivas</li>
+        <li>Formular conclusiones bien fundamentadas</li>
+      </ul>
+
+      <div class="highlight-box">
+        <h4>🎯 Definición Personal</h4>
+        <p>
+          Para mí, el pensamiento crítico es como ser un detective de la información: 
+          no aceptas nada al pie de la letra, buscas evidencias, consideras múltiples 
+          explicaciones y llegas a conclusiones basadas en la mejor evidencia disponible.
+        </p>
+      </div>
+
+      <h2>Los Desafíos de la Era Digital</h2>
+
+      <p>
+        La revolución digital ha transformado radicalmente cómo accedemos, procesamos y 
+        compartimos información. Estos cambios presentan desafíos únicos para el pensamiento crítico:
+      </p>
+
+      <h3>Sobrecarga de Información</h3>
+      <p>
+        Según estudios recientes, producimos más de 2.5 quintillones de bytes de datos diariamente. 
+        Esta avalancha de información puede overwhelm nuestras capacidades cognitivas naturales 
+        y llevarnos a tomar atajos mentales que comprometen la calidad de nuestro análisis.
+      </p>
+
+      <h3>Cámaras de Eco y Filtros Burbuja</h3>
+      <p>
+        Los algoritmos de redes sociales y motores de búsqueda nos presentan información 
+        que refuerza nuestras creencias existentes, limitando nuestra exposición a 
+        perspectivas diversas y creando un entorno donde la confirmación de sesgo florece.
+      </p>
+
+      <h3>Desinformación y Noticias Falsas</h3>
+      <p>
+        La facilidad para crear y distribuir contenido ha dado lugar a la proliferación 
+        de información falsa, manipulada o engañosa que puede influir significativamente 
+        en nuestras percepciones y decisiones.
+      </p>
+
+      <h2>Un Marco de Trabajo para el Pensamiento Crítico</h2>
+
+      <p>
+        A lo largo de mi experiencia profesional y académica, he desarrollado un marco 
+        de trabajo personal para aplicar el pensamiento crítico de manera sistemática:
+      </p>
+
+      <div class="framework-grid">
+        <div class="framework-item">
+          <h4>🔍 Paso 1: Cuestiona</h4>
+          <p>
+            Comienza siempre con preguntas: ¿Quién dice esto? ¿Por qué lo dice? 
+            ¿Qué evidencia presenta? ¿Qué podría estar omitiendo?
+          </p>
+        </div>
+
+        <div class="framework-item">
+          <h4>📊 Paso 2: Evalúa</h4>
+          <p>
+            Examina la calidad de la evidencia, la credibilidad de las fuentes 
+            y la lógica de los argumentos presentados.
+          </p>
+        </div>
+
+        <div class="framework-item">
+          <h4>🔄 Paso 3: Busca Perspectivas</h4>
+          <p>
+            Activamente busca puntos de vista alternativos y contraargumentos. 
+            La verdad emerge de la confrontación de ideas.
+          </p>
+        </div>
+
+        <div class="framework-item">
+          <h4>⚖️ Paso 4: Sintetiza</h4>
+          <p>
+            Integra la información de múltiples fuentes y perspectivas para 
+            formar una comprensión más completa y matizada.
+          </p>
+        </div>
+
+        <div class="framework-item">
+          <h4>🎯 Paso 5: Concluye</h4>
+          <p>
+            Forma conclusiones basadas en la evidencia disponible, 
+            manteniendo apertura para revisar cuando surja nueva información.
+          </p>
+        </div>
+
+        <div class="framework-item">
+          <h4>🔄 Paso 6: Reflexiona</h4>
+          <p>
+            Evalúa tu propio proceso de pensamiento, identifica posibles 
+            sesgos y considera cómo mejorar tu análisis futuro.
+          </p>
+        </div>
+      </div>
+
+      <h2>Aplicaciones Prácticas en el Mundo Profesional</h2>
+
+      <p>
+        Durante mis años en el sector bancario y ahora en mis estudios de ciencia de datos, 
+        he aplicado el pensamiento crítico en contextos muy diversos:
+      </p>
+
+      <div class="example-box">
+        <h4>💼 Ejemplo: Análisis de Riesgo Crediticio</h4>
+        <p>
+          Cuando evaluamos solicitudes de crédito, no nos limitamos a los datos cuantitativos. 
+          Aplicamos pensamiento crítico para:
+        </p>
+        <ul>
+          <li>Cuestionar la completitud y veracidad de la información proporcionada</li>
+          <li>Considerar factores contextuales que los modelos podrían no capturar</li>
+          <li>Evaluar sesgos potenciales en nuestros procesos de decisión</li>
+          <li>Balancear múltiples objetivos (rentabilidad, inclusión financiera, riesgo)</li>
+        </ul>
+      </div>
+
+      <h3>En el Análisis de Datos</h3>
+      <p>
+        El pensamiento crítico es fundamental en ciencia de datos. Los datos pueden mentir, 
+        los modelos pueden tener sesgos, y las correlaciones pueden ser espurias. 
+        Un científico de datos debe constantemente cuestionar:
+      </p>
+
+      <blockquote>
+        "¿Estos resultados tienen sentido? ¿Qué podría estar faltando en mi análisis? 
+        ¿Cómo podrían mis sesgos estar influyendo en mi interpretación?"
+      </blockquote>
+
+      <h2>Desarrollando el Pensamiento Crítico: Estrategias Prácticas</h2>
+
+      <h3>1. Cultiva la Curiosidad Intelectual</h3>
+      <p>
+        Mantén una mentalidad de principiante. Haz preguntas, incluso sobre temas 
+        que crees conocer bien. La curiosidad es el combustible del pensamiento crítico.
+      </p>
+
+      <h3>2. Practica la Lectura Activa</h3>
+      <p>
+        No consumas información pasivamente. Toma notas, haz preguntas marginales, 
+        busca fuentes adicionales, y desafía las afirmaciones que encuentres.
+      </p>
+
+      <h3>3. Busca Deliberadamente Puntos de Vista Opuestos</h3>
+      <p>
+        Sal de tu cámara de eco. Sigue fuentes que desafíen tus perspectivas, 
+        lee autores con los que no estés de acuerdo, y participa en debates constructivos.
+      </p>
+
+      <h3>4. Aprende sobre Sesgos Cognitivos</h3>
+      <p>
+        Familiarízate con los sesgos comunes que afectan el pensamiento humano: 
+        sesgo de confirmación, efecto halo, sesgo de anclaje, y muchos otros. 
+        Conocerlos es el primer paso para superarlos.
+      </p>
+
+      <h3>5. Practica la Metacognición</h3>
+      <p>
+        Regularmente reflexiona sobre tu propio proceso de pensamiento. 
+        ¿Por qué llegaste a esa conclusión? ¿Qué supuestos hiciste? ¿Qué evidencia consideraste?
+      </p>
+
+      <h2>El Pensamiento Crítico en el Contexto Académico</h2>
+
+      <p>
+        Mi experiencia estudiando el Máster en Ciencia de Datos me ha reafirmado la 
+        importancia del pensamiento crítico en el ámbito académico. No se trata solo 
+        de memorizar conceptos o aplicar fórmulas, sino de:
+      </p>
+
+      <ul>
+        <li>Cuestionar los supuestos subyacentes en las teorías</li>
+        <li>Evaluar críticamente la literatura académica</li>
+        <li>Identificar limitaciones en los estudios y metodologías</li>
+        <li>Conectar conocimientos de diferentes disciplinas</li>
+        <li>Generar nuevas preguntas y hipótesis</li>
+      </ul>
+
+      <h2>Desafíos y Obstáculos</h2>
+
+      <p>
+        Desarrollar y mantener el pensamiento crítico no es fácil. Algunos de los 
+        principales obstáculos incluyen:
+      </p>
+
+      <h3>La Presión del Tiempo</h3>
+      <p>
+        En nuestro mundo acelerado, a menudo sentimos presión para tomar decisiones 
+        rápidas. Sin embargo, el pensamiento crítico de calidad requiere tiempo y reflexión.
+      </p>
+
+      <h3>La Comodidad de la Certeza</h3>
+      <p>
+        El pensamiento crítico a menudo conduce a más preguntas que respuestas, 
+        lo cual puede ser incómodo para quienes prefieren la certeza absoluta.
+      </p>
+
+      <h3>Los Sesgos Emocionales</h3>
+      <p>
+        Nuestras emociones y preferencias personales pueden nublar nuestro juicio 
+        y hacernos resistentes a información que contradice nuestras creencias.
+      </p>
+
+      <h2>El Futuro del Pensamiento Crítico</h2>
+
+      <p>
+        A medida que la inteligencia artificial se vuelve más sofisticada, 
+        el pensamiento crítico se vuelve aún más valioso. Mientras las máquinas 
+        pueden procesar información más rápido que los humanos, la capacidad de 
+        evaluar críticamente el contexto, las implicaciones éticas y el significado 
+        más profundo sigue siendo únicamente humana.
+      </p>
+
+      <div class="highlight-box">
+        <h4>🔮 Reflexión Futura</h4>
+        <p>
+          En un futuro donde la IA puede generar contenido convincente pero potencialmente 
+          falso, nuestra habilidad para pensar críticamente será lo que nos proteja de 
+          la manipulación y nos permita tomar decisiones verdaderamente informadas.
+        </p>
+      </div>
+
+      <h2>Conclusiones</h2>
+
+      <p>
+        El pensamiento crítico no es un lujo intelectual; es una necesidad fundamental 
+        en nuestra era digital. Es la diferencia entre ser un consumidor pasivo de 
+        información y ser un participante activo e informado en nuestra sociedad.
+      </p>
+
+      <p>
+        Como profesional en transición hacia la ciencia de datos, he encontrado que 
+        el pensamiento crítico es la habilidad que más trasciende disciplinas. 
+        Ya sea analizando datos financieros, evaluando modelos de machine learning 
+        o tomando decisiones de vida, esta competencia fundamental mejora la calidad 
+        de todos nuestros procesos cognitivos.
+      </p>
+
+      <p>
+        Te animo a que veas el desarrollo del pensamiento crítico no como una tarea 
+        adicional, sino como una inversión en tu capacidad de navegar exitosamente 
+        en un mundo cada vez más complejo e interconectado.
+      </p>
+    </article>
+
+    <!-- Article Navigation -->
+    <nav class="article-navigation">
+      <a href="mi-experiencia-en-el-master-de-ciencia-de-datos.html" class="nav-article">
+        <div class="nav-direction">← Anterior</div>
+        <div class="nav-title">Mi Experiencia en el Máster</div>
+      </a>
+      <a href="reflexiones-sobre-ia-y-futuro-del-trabajo.html" class="nav-article">
+        <div class="nav-direction">Siguiente →</div>
+        <div class="nav-title">Reflexiones sobre IA y Futuro del Trabajo</div>
+      </a>
+    </nav>
+
+    <!-- Comments Section -->
+    <section class="comments-section">
+      <h3 class="comments-title">
+        <span>💬</span>
+        Comentarios
+      </h3>
+      
+      <form class="comment-form">
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email (opcional)</label>
+          <input type="email" id="email" name="email">
+        </div>
+        
+        <div class="form-group">
+          <label for="comment">Comentario</label>
+          <textarea id="comment" name="comment" placeholder="¿Qué opinas sobre el pensamiento crítico? Comparte tu experiencia..." required></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Enviar Comentario</button>
+      </form>
+
+      <div class="existing-comments">
+        <div class="comment-item">
+          <div class="comment-author">Ana Rodríguez</div>
+          <div class="comment-date">13 enero, 2025</div>
+          <div class="comment-text">
+            Excelente artículo, Peter. Como profesora universitaria, veo a diario la 
+            importancia de desarrollar estas habilidades en mis estudiantes. 
+            Tu marco de 6 pasos es muy práctico y lo voy a implementar en mis clases.
+          </div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-author">Javier Santos</div>
+          <div class="comment-date">13 enero, 2025</div>
+          <div class="comment-text">
+            Me parece fundamental lo que mencionas sobre los sesgos cognitivos. 
+            ¿Podrías recomendar algún libro específico para profundizar en este tema?
+          </div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-author">Elena Martín</div>
+          <div class="comment-date">14 enero, 2025</div>
+          <div class="comment-text">
+            El ejemplo del análisis de riesgo crediticio me resultó muy ilustrativo. 
+            En mi trabajo en recursos humanos enfrento desafíos similares al evaluar candidatos.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Simple form handling
+    document.querySelector('.comment-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('¡Gracias por tu comentario! Será revisado antes de su publicación.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>

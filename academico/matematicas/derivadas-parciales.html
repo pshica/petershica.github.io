@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Introducción a las Derivadas Parciales - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --math-color: #6f42c1;
+      --accent-color: #28a745;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 900px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Article Container */
+    .article-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+    }
+
+    /* Article Header */
+    .article-header {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .article-subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .difficulty-badge {
+      background: #d4edda;
+      color: #155724;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-weight: 500;
+    }
+
+    /* Article Content */
+    .article-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .article-content h2 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--math-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .article-content h3 {
+      color: var(--math-color);
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .article-content p {
+      margin-bottom: 1.2rem;
+      text-align: justify;
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Math expressions */
+    .math-block {
+      background: #f8f9fa;
+      border-left: 4px solid var(--math-color);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      overflow-x: auto;
+    }
+
+    /* Code blocks */
+    .code-block {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .code-block .comment {
+      color: #a0aec0;
+    }
+
+    .code-block .keyword {
+      color: #81e6d9;
+    }
+
+    .code-block .string {
+      color: #fbb6ce;
+    }
+
+    /* Info boxes */
+    .info-box {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    .info-box.warning {
+      background: #fff3e0;
+      border-left-color: #ff9800;
+    }
+
+    .info-box.success {
+      background: #e8f5e8;
+      border-left-color: #4caf50;
+    }
+
+    .info-box h4 {
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+
+    /* Example boxes */
+    .example {
+      background: #f8f9fa;
+      border: 2px solid #dee2e6;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .example-title {
+      font-weight: 600;
+      color: var(--math-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Navigation between articles */
+    .article-nav {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .nav-links-article {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .nav-link {
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 2px solid #e9ecef;
+    }
+
+    .nav-link:hover {
+      border-color: var(--math-color);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.prev {
+      text-align: left;
+    }
+
+    .nav-link.next {
+      text-align: right;
+    }
+
+    .nav-direction {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      position: sticky;
+      top: 80px;
+    }
+
+    .toc h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+    }
+
+    .toc a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: color 0.3s ease;
+    }
+
+    .toc a:hover {
+      color: var(--math-color);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .article-header {
+        padding: 2rem 1rem;
+      }
+
+      .article-title {
+        font-size: 2rem;
+      }
+
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .nav-links-article {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="../academico.html" class="active">Académico</a></li>
+        <li><a href="../curriculum.html">Currículum</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../index.html">Inicio</a> > 
+    <a href="../academico.html">Académico</a> > 
+    <a href="../matematicas.html">Matemáticas</a> > 
+    <span>Derivadas Parciales</span>
+  </nav>
+
+  <div class="article-container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <h1 class="article-title">Introducción a las Derivadas Parciales</h1>
+      <p class="article-subtitle">
+        Conceptos fundamentales sobre derivadas parciales y su aplicación en optimización de funciones multivariables
+      </p>
+      <div class="article-meta">
+        <div class="meta-item">
+          <span>📅</span>
+          <span>Enero 2025</span>
+        </div>
+        <div class="meta-item">
+          <span>⏱️</span>
+          <span>15 min de lectura</span>
+        </div>
+        <div class="meta-item">
+          <span>📚</span>
+          <span class="difficulty-badge">Principiante</span>
+        </div>
+        <div class="meta-item">
+          <span>🏷️</span>
+          <span>Cálculo, Derivadas, Optimización</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <aside class="toc">
+      <h4>📋 Contenido</h4>
+      <ul>
+        <li><a href="#introduccion">1. Introducción</a></li>
+        <li><a href="#definicion">2. Definición Formal</a></li>
+        <li><a href="#interpretacion">3. Interpretación Geométrica</a></li>
+        <li><a href="#calculo">4. Cálculo de Derivadas Parciales</a></li>
+        <li><a href="#ejemplos">5. Ejemplos Prácticos</a></li>
+        <li><a href="#aplicaciones">6. Aplicaciones</a></li>
+        <li><a href="#conclusion">7. Conclusión</a></li>
+      </ul>
+    </aside>
+
+    <!-- Article Content -->
+    <main class="article-content">
+      <h2 id="introduccion">1. Introducción</h2>
+      <p>
+        Las <strong>derivadas parciales</strong> son una extensión natural del concepto de derivada para funciones de múltiples variables. 
+        Mientras que la derivada ordinaria nos dice cómo cambia una función respecto a su única variable independiente, 
+        las derivadas parciales nos permiten analizar cómo cambia una función multivariable respecto a cada una de sus variables, 
+        manteniendo las demás constantes.
+      </p>
+
+      <div class="info-box">
+        <h4>💡 ¿Por qué son importantes?</h4>
+        <p>
+          Las derivadas parciales son fundamentales en:
+        </p>
+        <ul>
+          <li><strong>Machine Learning:</strong> Para entrenar modelos mediante gradiente descendente</li>
+          <li><strong>Física:</strong> Para describir campos y fenómenos espaciales</li>
+          <li><strong>Economía:</strong> Para análisis de sensibilidad en modelos econométricos</li>
+          <li><strong>Optimización:</strong> Para encontrar máximos y mínimos de funciones complejas</li>
+        </ul>
+      </div>
+
+      <h2 id="definicion">2. Definición Formal</h2>
+      <p>
+        Sea $f(x, y)$ una función de dos variables. La <strong>derivada parcial</strong> de $f$ respecto a $x$ 
+        se define como:
+      </p>
+
+      <div class="math-block">
+        $$\frac{\partial f}{\partial x} = \lim_{h \to 0} \frac{f(x+h, y) - f(x, y)}{h}$$
+      </div>
+
+      <p>
+        De manera similar, la derivada parcial respecto a $y$ es:
+      </p>
+
+      <div class="math-block">
+        $$\frac{\partial f}{\partial y} = \lim_{h \to 0} \frac{f(x, y+h) - f(x, y)}{h}$$
+      </div>
+
+      <div class="info-box warning">
+        <h4>⚠️ Notación importante</h4>
+        <p>
+          Observa que usamos el símbolo $\partial$ (parcial) en lugar de $d$ (diferencial). 
+          Esto indica que estamos derivando respecto a una variable mientras mantenemos las otras constantes.
+        </p>
+      </div>
+
+      <h2 id="interpretacion">3. Interpretación Geométrica</h2>
+      <p>
+        Geométricamente, la derivada parcial $\frac{\partial f}{\partial x}$ en un punto $(a, b)$ representa 
+        la pendiente de la recta tangente a la curva que se obtiene al cortar la superficie $z = f(x, y)$ 
+        con el plano $y = b$.
+      </p>
+
+      <div class="example">
+        <div class="example-title">
+          <span>🎯</span>
+          Ejemplo Visual
+        </div>
+        <p>
+          Imagina que tienes una colina representada por $z = f(x, y)$. Si caminas en la dirección del eje $x$ 
+          (manteniendo $y$ constante), la derivada parcial $\frac{\partial f}{\partial x}$ te dice qué tan empinada 
+          es la colina en esa dirección específica.
+        </p>
+      </div>
+
+      <h2 id="calculo">4. Cálculo de Derivadas Parciales</h2>
+      <p>
+        Para calcular derivadas parciales, aplicamos las reglas usuales de derivación, 
+        tratando las otras variables como constantes.
+      </p>
+
+      <h3>Reglas Básicas</h3>
+      <ul>
+        <li><strong>Regla de la potencia:</strong> $\frac{\partial}{\partial x}(x^n) = nx^{n-1}$</li>
+        <li><strong>Regla de la suma:</strong> $\frac{\partial}{\partial x}(f + g) = \frac{\partial f}{\partial x} + \frac{\partial g}{\partial x}$</li>
+        <li><strong>Regla del producto:</strong> $\frac{\partial}{\partial x}(fg) = f\frac{\partial g}{\partial x} + g\frac{\partial f}{\partial x}$</li>
+        <li><strong>Regla de la cadena:</strong> $\frac{\partial}{\partial x}f(g(x,y)) = f'(g) \frac{\partial g}{\partial x}$</li>
+      </ul>
+
+      <h2 id="ejemplos">5. Ejemplos Prácticos</h2>
+
+      <div class="example">
+        <div class="example-title">
+          <span>📝</span>
+          Ejemplo 1: Función Polinomial
+        </div>
+        <p>Sea $f(x, y) = x^3 + 2xy^2 + y^3$. Calculemos sus derivadas parciales:</p>
+        
+        <div class="math-block">
+          $$\frac{\partial f}{\partial x} = 3x^2 + 2y^2$$
+          $$\frac{\partial f}{\partial y} = 4xy + 3y^2$$
+        </div>
+        
+        <p>
+          <strong>Procedimiento:</strong>
+        </p>
+        <ul>
+          <li>Para $\frac{\partial f}{\partial x}$: derivamos respecto a $x$, tratando $y$ como constante</li>
+          <li>Para $\frac{\partial f}{\partial y}$: derivamos respecto a $y$, tratando $x$ como constante</li>
+        </ul>
+      </div>
+
+      <div class="example">
+        <div class="example-title">
+          <span>📝</span>
+          Ejemplo 2: Función Exponencial
+        </div>
+        <p>Sea $f(x, y) = e^{xy} + \sin(x) \cos(y)$. Las derivadas parciales son:</p>
+        
+        <div class="math-block">
+          $$\frac{\partial f}{\partial x} = ye^{xy} + \cos(x)\cos(y)$$
+          $$\frac{\partial f}{\partial y} = xe^{xy} - \sin(x)\sin(y)$$
+        </div>
+      </div>
+
+      <h3>Implementación en Python</h3>
+      <p>Podemos usar la biblioteca SymPy para calcular derivadas parciales simbólicamente:</p>
+
+      <div class="code-block">
+<span class="keyword">import</span> sympy <span class="keyword">as</span> sp
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Definir variables simbólicas</span>
+x, y = sp.symbols(<span class="string">'x y'</span>)
+
+<span class="comment"># Definir la función</span>
+f = x**3 + 2*x*y**2 + y**3
+
+<span class="comment"># Calcular derivadas parciales</span>
+df_dx = sp.diff(f, x)
+df_dy = sp.diff(f, y)
+
+<span class="keyword">print</span>(f<span class="string">"∂f/∂x = {df_dx}"</span>)
+<span class="keyword">print</span>(f<span class="string">"∂f/∂y = {df_dy}"</span>)
+
+<span class="comment"># Evaluar en un punto específico</span>
+punto = {x: 1, y: 2}
+<span class="keyword">print</span>(f<span class="string">"∂f/∂x en (1,2) = {df_dx.subs(punto)}"</span>)
+<span class="keyword">print</span>(f<span class="string">"∂f/∂y en (1,2) = {df_dy.subs(punto)}"</span>)
+      </div>
+
+      <h2 id="aplicaciones">6. Aplicaciones</h2>
+
+      <h3>6.1 Optimización</h3>
+      <p>
+        Las derivadas parciales son esenciales para encontrar puntos críticos de funciones multivariables. 
+        Un punto $(a, b)$ es crítico si:
+      </p>
+
+      <div class="math-block">
+        $$\frac{\partial f}{\partial x}(a, b) = 0 \quad \text{y} \quad \frac{\partial f}{\partial y}(a, b) = 0$$
+      </div>
+
+      <h3>6.2 Gradiente Descendente</h3>
+      <p>
+        En machine learning, el gradiente (vector de derivadas parciales) indica la dirección de mayor crecimiento 
+        de la función de costo. El algoritmo de gradiente descendente se mueve en la dirección opuesta:
+      </p>
+
+      <div class="math-block">
+        $$\theta_{new} = \theta_{old} - \alpha \nabla f(\theta)$$
+      </div>
+
+      <p>donde $\nabla f = \left(\frac{\partial f}{\partial \theta_1}, \frac{\partial f}{\partial \theta_2}, \ldots\right)$</p>
+
+      <div class="example">
+        <div class="example-title">
+          <span>🤖</span>
+          Aplicación en Machine Learning
+        </div>
+        <p>
+          En regresión lineal, minimizamos la función de costo:
+        </p>
+        <div class="math-block">
+          $$J(\theta_0, \theta_1) = \frac{1}{2m}\sum_{i=1}^m (h_\theta(x^{(i)}) - y^{(i)})^2$$
+        </div>
+        <p>
+          Las derivadas parciales respecto a los parámetros nos dan la dirección para actualizar los pesos.
+        </p>
+      </div>
+
+      <h3>6.3 Análisis de Sensibilidad</h3>
+      <p>
+        En economía y finanzas, las derivadas parciales miden cómo cambia una variable de salida 
+        ante pequeños cambios en las variables de entrada, manteniendo todo lo demás constante.
+      </p>
+
+      <h2 id="conclusion">7. Conclusión</h2>
+      <p>
+        Las derivadas parciales son una herramienta fundamental para el análisis de funciones multivariables. 
+        Su comprensión es esencial para:
+      </p>
+
+      <ul>
+        <li>Optimización de funciones en múltiples dimensiones</li>
+        <li>Implementación de algoritmos de machine learning</li>
+        <li>Modelado de fenómenos físicos y económicos</li>
+        <li>Análisis de sensibilidad y elasticidad</li>
+      </ul>
+
+      <div class="info-box success">
+        <h4>✅ Próximos pasos</h4>
+        <p>
+          Ahora que comprendes las derivadas parciales, puedes explorar:
+        </p>
+        <ul>
+          <li>Derivadas parciales de orden superior</li>
+          <li>Regla de la cadena para funciones compuestas</li>
+          <li>Aplicaciones en optimización con restricciones</li>
+          <li>Ecuaciones diferenciales parciales</li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Article Navigation -->
+    <nav class="article-nav">
+      <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Navegación</h3>
+      <div class="nav-links-article">
+        <a href="#" class="nav-link prev">
+          <div class="nav-direction">← Anterior</div>
+          <div class="nav-title">Límites y Continuidad</div>
+        </a>
+        <a href="#" class="nav-link next">
+          <div class="nav-direction">Siguiente →</div>
+          <div class="nav-title">Derivadas Direccionales</div>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+</body>
+</html>

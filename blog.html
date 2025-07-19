@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+      --blog-color: #dc3545;
+      --tech-color: #6f42c1;
+      --philosophy-color: #fd7e14;
+      --personal-color: #20c997;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Blog Layout */
+    .blog-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 3rem;
+    }
+
+    /* Blog Header */
+    .blog-header {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, var(--blog-color) 0%, #e73f5a 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .blog-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .blog-header p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Main Content */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Blog Post Card */
+    .post-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .post-image {
+      height: 200px;
+      background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #6c757d;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-image.tech { background: linear-gradient(45deg, var(--tech-color), #8e5ec2); }
+    .post-image.philosophy { background: linear-gradient(45deg, var(--philosophy-color), #ff922b); }
+    .post-image.personal { background: linear-gradient(45deg, var(--personal-color), #20c997); }
+    .post-image.technology { background: linear-gradient(45deg, var(--secondary-color), #339af0); }
+
+    .post-content {
+      padding: 2rem;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .post-category {
+      background: var(--light-gray);
+      color: var(--text-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .post-category.tech { background: var(--tech-color); color: white; }
+    .post-category.philosophy { background: var(--philosophy-color); color: white; }
+    .post-category.personal { background: var(--personal-color); color: white; }
+    .post-category.technology { background: var(--secondary-color); color: white; }
+
+    .post-date {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .post-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .post-title a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+
+    .post-title a:hover {
+      color: var(--blog-color);
+    }
+
+    .post-excerpt {
+      color: #555;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--blog-color);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .read-more:hover {
+      color: var(--primary-color);
+      transform: translateX(3px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-widget {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+    }
+
+    .widget-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Categories Widget */
+    .categories-list {
+      list-style: none;
+    }
+
+    .categories-list li {
+      margin-bottom: 0.8rem;
+    }
+
+    .categories-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem;
+      text-decoration: none;
+      color: var(--text-color);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: var(--light-gray);
+    }
+
+    .categories-list a:hover {
+      background: var(--secondary-color);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .category-count {
+      background: white;
+      color: var(--text-color);
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Archive Widget */
+    .archive-list {
+      list-style: none;
+    }
+
+    .archive-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    .archive-list a {
+      display: block;
+      padding: 0.5rem 0;
+      text-decoration: none;
+      color: var(--text-color);
+      border-bottom: 1px solid #e9ecef;
+      transition: color 0.3s ease;
+    }
+
+    .archive-list a:hover {
+      color: var(--blog-color);
+    }
+
+    /* Books Widget */
+    .books-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .book-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--light-gray);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .book-item:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+
+    .book-cover {
+      width: 60px;
+      height: 80px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .book-info h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 0.3rem;
+    }
+
+    .book-author {
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .download-btn {
+      font-size: 0.8rem;
+      color: var(--blog-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .download-btn:hover {
+      color: var(--primary-color);
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 3rem;
+      padding: 2rem 0;
+    }
+
+    .pagination a,
+    .pagination span {
+      padding: 0.8rem 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .pagination a {
+      background: var(--white);
+      color: var(--text-color);
+      box-shadow: var(--shadow);
+    }
+
+    .pagination a:hover {
+      background: var(--secondary-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .pagination .current {
+      background: var(--blog-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .blog-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .blog-header {
+        padding: 3rem 1rem;
+      }
+
+      .blog-header h1 {
+        font-size: 2.2rem;
+      }
+
+      .blog-header p {
+        font-size: 1.1rem;
+      }
+
+      .sidebar {
+        order: -1;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .post-content {
+        padding: 1.5rem;
+      }
+
+      .sidebar-widget {
+        padding: 1.5rem;
+      }
+
+      .book-item {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="academico.html">Académico</a></li>
+        <li><a href="curriculum.html">Currículum</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="blog-container">
+    <!-- Blog Header -->
+    <header class="blog-header">
+      <h1>📝 Blog Personal</h1>
+      <p>
+        Reflexiones, pensamientos y experiencias sobre tecnología, filosofía, desarrollo personal y libros. 
+        Un espacio para compartir ideas y conectar con otros a través del conocimiento.
+      </p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Blog Post 1 -->
+      <article class="post-card">
+        <div class="post-image tech">
+          🤖
+        </div>
+        <div class="post-content">
+          <div class="post-meta">
+            <span class="post-category tech">Tecnología</span>
+            <div class="post-date">
+              <span>📅</span>
+              <span>15 enero, 2025</span>
+            </div>
+          </div>
+          <h2 class="post-title">
+            <a href="blog/reflexiones-sobre-ia-y-futuro-del-trabajo.html">Reflexiones sobre IA y el Futuro del Trabajo</a>
+          </h2>
+          <p class="post-excerpt">
+            Exploro cómo la inteligencia artificial está transformando el mercado laboral y qué significa esto para los profesionales de hoy. 
+            Una reflexión personal sobre adaptación, aprendizaje continuo y las oportunidades que surgen en esta nueva era tecnológica...
+          </p>
+          <a href="blog/reflexiones-sobre-ia-y-futuro-del-trabajo.html" class="read-more">
+            Leer más
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Blog Post 2 -->
+      <article class="post-card">
+        <div class="post-image philosophy">
+          📚
+        </div>
+        <div class="post-content">
+          <div class="post-meta">
+            <span class="post-category philosophy">Filosofía</span>
+            <div class="post-date">
+              <span>📅</span>
+              <span>12 enero, 2025</span>
+            </div>
+          </div>
+          <h2 class="post-title">
+            <a href="blog/la-importancia-del-pensamiento-critico.html">La Importancia del Pensamiento Crítico en la Era Digital</a>
+          </h2>
+          <p class="post-excerpt">
+            En un mundo saturado de información, desarrollar habilidades de pensamiento crítico se vuelve esencial. 
+            Reflexiono sobre cómo cultivar esta capacidad y aplicarla tanto en el ámbito profesional como personal...
+          </p>
+          <a href="blog/la-importancia-del-pensamiento-critico.html" class="read-more">
+            Leer más
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Blog Post 3 -->
+      <article class="post-card">
+        <div class="post-image personal">
+          🌱
+        </div>
+        <div class="post-content">
+          <div class="post-meta">
+            <span class="post-category personal">Desarrollo Personal</span>
+            <div class="post-date">
+              <span>📅</span>
+              <span>8 enero, 2025</span>
+            </div>
+          </div>
+          <h2 class="post-title">
+            <a href="blog/mi-experiencia-en-el-master-de-ciencia-de-datos.html">Mi Experiencia en el Máster de Ciencia de Datos</a>
+          </h2>
+          <p class="post-excerpt">
+            Comparto mi experiencia estudiando el Máster en Ciencia de Datos en la Universidad Autónoma de Madrid. 
+            Los desafíos, aprendizajes y cómo esta formación está transformando mi perspectiva profesional...
+          </p>
+          <a href="blog/mi-experiencia-en-el-master-de-ciencia-de-datos.html" class="read-more">
+            Leer más
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Blog Post 4 -->
+      <article class="post-card">
+        <div class="post-image technology">
+          💻
+        </div>
+        <div class="post-content">
+          <div class="post-meta">
+            <span class="post-category technology">Tecnología</span>
+            <div class="post-date">
+              <span>📅</span>
+              <span>5 enero, 2025</span>
+            </div>
+          </div>
+          <h2 class="post-title">
+            <a href="blog/transicion-del-sector-bancario-a-la-tecnologia.html">Transición del Sector Bancario a la Tecnología</a>
+          </h2>
+          <p class="post-excerpt">
+            Mi viaje profesional desde más de 20 años en el sector bancario hacia el mundo de la tecnología y la ciencia de datos. 
+            Lecciones aprendidas, desafíos enfrentados y consejos para otros profesionales en transición...
+          </p>
+          <a href="blog/transicion-del-sector-bancario-a-la-tecnologia.html" class="read-more">
+            Leer más
+            <span>→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Pagination -->
+      <nav class="pagination">
+        <span class="current">1</span>
+        <a href="#" class="disabled">2</a>
+        <a href="#" class="disabled">3</a>
+        <a href="#" class="disabled">Siguiente →</a>
+      </nav>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- Categories Widget -->
+      <div class="sidebar-widget">
+        <h3 class="widget-title">
+          <span>📂</span>
+          Categorías
+        </h3>
+        <ul class="categories-list">
+          <li>
+            <a href="#">
+              <span>Tecnología</span>
+              <span class="category-count">8</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>Filosofía</span>
+              <span class="category-count">5</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>Desarrollo Personal</span>
+              <span class="category-count">6</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>Ciencia de Datos</span>
+              <span class="category-count">4</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>Educación</span>
+              <span class="category-count">3</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Archive Widget -->
+      <div class="sidebar-widget">
+        <h3 class="widget-title">
+          <span>📅</span>
+          Archivo
+        </h3>
+        <ul class="archive-list">
+          <li><a href="#">Enero 2025 (4)</a></li>
+          <li><a href="#">Diciembre 2024 (6)</a></li>
+          <li><a href="#">Noviembre 2024 (3)</a></li>
+          <li><a href="#">Octubre 2024 (5)</a></li>
+          <li><a href="#">Septiembre 2024 (2)</a></li>
+        </ul>
+      </div>
+
+      <!-- Books Widget -->
+      <div class="sidebar-widget">
+        <h3 class="widget-title">
+          <span>📖</span>
+          Libros Recomendados
+        </h3>
+        <div class="books-grid">
+          <div class="book-item">
+            <div class="book-cover">📊</div>
+            <div class="book-info">
+              <h4>Estadística para Dummies</h4>
+              <div class="book-author">Deborah J. Rumsey</div>
+              <a href="docs/books/estadistica-para-dummies.pdf" class="download-btn" download>
+                📥 Descargar PDF
+              </a>
+            </div>
+          </div>
+          
+          <div class="book-item">
+            <div class="book-cover">🤖</div>
+            <div class="book-info">
+              <h4>Python para Data Science</h4>
+              <div class="book-author">Wes McKinney</div>
+              <a href="docs/books/python-for-data-science.pdf" class="download-btn" download>
+                📥 Descargar PDF
+              </a>
+            </div>
+          </div>
+          
+          <div class="book-item">
+            <div class="book-cover">💡</div>
+            <div class="book-info">
+              <h4>Thinking, Fast and Slow</h4>
+              <div class="book-author">Daniel Kahneman</div>
+              <a href="docs/books/thinking-fast-and-slow.pdf" class="download-btn" download>
+                📥 Descargar PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Widget -->
+      <div class="sidebar-widget">
+        <h3 class="widget-title">
+          <span>👤</span>
+          Sobre Mí
+        </h3>
+        <p style="color: #666; line-height: 1.6;">
+          Soy Peter Shica, estudiante de Máster en Ciencia de Datos y profesional con más de 20 años de experiencia. 
+          Este blog es mi espacio para compartir reflexiones y aprendizajes.
+        </p>
+        <a href="curriculum.html" style="color: var(--blog-color); text-decoration: none; font-weight: 500;">
+          Ver más sobre mí →
+        </a>
+      </div>
+    </aside>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+</body>
+</html>

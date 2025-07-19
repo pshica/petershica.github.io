@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Currículum - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 0;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .profile-photo {
+      width: 120px;
+      height: 150px;
+      border-radius: var(--border-radius);
+      object-fit: cover;
+      border: 4px solid var(--primary-color);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.05);
+    }
+
+    .header-text {
+      text-align: left;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    /* Responsive adjustments for header */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .header-text {
+        text-align: center;
+      }
+
+      .profile-photo {
+        width: 100px;
+        height: 125px;
+      }
+    }
+
+    /* CV Sections */
+    .cv-section {
+      background: var(--white);
+      margin-bottom: 2rem;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--secondary-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Personal Info */
+    .personal-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: var(--light-gray);
+      border-radius: 5px;
+    }
+
+    .info-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--secondary-color);
+    }
+
+    /* Experience & Education Items */
+    .experience-item,
+    .education-item {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-left: 4px solid var(--secondary-color);
+      background: var(--light-gray);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .item-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .item-company {
+      font-size: 1.1rem;
+      color: var(--secondary-color);
+      font-weight: 500;
+    }
+
+    .item-date {
+      background: var(--accent-color);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .item-description {
+      margin-top: 1rem;
+    }
+
+    .item-description ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .item-description li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Skills Section */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-category {
+      background: var(--light-gray);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+
+    .skill-category h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .skill-tag {
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Download Button */
+    .download-section {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--secondary-color);
+      color: white;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .download-btn:hover {
+      background: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .header-text {
+        text-align: center;
+      }
+
+      .profile-photo {
+        width: 100px;
+        height: 125px;
+      }
+
+      .item-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .personal-info {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .cv-section {
+        padding: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="academico.html">Académico</a></li>
+        <li><a href="curriculum.html">Currículum</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="header-content">
+        <img src="img/foto_perfil.jpg" alt="Foto de Peter Shica Ramirez" class="profile-photo">
+        <div class="header-text">
+          <h1>Currículum Vitae</h1>
+          <p>Experiencia profesional y formación académica</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Personal Information -->
+    <section class="cv-section">
+      <h2 class="section-title">
+        <span>👤</span>
+        Información Personal
+      </h2>
+      <div class="personal-info">
+        <div class="info-item">
+          <span class="info-icon">📧</span>
+          <span>shica5@email.com</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">📱</span>
+          <span>+34 633 2285 95</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">📍</span>
+          <span>C.Rio Duero 2,Madrid, España</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">💼</span>
+          <span>LinkedIn: www.linkedin.com/in/peter-shica-ramirez-34581018b</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Professional Experience -->
+    <section class="cv-section">
+      <h2 class="section-title">
+        <span>💼</span>
+        Experiencia Profesional
+      </h2>
+      
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Consultor en Sistemas de Información</div>
+            <div class="item-company">LORITOSOFT S.R.L.</div>
+          </div>
+          <div class="item-date">02/2024 - 11/2024</div>
+        </div>
+        <div class="item-description">
+          <p>Atención remota a usuarios desde el CAU, resolución de incidencias técnicas de primer y segundo nivel, soporte remoto para sistemas internos y plataformas web, gestión de requerimientos, mantenimiento preventivo, respaldo de información crítica y seguimiento de casos mediante sistemas de ticketing y herramientas de acceso remoto.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Analista de Datos</div>
+            <div class="item-company">RedSoft Solutions E.I.R.L.</div>
+          </div>
+          <div class="item-date">10/2023 - 01/2024</div>
+        </div>
+        <div class="item-description">
+          <p>Limpieza y análisis de datos empresariales para toma de decisiones, soporte y mantenimiento de aplicaciones internas en entorno Windows.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Docente</div>
+            <div class="item-company">Instituto "Antonio Raimondi"</div>
+          </div>
+          <div class="item-date">01/2021 - 12/2023</div>
+        </div>
+        <div class="item-description">
+          <p>Dictado de cursos orientados al desarrollo de habilidades de liderazgo, comunicación efectiva y fundamentos económicos, integrando metodologías activas y recursos digitales.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Analista de Nóminas</div>
+            <div class="item-company">Banco Pichincha</div>
+          </div>
+          <div class="item-date">01/2021 - 06/2021</div>
+        </div>
+        <div class="item-description">
+          <p>Actualización de datos de empleados en el sistema de nóminas.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Ejecutivo de Créditos</div>
+            <div class="item-company">Banco Azteca</div>
+          </div>
+          <div class="item-date">08/2018 - 11/2018</div>
+        </div>
+        <div class="item-description">
+          <p>Atención y asesoría a clientes en productos financieros como ejecutivo de créditos.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Docente en Gestión Bancaria</div>
+            <div class="item-company">Instituto "Fibonacci"</div>
+          </div>
+          <div class="item-date">02/2016 - 09/2018</div>
+        </div>
+        <div class="item-description">
+          <p>Docente en cursos de gestión bancaria, aplicando software de apoyo y conocimientos técnicos en entornos financieros reales.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Capacitador Bancario</div>
+            <div class="item-company">Instituto "Cepeban"</div>
+          </div>
+          <div class="item-date">03/2016 - 09/2018</div>
+        </div>
+        <div class="item-description">
+          <p>Capacitación integral con enfoque técnico y práctico en formación bancaria, combinando teoría financiera con dinámicas de simulación profesional.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Coordinador Operativo</div>
+            <div class="item-company">Banco Interamericano de Finanzas</div>
+          </div>
+          <div class="item-date">06/2013 - 06/2015</div>
+        </div>
+        <div class="item-description">
+          <p>Gestión de procesos operativos y financieros, coordinación de servicios de caja y remesas, supervisión normativa y mejora de eficiencia institucional.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Coordinador de Atención al Cliente</div>
+            <div class="item-company">Banco de Crédito del Perú</div>
+          </div>
+          <div class="item-date">11/2011 - 06/2013</div>
+        </div>
+        <div class="item-description">
+          <p>Coordinación de atención al cliente, soporte a procesos automatizados y uso de canales digitales, optimizando la experiencia del usuario.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Ejecutivo de Operaciones</div>
+            <div class="item-company">Banco de Crédito del Perú</div>
+          </div>
+          <div class="item-date">07/2007 - 11/2011</div>
+        </div>
+        <div class="item-description">
+          <p>Ejecución de operaciones financieras en ventanilla, control documental y apoyo operativo con enfoque en calidad de servicio.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Gestor de Tesorería</div>
+            <div class="item-company">Banco de Crédito del Perú</div>
+          </div>
+          <div class="item-date">02/2006 - 07/2007</div>
+        </div>
+        <div class="item-description">
+          <p>Gestión de tesorería, custodia de valores, arqueos periódicos y logística de cajeros automáticos.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Ejecutivo de Atención al Cliente</div>
+            <div class="item-company">Banco de Crédito del Perú</div>
+          </div>
+          <div class="item-date">11/2003 - 02/2006</div>
+        </div>
+        <div class="item-description">
+          <p>Atención al cliente en operaciones básicas, promoción de productos y aplicación de normativas bancarias.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="cv-section">
+      <h2 class="section-title">
+        <span>🎓</span>
+        Formación Académica
+      </h2>
+      
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Máster en Ciencia de Datos</div>
+            <div class="item-company">Universidad Autónoma de Madrid</div>
+          </div>
+          <div class="item-date">2024 - En curso</div>
+        </div>
+        <div class="item-description">
+          <p>Especialización en análisis de datos, machine learning y técnicas avanzadas de procesamiento de información.</p>
+        </div>
+      </div>
+
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Grado en Ingeniería de Sistemas</div>
+            <div class="item-company">Universidad Nacional de Ucayali</div>
+          </div>
+          <div class="item-date">2018 - 2023</div>
+        </div>
+        <div class="item-description">
+          <p>Formación integral en desarrollo de sistemas, programación y gestión de tecnologías de la información.</p>
+        </div>
+      </div>
+
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Educación Secundaria</div>
+            <div class="item-company">Colegio Nacional Faustino Maldonado</div>
+          </div>
+          <div class="item-date">1990 - 1995</div>
+        </div>
+        <div class="item-description">
+          <p>Formación académica básica con enfoque en ciencias y matemáticas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="cv-section">
+      <h2 class="section-title">
+        <span>⚡</span>
+        Habilidades Técnicas
+      </h2>
+      
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h4>Ciencia de Datos</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">R</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Big Data</span>
+            <span class="skill-tag">Machine Learning</span>
+            <span class="skill-tag">Análisis Estadístico</span>
+          </div>
+        </div>
+        
+        <div class="skill-category">
+          <h4>Desarrollo</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">C#</span>
+            <span class="skill-tag">SQL Server</span>
+            <span class="skill-tag">CRUD</span>
+            <span class="skill-tag">Sistemas de Información</span>
+            <span class="skill-tag">Windows</span>
+          </div>
+        </div>
+        
+        <div class="skill-category">
+          <h4>Sector Financiero</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Gestión Bancaria</span>
+            <span class="skill-tag">Matemática Financiera</span>
+            <span class="skill-tag">Productos Financieros</span>
+            <span class="skill-tag">Operaciones Bancarias</span>
+            <span class="skill-tag">Normativas</span>
+          </div>
+        </div>
+        
+        <div class="skill-category">
+          <h4>Soporte Técnico</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">CAU</span>
+            <span class="skill-tag">Ticketing</span>
+            <span class="skill-tag">Acceso Remoto</span>
+            <span class="skill-tag">Resolución Incidencias</span>
+            <span class="skill-tag">Mantenimiento Preventivo</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>Educación y Liderazgo</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Docencia</span>
+            <span class="skill-tag">Metodologías Activas</span>
+            <span class="skill-tag">Liderazgo</span>
+            <span class="skill-tag">Comunicación</span>
+            <span class="skill-tag">ChatGPT</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>Herramientas Digitales</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Habilidades Digitales</span>
+            <span class="skill-tag">Recursos Digitales</span>
+            <span class="skill-tag">Santander Academy</span>
+            <span class="skill-tag">Udemy</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="cv-section">
+      <h2 class="section-title">
+        <span>🏆</span>
+        Capacitaciones y Certificaciones
+      </h2>
+      
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Optimización en el Uso de ChatGPT en el Aprendizaje</div>
+            <div class="item-company">Universidad Autónoma de Madrid</div>
+          </div>
+          <div class="item-date">2025</div>
+        </div>
+      </div>
+
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Introducción a R</div>
+            <div class="item-company">Universidad Autónoma de Madrid</div>
+          </div>
+          <div class="item-date">2025</div>
+        </div>
+      </div>
+
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Certificación de Habilidades Digitales Profesionales</div>
+            <div class="item-company">Santander Open Academy</div>
+          </div>
+          <div class="item-date">2025</div>
+        </div>
+      </div>
+
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Big Data para la Mejora del Negocio</div>
+            <div class="item-company">Ayuntamiento de San Sebastián de los Reyes</div>
+          </div>
+          <div class="item-date">2024</div>
+        </div>
+      </div>
+
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Matemática Financiera Básica</div>
+            <div class="item-company">Netzun</div>
+          </div>
+          <div class="item-date">2024</div>
+        </div>
+      </div>
+
+      <div class="education-item">
+        <div class="item-header">
+          <div>
+            <div class="item-title">Proceso CRUD (C# y Microsoft SQL Server)</div>
+            <div class="item-company">Udemy</div>
+          </div>
+          <div class="item-date">2024</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download Section -->
+    <div class="download-section">
+      <a href="docs/cv-print.html" target="_blank" class="download-btn" onclick="openPrintVersion()">
+        <span>📄</span>
+        Descargar CV en PDF
+      </a>
+    </div>
+
+    <script>
+      function openPrintVersion() {
+        // Abrir la versión para imprimir en una nueva ventana
+        const printWindow = window.open('docs/cv-print.html', '_blank');
+        
+        // Esperar a que cargue y luego mostrar el diálogo de impresión
+        printWindow.onload = function() {
+          setTimeout(() => {
+            printWindow.print();
+          }, 500);
+        };
+      }
+    </script>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+</body>
+</html>

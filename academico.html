@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Académico - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+      --math-color: #6f42c1;
+      --physics-color: #fd7e14;
+      --stats-color: #20c997;
+      --ml-color: #e83e8c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Hero Section */
+    .hero-academic {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-academic::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="25" r="1" fill="white" opacity="0.05"/><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/><circle cx="25" cy="75" r="1" fill="white" opacity="0.05"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      animation: float 20s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-academic h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .hero-academic p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateX(0) translateY(0); }
+      33% { transform: translateX(10px) translateY(-10px); }
+      66% { transform: translateX(-5px) translateY(5px); }
+    }
+
+    /* Academic Categories Grid */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .category-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .category-card.math::before { background: var(--math-color); }
+    .category-card.physics::before { background: var(--physics-color); }
+    .category-card.stats::before { background: var(--stats-color); }
+    .category-card.ml::before { background: var(--ml-color); }
+
+    .category-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+
+    .category-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .category-card.math .category-icon { color: var(--math-color); }
+    .category-card.physics .category-icon { color: var(--physics-color); }
+    .category-card.stats .category-icon { color: var(--stats-color); }
+    .category-card.ml .category-icon { color: var(--ml-color); }
+
+    .category-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .category-description {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .subcategories {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .subcategories li {
+      padding: 0.3rem 0;
+      color: #555;
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .subcategories li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+
+    .category-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      border: 2px solid;
+    }
+
+    .category-card.math .category-link {
+      color: var(--math-color);
+      border-color: var(--math-color);
+    }
+
+    .category-card.physics .category-link {
+      color: var(--physics-color);
+      border-color: var(--physics-color);
+    }
+
+    .category-card.stats .category-link {
+      color: var(--stats-color);
+      border-color: var(--stats-color);
+    }
+
+    .category-card.ml .category-link {
+      color: var(--ml-color);
+      border-color: var(--ml-color);
+    }
+
+    .category-link:hover {
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .category-card.math .category-link:hover { background: var(--math-color); }
+    .category-card.physics .category-link:hover { background: var(--physics-color); }
+    .category-card.stats .category-link:hover { background: var(--stats-color); }
+    .category-card.ml .category-link:hover { background: var(--ml-color); }
+
+    /* Recent Content Section */
+    .recent-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .recent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .recent-item {
+      border: 1px solid #e9ecef;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .recent-item:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .recent-category {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .recent-item.math .recent-category { color: var(--math-color); }
+    .recent-item.physics .recent-category { color: var(--physics-color); }
+    .recent-item.stats .recent-category { color: var(--stats-color); }
+    .recent-item.ml .recent-category { color: var(--ml-color); }
+
+    .recent-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .recent-title a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+
+    .recent-title a:hover {
+      color: var(--secondary-color);
+    }
+
+    .recent-description {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .recent-date {
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    /* About Academic Section */
+    .about-academic {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .about-text p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .about-stats {
+      background: var(--light-gray);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .stat-item:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-academic {
+        padding: 3rem 1rem;
+      }
+
+      .hero-academic h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero-academic p {
+        font-size: 1.1rem;
+      }
+
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .category-card {
+        padding: 1.5rem;
+      }
+
+      .recent-section,
+      .about-academic {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="academico.html" class="active">Académico</a></li>
+        <li><a href="curriculum.html">Currículum</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Hero Section -->
+    <section class="hero-academic">
+      <div class="hero-content">
+        <h1>Contenido Académico</h1>
+        <p>Explora mis conocimientos y reflexiones en matemáticas, física, estadística y machine learning. Aquí encontrarás explicaciones conceptuales, ejemplos prácticos, código y proyectos que demuestran la aplicación de estos campos en problemas reales.</p>
+      </div>
+    </section>
+
+    <!-- Academic Categories -->
+    <section class="categories-grid">
+      <div class="category-card math">
+        <span class="category-icon">∫</span>
+        <h2 class="category-title">Matemáticas</h2>
+        <p class="category-description">
+          Fundamentos matemáticos esenciales para la ciencia de datos y la ingeniería. Desde cálculo hasta optimización.
+        </p>
+        <ul class="subcategories">
+          <li>Cálculo Diferencial e Integral</li>
+          <li>Álgebra Lineal</li>
+          <li>Ecuaciones Diferenciales</li>
+          <li>Matemáticas Discretas</li>
+          <li>Optimización</li>
+        </ul>
+        <a href="matematicas.html" class="category-link">
+          Explorar Matemáticas
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="category-card physics">
+        <span class="category-icon">⚛</span>
+        <h2 class="category-title">Física</h2>
+        <p class="category-description">
+          Principios físicos y su aplicación en modelado científico y simulaciones computacionales.
+        </p>
+        <ul class="subcategories">
+          <li>Mecánica Clásica</li>
+          <li>Electromagnetismo</li>
+          <li>Termodinámica</li>
+          <li>Física Moderna</li>
+          <li>Simulaciones Físicas</li>
+        </ul>
+        <a href="fisica.html" class="category-link">
+          Explorar Física
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="category-card stats">
+        <span class="category-icon">📊</span>
+        <h2 class="category-title">Estadística</h2>
+        <p class="category-description">
+          Análisis estadístico para la toma de decisiones basada en datos y la inferencia científica.
+        </p>
+        <ul class="subcategories">
+          <li>Estadística Descriptiva</li>
+          <li>Inferencia Estadística</li>
+          <li>Probabilidad</li>
+          <li>Análisis de Regresión</li>
+          <li>Diseño Experimental</li>
+        </ul>
+        <a href="estadistica.html" class="category-link">
+          Explorar Estadística
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="category-card ml">
+        <span class="category-icon">🤖</span>
+        <h2 class="category-title">Machine Learning</h2>
+        <p class="category-description">
+          Algoritmos de aprendizaje automático y su implementación en proyectos de ciencia de datos.
+        </p>
+        <ul class="subcategories">
+          <li>Fundamentos de ML</li>
+          <li>Aprendizaje Supervisado</li>
+          <li>Aprendizaje No Supervisado</li>
+          <li>Deep Learning</li>
+          <li>NLP y Visión por Computadora</li>
+        </ul>
+        <a href="machine-learning.html" class="category-link">
+          Explorar ML
+          <span>→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- About Academic Focus -->
+    <section class="about-academic">
+      <h2 class="section-title">
+        <span>🎯</span>
+        Mi Enfoque Académico
+      </h2>
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Aprendizaje Aplicado</h3>
+          <p>
+            Mi aproximación a estos campos se centra en la <strong>aplicación práctica</strong> de conceptos teóricos. 
+            Cada tema que exploro está respaldado por ejemplos reales, código funcional y proyectos que demuestran 
+            su utilidad en el mundo profesional.
+          </p>
+          <p>
+            Como estudiante del <strong>Máster en Ciencia de Datos</strong> en la Universidad Autónoma de Madrid, 
+            combino la rigurosidad académica con la experiencia práctica adquirida en mi carrera profesional 
+            en sistemas de información y análisis de datos.
+          </p>
+          <p>
+            Mi objetivo es hacer accesibles conceptos complejos mediante explicaciones claras, 
+            visualizaciones efectivas y ejemplos que conecten la teoría con problemas reales.
+          </p>
+        </div>
+        <div class="about-stats">
+          <h4 style="margin-bottom: 1rem; color: var(--primary-color);">Estadísticas de Contenido</h4>
+          <div class="stat-item">
+            <span class="stat-label">Artículos Publicados</span>
+            <span class="stat-value">En desarrollo</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Proyectos Destacados</span>
+            <span class="stat-value">En desarrollo</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Categorías Activas</span>
+            <span class="stat-value">4</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Última Actualización</span>
+            <span class="stat-value">Enero 2025</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Content -->
+    <section class="recent-section">
+      <h2 class="section-title">
+        <span>📚</span>
+        Contenido Reciente
+      </h2>
+      <div class="recent-grid">
+        <article class="recent-item math">
+          <div class="recent-category">Matemáticas</div>
+          <h3 class="recent-title">
+            <a href="#">Fundamentos de Cálculo Multivariable</a>
+          </h3>
+          <p class="recent-description">
+            Introducción a derivadas parciales y sus aplicaciones en optimización de funciones de múltiples variables.
+          </p>
+          <div class="recent-date">Próximamente</div>
+        </article>
+
+        <article class="recent-item stats">
+          <div class="recent-category">Estadística</div>
+          <h3 class="recent-title">
+            <a href="#">Análisis de Regresión con R</a>
+          </h3>
+          <p class="recent-description">
+            Tutorial práctico sobre implementación de modelos de regresión lineal y logística usando R.
+          </p>
+          <div class="recent-date">Próximamente</div>
+        </article>
+
+        <article class="recent-item ml">
+          <div class="recent-category">Machine Learning</div>
+          <h3 class="recent-title">
+            <a href="#">Introducción a Algoritmos de Clasificación</a>
+          </h3>
+          <p class="recent-description">
+            Comparación práctica entre diferentes algoritmos de clasificación con ejemplos en Python.
+          </p>
+          <div class="recent-date">Próximamente</div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+</body>
+</html>
