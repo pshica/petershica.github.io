@@ -459,6 +459,36 @@
       margin-top: auto;
     }
 
+    /* Visit Counter */
+    .visit-counter {
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--white);
+      border-radius: 25px;
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .visit-counter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 86, 179, 0.3);
+    }
+
+    #visit-counter-text {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #visit-counter-text::before {
+      content: "👁️";
+      font-size: 1.1rem;
+    }
+
     /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -557,6 +587,17 @@
       .featured-item img {
         height: 150px;
       }
+
+      /* Responsive para el contador de visitas */
+      .visit-counter {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+        margin-top: 0.8rem;
+      }
+
+      #visit-counter-text::before {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -649,6 +690,9 @@
   <footer>
     <div class="container">
       © 2025 Peter Shica — Todos los derechos reservados
+      <div class="visit-counter">
+        <span id="visit-counter-text">Cargando visitas...</span>
+      </div>
     </div>
   </footer>
 
@@ -660,7 +704,58 @@
       menuToggle.addEventListener('click', function() {
         navList.classList.toggle('active');
       });
+
+      // Contador de visitas
+      initVisitCounter();
     });
+
+    function initVisitCounter() {
+      const visitCounterElement = document.getElementById('visit-counter-text');
+      
+      // Obtener el contador actual del localStorage
+      let visitCount = localStorage.getItem('petershica-visit-count');
+      
+      if (visitCount === null) {
+        // Primera visita
+        visitCount = 1;
+      } else {
+        // Incrementar el contador
+        visitCount = parseInt(visitCount) + 1;
+      }
+      
+      // Guardar el nuevo valor
+      localStorage.setItem('petershica-visit-count', visitCount);
+      
+      // Formatear el número para mostrar
+      const formattedCount = formatNumber(visitCount);
+      
+      // Actualizar el texto con animación
+      visitCounterElement.textContent = `Visitas: ${formattedCount}`;
+      
+      // Agregar efecto de animación al contador
+      visitCounterElement.parentElement.style.animation = 'fadeInCounter 1s ease-out';
+    }
+
+    function formatNumber(num) {
+      // Agregar separadores de miles
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // Agregar animación CSS dinámicamente
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeInCounter {
+        from { 
+          opacity: 0; 
+          transform: translateY(10px) scale(0.9); 
+        }
+        to { 
+          opacity: 1; 
+          transform: translateY(0) scale(1); 
+        }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 
 </body>
