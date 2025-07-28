@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Optimización - Matemáticas | Peter Shica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- MathJax Configuration -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async 
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+      --optimization-color: #ff6b35;
+      --optimization-light: #fff5f2;
+      --optimization-dark: #e55a32;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Article Header */
+    .article-header {
+      background: linear-gradient(135deg, var(--optimization-color) 0%, var(--optimization-dark) 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-header::before {
+      content: "⊕ ∇ ≤ ≥ ∂ min max ∑ ∏";
+      position: absolute;
+      font-size: 4rem;
+      opacity: 0.1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 2rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .article-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .article-header p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Table of Contents */
+    .toc-container {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      border-left: 4px solid var(--optimization-color);
+    }
+
+    .toc-title {
+      font-size: 1.5rem;
+      color: var(--optimization-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc {
+      list-style: none;
+    }
+
+    .toc > li {
+      margin-bottom: 0.5rem;
+    }
+
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      display: block;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .toc a:hover {
+      color: var(--optimization-color);
+      border-bottom-color: var(--optimization-color);
+      padding-left: 1rem;
+    }
+
+    .toc .toc-subsection {
+      list-style: none;
+      margin-top: 0.5rem;
+      margin-left: 1rem;
+    }
+
+    .toc .toc-subsection a {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Content Sections */
+    .content-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      color: var(--optimization-color);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 3px solid var(--optimization-light);
+      padding-bottom: 1rem;
+    }
+
+    .subsection-title {
+      font-size: 1.8rem;
+      color: var(--optimization-dark);
+      margin: 2.5rem 0 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .content-text {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    /* Definition and Theorem Boxes */
+    .definition-box,
+    .theorem-box,
+    .example-box {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      border-left: 4px solid;
+      position: relative;
+    }
+
+    .definition-box {
+      background: var(--optimization-light);
+      border-left-color: var(--optimization-color);
+    }
+
+    .theorem-box {
+      background: #fff8e1;
+      border-left-color: #ffa000;
+    }
+
+    .example-box {
+      background: #f3e5f5;
+      border-left-color: #7b1fa2;
+    }
+
+    .box-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: var(--optimization-dark);
+    }
+
+    .theorem-box .box-title {
+      color: #e65100;
+    }
+
+    .example-box .box-title {
+      color: #4a148c;
+    }
+
+    /* Mathematical Content */
+    .mjx-container {
+      margin: 1rem 0;
+    }
+
+    .math-display {
+      background: #fafafa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border-left: 3px solid var(--optimization-color);
+      overflow-x: auto;
+    }
+
+    /* Algorithm Box */
+    .algorithm-box {
+      background: #e8f5e8;
+      border: 1px solid #4caf50;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .algorithm-title {
+      font-weight: 700;
+      color: #2e7d32;
+      margin-bottom: 1rem;
+    }
+
+    .algorithm-steps {
+      list-style: none;
+      counter-reset: step-counter;
+    }
+
+    .algorithm-steps li {
+      counter-increment: step-counter;
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .algorithm-steps li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #4caf50;
+      color: white;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    /* Code Blocks */
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    /* Applications Grid */
+    .applications-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .application-card {
+      background: var(--optimization-light);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      border-top: 3px solid var(--optimization-color);
+    }
+
+    .application-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--optimization-dark);
+      margin-bottom: 1rem;
+    }
+
+    .application-description {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--optimization-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--optimization-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .article-header {
+        padding: 3rem 1rem;
+      }
+
+      .article-header h1 {
+        font-size: 2.2rem;
+      }
+
+      .content-section {
+        padding: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .subsection-title {
+        font-size: 1.5rem;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .applications-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 0.5rem;
+      }
+
+      .content-section,
+      .toc-container {
+        padding: 1.5rem;
+      }
+
+      .article-header {
+        padding: 2rem 1rem;
+      }
+
+      .article-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <a href="index.html">Matemáticas</a> > 
+    <span>Optimización</span>
+  </nav>
+
+  <div class="container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="header-content">
+        <h1>⊕ Optimización Matemática</h1>
+        <p>
+          Métodos para encontrar máximos y mínimos en problemas de ingeniería, ciencia de datos 
+          y sistemas complejos. De la programación lineal a la optimización estocástica.
+        </p>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <section class="toc-container">
+      <h2 class="toc-title">
+        <span>📋</span>
+        Contenido
+      </h2>
+      <ul class="toc">
+        <li><a href="#fundamentos">1. Fundamentos de Optimización</a></li>
+        <li><a href="#optimizacion-lineal">2. Optimización Lineal</a>
+          <ul class="toc-subsection">
+            <li><a href="#programacion-lineal">Programación Lineal</a></li>
+            <li><a href="#metodo-simplex">Método Simplex</a></li>
+            <li><a href="#dualidad">Teoría de Dualidad</a></li>
+          </ul>
+        </li>
+        <li><a href="#optimizacion-no-lineal">3. Optimización No Lineal</a>
+          <ul class="toc-subsection">
+            <li><a href="#condiciones-optimalidad">Condiciones de Optimalidad</a></li>
+            <li><a href="#metodos-gradiente">Métodos de Gradiente</a></li>
+            <li><a href="#newton-quasi-newton">Newton y Quasi-Newton</a></li>
+          </ul>
+        </li>
+        <li><a href="#optimizacion-restricciones">4. Optimización con Restricciones</a>
+          <ul class="toc-subsection">
+            <li><a href="#multiplicadores-lagrange">Multiplicadores de Lagrange</a></li>
+            <li><a href="#condiciones-kkt">Condiciones KKT</a></li>
+            <li><a href="#metodos-penalizacion">Métodos de Penalización</a></li>
+          </ul>
+        </li>
+        <li><a href="#optimizacion-estocastica">5. Optimización Estocástica</a>
+          <ul class="toc-subsection">
+            <li><a href="#gradiente-estocastico">Gradiente Estocástico</a></li>
+            <li><a href="#algoritmos-geneticos">Algoritmos Genéticos</a></li>
+            <li><a href="#optimizacion-bayesiana">Optimización Bayesiana</a></li>
+          </ul>
+        </li>
+        <li><a href="#aplicaciones">6. Aplicaciones Prácticas</a></li>
+      </ul>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Fundamentos -->
+      <section id="fundamentos" class="content-section">
+        <h2 class="section-title">
+          <span>🎯</span>
+          1. Fundamentos de Optimización
+        </h2>
+        
+        <p class="content-text">
+          La optimización matemática es el proceso de encontrar el mejor elemento (máximo o mínimo) 
+          de un conjunto de alternativas disponibles. En términos formales, buscamos resolver 
+          problemas de la forma:
+        </p>
+
+        <div class="math-display">
+          $$\begin{align}
+          \min_{x \in \mathbb{R}^n} \quad & f(x) \\
+          \text{sujeto a} \quad & g_i(x) \leq 0, \quad i = 1, \ldots, m \\
+          & h_j(x) = 0, \quad j = 1, \ldots, p
+          \end{align}$$
+        </div>
+
+        <div class="definition-box">
+          <div class="box-title">Definición: Problema de Optimización</div>
+          <p>
+            Un problema de optimización consiste en:
+          </p>
+          <ul>
+            <li><strong>Función objetivo</strong> $f(x)$: función a minimizar (o maximizar)</li>
+            <li><strong>Variables de decisión</strong> $x \in \mathbb{R}^n$: variables sobre las que tenemos control</li>
+            <li><strong>Restricciones de desigualdad</strong> $g_i(x) \leq 0$: limitaciones del problema</li>
+            <li><strong>Restricciones de igualdad</strong> $h_j(x) = 0$: condiciones que deben cumplirse exactamente</li>
+          </ul>
+        </div>
+
+        <h3 class="subsection-title">Clasificación de Problemas</h3>
+        
+        <div class="applications-grid">
+          <div class="application-card">
+            <div class="application-title">Optimización Lineal</div>
+            <div class="application-description">
+              Función objetivo y restricciones lineales. Incluye programación lineal y sus extensiones.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Optimización No Lineal</div>
+            <div class="application-description">
+              Al menos una función (objetivo o restricción) es no lineal. Requiere métodos especializados.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Optimización Estocástica</div>
+            <div class="application-description">
+              Involucra incertidumbre en los datos o en la evaluación de la función objetivo.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Optimización Combinatoria</div>
+            <div class="application-description">
+              Variables de decisión son discretas, generalmente enteras o binarias.
+            </div>
+          </div>
+        </div>
+
+        <div class="theorem-box">
+          <div class="box-title">Teorema: Existencia de Soluciones Óptimas</div>
+          <p>
+            Sea $f: \mathbb{R}^n \to \mathbb{R}$ continua y $S \subset \mathbb{R}^n$ compacto no vacío. 
+            Entonces el problema $\min_{x \in S} f(x)$ tiene al menos una solución óptima.
+          </p>
+          <p><strong>Demostración:</strong> Se sigue del teorema de Weierstrass para funciones continuas en conjuntos compactos.</p>
+        </div>
+      </section>
+
+      <!-- Optimización Lineal -->
+      <section id="optimizacion-lineal" class="content-section">
+        <h2 class="section-title">
+          <span>📏</span>
+          2. Optimización Lineal
+        </h2>
+
+        <h3 id="programacion-lineal" class="subsection-title">Programación Lineal</h3>
+        
+        <p class="content-text">
+          La programación lineal (LP) es el caso más simple donde tanto la función objetivo 
+          como las restricciones son lineales:
+        </p>
+
+        <div class="math-display">
+          $$\begin{align}
+          \min \quad & c^T x \\
+          \text{s.a.} \quad & Ax \leq b \\
+          & x \geq 0
+          \end{align}$$
+        </div>
+
+        <div class="definition-box">
+          <div class="box-title">Forma Estándar de un Problema Lineal</div>
+          <p>
+            Todo problema de programación lineal puede escribirse en forma estándar:
+          </p>
+          <div class="math-display">
+            $$\begin{align}
+            \min \quad & c^T x \\
+            \text{s.a.} \quad & Ax = b \\
+            & x \geq 0
+            \end{align}$$
+          </div>
+          <p>donde $A \in \mathbb{R}^{m \times n}$, $b \in \mathbb{R}^m$, $c \in \mathbb{R}^n$.</p>
+        </div>
+
+        <h3 id="metodo-simplex" class="subsection-title">Método Simplex</h3>
+        
+        <p class="content-text">
+          El método simplex, desarrollado por George Dantzig en 1947, es el algoritmo fundamental 
+          para resolver problemas de programación lineal.
+        </p>
+
+        <div class="algorithm-box">
+          <div class="algorithm-title">Algoritmo Simplex</div>
+          <ol class="algorithm-steps">
+            <li>Encontrar una solución básica factible inicial</li>
+            <li>Verificar optimalidad: si todos los costos reducidos son no negativos, parar</li>
+            <li>Seleccionar variable entrante (costo reducido más negativo)</li>
+            <li>Realizar test de ratio para encontrar variable saliente</li>
+            <li>Realizar operaciones de pivoteo para actualizar la tabla simplex</li>
+            <li>Volver al paso 2</li>
+          </ol>
+        </div>
+
+        <div class="example-box">
+          <div class="box-title">Ejemplo: Problema de Producción</div>
+          <p>Una empresa produce dos productos A y B. Las restricciones son:</p>
+          <div class="math-display">
+            $$\begin{align}
+            \max \quad & 3x_1 + 2x_2 \\
+            \text{s.a.} \quad & x_1 + 2x_2 \leq 8 \\
+            & 2x_1 + x_2 \leq 10 \\
+            & x_1, x_2 \geq 0
+            \end{align}$$
+          </div>
+          <p>Donde $x_1$ y $x_2$ son las cantidades a producir de A y B respectivamente.</p>
+        </div>
+
+        <h3 id="dualidad" class="subsection-title">Teoría de Dualidad</h3>
+        
+        <p class="content-text">
+          A todo problema de programación lineal (primal) le corresponde un problema dual asociado:
+        </p>
+
+        <div class="math-display">
+          $$\begin{array}{c|c}
+          \textbf{Problema Primal} & \textbf{Problema Dual} \\
+          \hline
+          \min \; c^T x & \max \; b^T y \\
+          \text{s.a. } Ax \geq b & \text{s.a. } A^T y \leq c \\
+          x \geq 0 & y \geq 0
+          \end{array}$$
+        </div>
+
+        <div class="theorem-box">
+          <div class="box-title">Teorema de Dualidad Fuerte</div>
+          <p>
+            Si el problema primal tiene solución óptima finita, entonces el problema dual también 
+            tiene solución óptima finita, y los valores óptimos de ambos problemas son iguales:
+          </p>
+          <div class="math-display">
+            $$c^T x^* = b^T y^*$$
+          </div>
+        </div>
+      </section>
+
+      <!-- Optimización No Lineal -->
+      <section id="optimizacion-no-lineal" class="content-section">
+        <h2 class="section-title">
+          <span>📈</span>
+          3. Optimización No Lineal
+        </h2>
+
+        <h3 id="condiciones-optimalidad" class="subsection-title">Condiciones de Optimalidad</h3>
+        
+        <p class="content-text">
+          Para problemas no lineales sin restricciones, las condiciones de optimalidad se basan 
+          en las derivadas de la función objetivo.
+        </p>
+
+        <div class="theorem-box">
+          <div class="box-title">Condiciones de Primer Orden (Necesarias)</div>
+          <p>
+            Si $x^*$ es un mínimo local de $f$ y $f$ es diferenciable en $x^*$, entonces:
+          </p>
+          <div class="math-display">
+            $$\nabla f(x^*) = 0$$
+          </div>
+        </div>
+
+        <div class="theorem-box">
+          <div class="box-title">Condiciones de Segundo Orden (Suficientes)</div>
+          <p>
+            Si $\nabla f(x^*) = 0$ y $\nabla^2 f(x^*)$ es definida positiva, entonces $x^*$ 
+            es un mínimo local estricto.
+          </p>
+        </div>
+
+        <h3 id="metodos-gradiente" class="subsection-title">Métodos de Gradiente</h3>
+        
+        <p class="content-text">
+          Los métodos de gradiente utilizan la información de primera derivada para encontrar 
+          direcciones de descenso.
+        </p>
+
+        <div class="algorithm-box">
+          <div class="algorithm-title">Algoritmo de Descenso por Gradiente</div>
+          <ol class="algorithm-steps">
+            <li>Inicializar $x_0$, establecer $k = 0$</li>
+            <li>Calcular $d_k = -\nabla f(x_k)$ (dirección de descenso)</li>
+            <li>Encontrar $\alpha_k > 0$ mediante búsqueda lineal</li>
+            <li>Actualizar $x_{k+1} = x_k + \alpha_k d_k$</li>
+            <li>Si no converge, hacer $k = k + 1$ y volver al paso 2</li>
+          </ol>
+        </div>
+
+        <div class="math-display">
+          $$x_{k+1} = x_k - \alpha_k \nabla f(x_k)$$
+        </div>
+
+        <div class="example-box">
+          <div class="box-title">Ejemplo: Gradiente Descendente</div>
+          <p>Para minimizar $f(x, y) = x^2 + 4y^2$:</p>
+          <div class="math-display">
+            $$\nabla f = \begin{pmatrix} 2x \\ 8y \end{pmatrix}$$
+          </div>
+          <p>El algoritmo converge al punto óptimo $(0, 0)$ desde cualquier punto inicial.</p>
+        </div>
+
+        <h3 id="newton-quasi-newton" class="subsection-title">Métodos de Newton y Quasi-Newton</h3>
+        
+        <p class="content-text">
+          El método de Newton utiliza información de segunda derivada para lograr convergencia cuadrática.
+        </p>
+
+        <div class="math-display">
+          $$x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k)$$
+        </div>
+
+        <div class="algorithm-box">
+          <div class="algorithm-title">Método BFGS (Quasi-Newton)</div>
+          <p>Aproxima la matriz Hessiana usando diferencias de gradientes:</p>
+          <div class="math-display">
+            $$B_{k+1} = B_k + \frac{y_k y_k^T}{y_k^T s_k} - \frac{B_k s_k s_k^T B_k}{s_k^T B_k s_k}$$
+          </div>
+          <p>donde $s_k = x_{k+1} - x_k$ y $y_k = \nabla f(x_{k+1}) - \nabla f(x_k)$.</p>
+        </div>
+      </section>
+
+      <!-- Optimización con Restricciones -->
+      <section id="optimizacion-restricciones" class="content-section">
+        <h2 class="section-title">
+          <span>🔗</span>
+          4. Optimización con Restricciones
+        </h2>
+
+        <h3 id="multiplicadores-lagrange" class="subsection-title">Multiplicadores de Lagrange</h3>
+        
+        <p class="content-text">
+          Para problemas con restricciones de igualdad, el método de multiplicadores de Lagrange 
+          transforma el problema restringido en uno sin restricciones.
+        </p>
+
+        <div class="definition-box">
+          <div class="box-title">Función Lagrangiana</div>
+          <p>
+            Para el problema:
+          </p>
+          <div class="math-display">
+            $$\begin{align}
+            \min \quad & f(x) \\
+            \text{s.a.} \quad & h_j(x) = 0, \quad j = 1, \ldots, p
+            \end{align}$$
+          </div>
+          <p>La función Lagrangiana es:</p>
+          <div class="math-display">
+            $$L(x, \lambda) = f(x) + \sum_{j=1}^p \lambda_j h_j(x)$$
+          </div>
+        </div>
+
+        <div class="theorem-box">
+          <div class="box-title">Condiciones de Primer Orden (KKT para Igualdades)</div>
+          <p>
+            Si $x^*$ es un mínimo local, entonces existen $\lambda_j^*$ tales que:
+          </p>
+          <div class="math-display">
+            $$\begin{align}
+            \nabla f(x^*) + \sum_{j=1}^p \lambda_j^* \nabla h_j(x^*) &= 0 \\
+            h_j(x^*) &= 0, \quad j = 1, \ldots, p
+            \end{align}$$
+          </div>
+        </div>
+
+        <h3 id="condiciones-kkt" class="subsection-title">Condiciones KKT</h3>
+        
+        <p class="content-text">
+          Las condiciones de Karush-Kuhn-Tucker extienden el método de Lagrange a problemas 
+          con restricciones de desigualdad.
+        </p>
+
+        <div class="theorem-box">
+          <div class="box-title">Condiciones KKT</div>
+          <p>
+            Para el problema general con restricciones de igualdad y desigualdad, un punto $x^*$ 
+            es óptimo si existen multiplicadores $\lambda^*, \mu^*$ tales que:
+          </p>
+          <div class="math-display">
+            $$\begin{align}
+            \nabla f(x^*) + \sum_{j=1}^p \lambda_j^* \nabla h_j(x^*) + \sum_{i=1}^m \mu_i^* \nabla g_i(x^*) &= 0 \\
+            h_j(x^*) &= 0, \quad j = 1, \ldots, p \\
+            g_i(x^*) &\leq 0, \quad i = 1, \ldots, m \\
+            \mu_i^* &\geq 0, \quad i = 1, \ldots, m \\
+            \mu_i^* g_i(x^*) &= 0, \quad i = 1, \ldots, m
+            \end{align}$$
+          </div>
+        </div>
+
+        <h3 id="metodos-penalizacion" class="subsection-title">Métodos de Penalización</h3>
+        
+        <p class="content-text">
+          Los métodos de penalización transforman problemas con restricciones en una secuencia 
+          de problemas sin restricciones.
+        </p>
+
+        <div class="algorithm-box">
+          <div class="algorithm-title">Método de Penalización Exterior</div>
+          <p>Se resuelve una secuencia de problemas:</p>
+          <div class="math-display">
+            $$\min_{x} \phi(x, \rho_k) = f(x) + \rho_k \left[ \sum_{j=1}^p h_j(x)^2 + \sum_{i=1}^m \max(0, g_i(x))^2 \right]$$
+          </div>
+          <p>donde $\{\rho_k\}$ es una secuencia creciente de parámetros de penalización.</p>
+        </div>
+      </section>
+
+      <!-- Optimización Estocástica -->
+      <section id="optimizacion-estocastica" class="content-section">
+        <h2 class="section-title">
+          <span>🎲</span>
+          5. Optimización Estocástica
+        </h2>
+
+        <h3 id="gradiente-estocastico" class="subsection-title">Gradiente Descendente Estocástico</h3>
+        
+        <p class="content-text">
+          El gradiente descendente estocástico (SGD) es fundamental en el entrenamiento de modelos 
+          de machine learning, especialmente cuando el conjunto de datos es muy grande.
+        </p>
+
+        <div class="definition-box">
+          <div class="box-title">SGD con Mini-lotes</div>
+          <p>
+            En lugar de calcular el gradiente sobre todo el conjunto de datos:
+          </p>
+          <div class="math-display">
+            $$\nabla f(x) = \frac{1}{n} \sum_{i=1}^n \nabla f_i(x)$$
+          </div>
+          <p>SGD usa una muestra aleatoria (mini-lote) $\mathcal{B}_k$:</p>
+          <div class="math-display">
+            $$x_{k+1} = x_k - \alpha_k \frac{1}{|\mathcal{B}_k|} \sum_{i \in \mathcal{B}_k} \nabla f_i(x_k)$$
+          </div>
+        </div>
+
+        <div class="algorithm-box">
+          <div class="algorithm-title">Adam (Adaptive Moment Estimation)</div>
+          <ol class="algorithm-steps">
+            <li>Inicializar $m_0 = 0$, $v_0 = 0$, $t = 0$</li>
+            <li>Para cada iteración:
+              <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style: disc;">
+                <li>$t = t + 1$</li>
+                <li>$g_t = \nabla f(x_{t-1})$ (gradiente)</li>
+                <li>$m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$ (momento)</li>
+                <li>$v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2$ (segundo momento)</li>
+                <li>$\hat{m}_t = m_t / (1 - \beta_1^t)$ (corrección de sesgo)</li>
+                <li>$\hat{v}_t = v_t / (1 - \beta_2^t)$ (corrección de sesgo)</li>
+                <li>$x_t = x_{t-1} - \alpha \hat{m}_t / (\sqrt{\hat{v}_t} + \epsilon)$</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+
+        <h3 id="algoritmos-geneticos" class="subsection-title">Algoritmos Genéticos</h3>
+        
+        <p class="content-text">
+          Los algoritmos genéticos son métodos de optimización inspirados en la evolución natural, 
+          útiles para problemas complejos y no convexos.
+        </p>
+
+        <div class="algorithm-box">
+          <div class="algorithm-title">Algoritmo Genético Básico</div>
+          <ol class="algorithm-steps">
+            <li>Inicializar población aleatoria de soluciones</li>
+            <li>Evaluar función de aptitud para cada individuo</li>
+            <li>Selección: elegir padres basándose en aptitud</li>
+            <li>Cruzamiento: combinar padres para crear descendencia</li>
+            <li>Mutación: introducir variaciones aleatorias</li>
+            <li>Reemplazo: formar nueva generación</li>
+            <li>Repetir hasta convergencia o número máximo de generaciones</li>
+          </ol>
+        </div>
+
+        <h3 id="optimizacion-bayesiana" class="subsection-title">Optimización Bayesiana</h3>
+        
+        <p class="content-text">
+          La optimización bayesiana es especialmente útil cuando la evaluación de la función 
+          objetivo es costosa, como en la optimización de hiperparámetros.
+        </p>
+
+        <div class="definition-box">
+          <div class="box-title">Proceso Gaussiano como Modelo Sustituto</div>
+          <p>
+            Se modela la función objetivo $f(x)$ como un proceso gaussiano:
+          </p>
+          <div class="math-display">
+            $$f(x) \sim \mathcal{GP}(\mu(x), k(x, x'))$$
+          </div>
+          <p>donde $\mu(x)$ es la función media y $k(x, x')$ es la función de covarianza.</p>
+        </div>
+
+        <div class="algorithm-box">
+          <div class="algorithm-title">Optimización Bayesiana con Expected Improvement</div>
+          <ol class="algorithm-steps">
+            <li>Evaluar $f$ en puntos iniciales para formar conjunto de datos $D_t$</li>
+            <li>Entrenar modelo sustituto (GP) con $D_t$</li>
+            <li>Optimizar función de adquisición (EI) para encontrar $x_{t+1}$</li>
+            <li>Evaluar $f(x_{t+1})$ y actualizar $D_{t+1} = D_t \cup \{(x_{t+1}, f(x_{t+1}))\}$</li>
+            <li>Repetir hasta convergencia</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Aplicaciones -->
+      <section id="aplicaciones" class="content-section">
+        <h2 class="section-title">
+          <span>🔧</span>
+          6. Aplicaciones Prácticas
+        </h2>
+        
+        <p class="content-text">
+          La optimización tiene aplicaciones en prácticamente todas las áreas de la ingeniería, 
+          ciencias y negocios. Aquí presentamos algunos ejemplos representativos.
+        </p>
+
+        <div class="applications-grid">
+          <div class="application-card">
+            <div class="application-title">Machine Learning</div>
+            <div class="application-description">
+              Entrenamiento de redes neuronales, SVM, regresión logística. Optimización de 
+              hiperparámetros y arquitecturas de modelos.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Finanzas</div>
+            <div class="application-description">
+              Optimización de portafolios, gestión de riesgos, pricing de derivados, 
+              optimización de estrategias de trading.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Ingeniería</div>
+            <div class="application-description">
+              Diseño óptimo de estructuras, optimización de procesos, control óptimo, 
+              diseño de experimentos.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Logística</div>
+            <div class="application-description">
+              Optimización de rutas, gestión de inventarios, planificación de la producción, 
+              asignación de recursos.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Ciencia de Datos</div>
+            <div class="application-description">
+              Feature selection, clustering óptimo, reducción de dimensionalidad, 
+              optimización de pipelines de datos.
+            </div>
+          </div>
+          
+          <div class="application-card">
+            <div class="application-title">Energía</div>
+            <div class="application-description">
+              Optimización de redes eléctricas, gestión de recursos renovables, 
+              scheduling de generación, eficiencia energética.
+            </div>
+          </div>
+        </div>
+
+        <div class="example-box">
+          <div class="box-title">Ejemplo: Optimización de Portafolio (Markowitz)</div>
+          <p>
+            El modelo clásico de Markowitz busca minimizar el riesgo para un retorno esperado dado:
+          </p>
+          <div class="math-display">
+            $$\begin{align}
+            \min \quad & w^T \Sigma w \\
+            \text{s.a.} \quad & w^T \mu = r_0 \\
+            & w^T \mathbf{1} = 1 \\
+            & w \geq 0
+            \end{align}$$
+          </div>
+          <p>
+            donde $w$ son los pesos del portafolio, $\Sigma$ es la matriz de covarianza de retornos, 
+            $\mu$ son los retornos esperados, y $r_0$ es el retorno objetivo.
+          </p>
+        </div>
+
+        <h3 class="subsection-title">Consideraciones Computacionales</h3>
+        
+        <p class="content-text">
+          La elección del método de optimización depende de las características del problema:
+        </p>
+
+        <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+          <li><strong>Linealidad:</strong> Usar simplex para problemas lineales</li>
+          <li><strong>Convexidad:</strong> Métodos de gradiente son eficientes</li>
+          <li><strong>Restricciones:</strong> Métodos de punto interior o SQP</li>
+          <li><strong>Ruido:</strong> Métodos estocásticos o libre de derivadas</li>
+          <li><strong>Dimensión:</strong> Métodos especializados para alta dimensión</li>
+          <li><strong>Multimodal:</strong> Algoritmos globales como genéticos</li>
+        </ul>
+
+        <div class="theorem-box">
+          <div class="box-title">Principio: No Free Lunch Theorem</div>
+          <p>
+            No existe un algoritmo de optimización que sea superior para todos los problemas. 
+            La efectividad de un método depende de las características específicas del problema 
+            que se está resolviendo.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Smooth scrolling for table of contents
+    document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Back to top button functionality
+    const backToTopButton = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Add loading animation for MathJax
+    window.addEventListener('load', function() {
+      if (window.MathJax) {
+        MathJax.startup.promise.then(() => {
+          console.log('MathJax initial typesetting complete');
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

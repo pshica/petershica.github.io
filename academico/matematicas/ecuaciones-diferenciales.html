@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ecuaciones Diferenciales - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --math-color: #6f42c1;
+      --accent-color: #28a745;
+      --diff-color: #fd7e14;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 900px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Article Container */
+    .article-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+    }
+
+    /* Article Header */
+    .article-header {
+      background: linear-gradient(135deg, var(--diff-color), #ffc107);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-header::before {
+      content: "∇ d/dx ∂/∂t ∫ ∑ ≈ → ∞ ℝ ℂ";
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.15;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 1.5rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .article-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .difficulty-badge {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--white);
+      border: 2px solid var(--diff-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+      max-width: 400px;
+    }
+
+    .toc h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc h4::before {
+      content: "📋";
+      font-size: 1.2rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .toc li:last-child {
+      border-bottom: none;
+    }
+
+    .toc a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: color 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc a::before {
+      content: "▸";
+      color: var(--diff-color);
+      font-weight: bold;
+    }
+
+    .toc a:hover {
+      color: var(--diff-color);
+    }
+
+    /* Article Content */
+    .article-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .article-content h2 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--diff-color);
+      padding-bottom: 0.5rem;
+      scroll-margin-top: 100px;
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-content h3 {
+      color: var(--diff-color);
+      font-size: 1.4rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      scroll-margin-top: 100px;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      line-height: 1.8;
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
+    }
+
+    /* Math expressions */
+    .math-block {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+
+    /* Info boxes */
+    .info-box {
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid;
+    }
+
+    .info-box.definition {
+      background: #e3f2fd;
+      border-color: #2196f3;
+    }
+
+    .info-box.theorem {
+      background: #f3e5f5;
+      border-color: #9c27b0;
+    }
+
+    .info-box.example {
+      background: #e8f5e8;
+      border-color: #4caf50;
+    }
+
+    .info-box.application {
+      background: #fff3e0;
+      border-color: #ff9800;
+    }
+
+    .info-box.method {
+      background: #fef7e0;
+      border-color: var(--diff-color);
+    }
+
+    .info-box h4 {
+      color: var(--primary-color);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Solution box */
+    .solution-box {
+      background: #f8f9fa;
+      border: 2px solid var(--diff-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .solution-box h4 {
+      color: var(--diff-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--diff-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 50;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation between articles */
+    .article-navigation {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .nav-back-to-section {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--diff-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-back-to-section:hover {
+      background: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Phase portrait styling */
+    .phase-portrait {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+      font-style: italic;
+      color: #666;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .article-header {
+        padding: 2rem 1rem;
+      }
+
+      .article-title {
+        font-size: 2rem;
+      }
+
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .article-content h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .article-content h3 {
+        font-size: 1.2rem;
+      }
+
+      .toc {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .back-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+      }
+
+      .article-navigation {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <a href="index.html">Matemáticas</a> > 
+    <span>Ecuaciones Diferenciales</span>
+  </nav>
+
+  <div class="article-container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="header-content">
+        <h1 class="article-title">∇ Ecuaciones Diferenciales</h1>
+        <p class="article-subtitle">
+          Modelado matemático de sistemas dinámicos y fenómenos que evolucionan en el tiempo y el espacio
+        </p>
+        <div class="article-meta">
+          <div class="meta-item">
+            <span>📅</span>
+            <span>Enero 2025</span>
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            <span>25 min de lectura</span>
+          </div>
+          <div class="meta-item">
+            <span class="difficulty-badge">Avanzado</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <h4>Contenido</h4>
+      <ul>
+        <li><a href="#introduccion">1. Introducción</a></li>
+        <li><a href="#edos-lineales">2. EDOs Lineales y No Lineales</a></li>
+        <li><a href="#sistemas-ecuaciones">3. Sistemas de Ecuaciones</a></li>
+        <li><a href="#metodos-numericos">4. Métodos Numéricos</a></li>
+        <li><a href="#aplicaciones-fisicas">5. Aplicaciones Físicas</a></li>
+        <li><a href="#ejemplos-practicos">6. Ejemplos Prácticos</a></li>
+        <li><a href="#conclusion">7. Conclusión</a></li>
+      </ul>
+    </div>
+
+    <!-- Article Content -->
+    <main class="article-content">
+      <h2 id="introduccion">1. Introducción</h2>
+      <p>
+        Las <strong>ecuaciones diferenciales</strong> son herramientas matemáticas fundamentales que 
+        describen cómo cambian las cantidades en función del tiempo, espacio u otras variables. 
+        Son el lenguaje natural para modelar fenómenos dinámicos en física, ingeniería, biología, 
+        economía y ciencias sociales.
+      </p>
+
+      <div class="info-box definition">
+        <h4>📖 Definición</h4>
+        <p>
+          Una <strong>ecuación diferencial</strong> es una ecuación que relaciona una función 
+          desconocida con sus derivadas. Se clasifica según:
+        </p>
+        <ul>
+          <li><strong>Orden:</strong> La derivada de mayor orden que aparece</li>
+          <li><strong>Grado:</strong> La potencia más alta de la derivada de mayor orden</li>
+          <li><strong>Linealidad:</strong> Si la función y sus derivadas aparecen linealmente</li>
+        </ul>
+      </div>
+
+      <p>
+        La forma general de una ecuación diferencial ordinaria (EDO) de primer orden es:
+      </p>
+
+      <div class="math-block">
+        $$\frac{dy}{dx} = f(x,y)$$
+      </div>
+
+      <p>
+        Donde buscamos una función $y(x)$ que satisfaga esta relación.
+      </p>
+
+      <h2 id="edos-lineales">2. EDOs Lineales y No Lineales</h2>
+      <p>
+        La distinción entre ecuaciones lineales y no lineales es fundamental, ya que determina 
+        los métodos de solución disponibles y el comportamiento de las soluciones.
+      </p>
+
+      <h3>2.1 Ecuaciones Diferenciales Lineales</h3>
+      <p>
+        Una EDO lineal de primer orden tiene la forma estándar:
+      </p>
+
+      <div class="math-block">
+        $$\frac{dy}{dx} + P(x)y = Q(x)$$
+      </div>
+
+      <div class="info-box method">
+        <h4>🔧 Método del Factor Integrante</h4>
+        <p>
+          Para resolver una EDO lineal de primer orden:
+        </p>
+        <ol>
+          <li>Identificar $P(x)$ y $Q(x)$</li>
+          <li>Calcular el factor integrante: $\mu(x) = e^{\int P(x)dx}$</li>
+          <li>Multiplicar toda la ecuación por $\mu(x)$</li>
+          <li>El lado izquierdo se convierte en $\frac{d}{dx}[\mu(x)y]$</li>
+          <li>Integrar ambos lados</li>
+        </ol>
+      </div>
+
+      <div class="info-box example">
+        <h4>💡 Ejemplo: Crecimiento Poblacional</h4>
+        <p>
+          La ecuación de crecimiento logístico es:
+        </p>
+        <div class="math-block">
+          $$\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right)$$
+        </div>
+        <p>
+          Donde $P(t)$ es la población, $r$ es la tasa de crecimiento, y $K$ es la capacidad de carga.
+        </p>
+      </div>
+
+      <h3>2.2 EDOs Lineales de Segundo Orden</h3>
+      <p>
+        La forma general es:
+      </p>
+
+      <div class="math-block">
+        $$a\frac{d^2y}{dx^2} + b\frac{dy}{dx} + cy = f(x)$$
+      </div>
+
+      <p>
+        Para resolver la ecuación homogénea ($f(x) = 0$), usamos la <strong>ecuación característica</strong>:
+      </p>
+
+      <div class="math-block">
+        $$ar^2 + br + c = 0$$
+      </div>
+
+      <div class="solution-box">
+        <h4>📝 Casos de Solución</h4>
+        <p><strong>1. Raíces reales distintas ($r_1 \neq r_2$):</strong></p>
+        <div class="math-block">$$y = C_1e^{r_1x} + C_2e^{r_2x}$$</div>
+        
+        <p><strong>2. Raíces reales iguales ($r_1 = r_2 = r$):</strong></p>
+        <div class="math-block">$$y = (C_1 + C_2x)e^{rx}$$</div>
+        
+        <p><strong>3. Raíces complejas ($r = \alpha \pm \beta i$):</strong></p>
+        <div class="math-block">$$y = e^{\alpha x}(C_1\cos(\beta x) + C_2\sin(\beta x))$$</div>
+      </div>
+
+      <h3>2.3 Ecuaciones No Lineales</h3>
+      <p>
+        Las ecuaciones no lineales son más complejas y a menudo requieren métodos especiales 
+        o aproximaciones numéricas. Algunos tipos importantes incluyen:
+      </p>
+
+      <ul>
+        <li><strong>Ecuaciones separables:</strong> $\frac{dy}{dx} = g(x)h(y)$</li>
+        <li><strong>Ecuaciones exactas:</strong> $M(x,y)dx + N(x,y)dy = 0$</li>
+        <li><strong>Ecuaciones de Bernoulli:</strong> $\frac{dy}{dx} + P(x)y = Q(x)y^n$</li>
+      </ul>
+
+      <h2 id="sistemas-ecuaciones">3. Sistemas de Ecuaciones Diferenciales</h2>
+      <p>
+        Muchos fenómenos reales requieren múltiples variables que interactúan entre sí, 
+        lo que lleva a sistemas de ecuaciones diferenciales.
+      </p>
+
+      <h3>3.1 Sistemas Lineales</h3>
+      <p>
+        Un sistema lineal de primer orden tiene la forma matricial:
+      </p>
+
+      <div class="math-block">
+        $$\mathbf{x}' = A\mathbf{x} + \mathbf{b}(t)$$
+      </div>
+
+      <p>
+        Donde $\mathbf{x}$ es el vector de funciones incógnitas y $A$ es la matriz de coeficientes.
+      </p>
+
+      <div class="info-box theorem">
+        <h4>🎓 Método de Eigenvalores</h4>
+        <p>
+          Para sistemas homogéneos ($\mathbf{b}(t) = 0$), la solución se obtiene mediante:
+        </p>
+        <ol>
+          <li>Encontrar los eigenvalores $\lambda_i$ de la matriz $A$</li>
+          <li>Calcular los eigenvectores correspondientes $\mathbf{v}_i$</li>
+          <li>La solución general es: $\mathbf{x}(t) = \sum_{i} C_i \mathbf{v}_i e^{\lambda_i t}$</li>
+        </ol>
+      </div>
+
+      <h3>3.2 Retrato de Fases</h3>
+      <p>
+        El <strong>retrato de fases</strong> es una representación gráfica del comportamiento 
+        de las soluciones en el espacio de estados, especialmente útil para sistemas de segundo orden.
+      </p>
+
+      <div class="phase-portrait">
+        <p>📊 Aquí se mostraría un diagrama del retrato de fases para diferentes tipos de puntos críticos: 
+        nodos, focos, centros, puntos de silla, etc.</p>
+      </div>
+
+      <h3>3.3 Modelo Depredador-Presa</h3>
+      <p>
+        Las ecuaciones de Lotka-Volterra modelan la dinámica entre especies:
+      </p>
+
+      <div class="math-block">
+        $$\begin{align}
+        \frac{dx}{dt} &= \alpha x - \beta xy \\
+        \frac{dy}{dt} &= \delta xy - \gamma y
+        \end{align}$$
+      </div>
+
+      <p>
+        Donde $x$ es la población de presas, $y$ la de depredadores, y $\alpha, \beta, \gamma, \delta$ son parámetros positivos.
+      </p>
+
+      <h2 id="metodos-numericos">4. Métodos Numéricos</h2>
+      <p>
+        Cuando las soluciones analíticas no son posibles, recurrimos a métodos numéricos 
+        para aproximar las soluciones.
+      </p>
+
+      <h3>4.1 Método de Euler</h3>
+      <p>
+        El método más básico para aproximar soluciones:
+      </p>
+
+      <div class="math-block">
+        $$y_{n+1} = y_n + h \cdot f(x_n, y_n)$$
+      </div>
+
+      <p>
+        Donde $h$ es el tamaño del paso y $f(x,y) = y'$.
+      </p>
+
+      <div class="info-box method">
+        <h4>🖥️ Algoritmo de Euler</h4>
+        <ol>
+          <li>Definir condición inicial: $(x_0, y_0)$</li>
+          <li>Elegir tamaño de paso $h$</li>
+          <li>Para cada paso: $y_{n+1} = y_n + h \cdot f(x_n, y_n)$</li>
+          <li>Actualizar: $x_{n+1} = x_n + h$</li>
+          <li>Repetir hasta el punto final</li>
+        </ol>
+      </div>
+
+      <h3>4.2 Método de Runge-Kutta</h3>
+      <p>
+        Los métodos de Runge-Kutta proporcionan mayor precisión. El RK4 es el más popular:
+      </p>
+
+      <div class="math-block">
+        $$\begin{align}
+        k_1 &= hf(x_n, y_n) \\
+        k_2 &= hf(x_n + h/2, y_n + k_1/2) \\
+        k_3 &= hf(x_n + h/2, y_n + k_2/2) \\
+        k_4 &= hf(x_n + h, y_n + k_3) \\
+        y_{n+1} &= y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)
+        \end{align}$$
+      </div>
+
+      <h3>4.3 Estabilidad Numérica</h3>
+      <p>
+        La elección del tamaño de paso es crítica para la estabilidad:
+      </p>
+
+      <ul>
+        <li><strong>Paso muy grande:</strong> Inestabilidad numérica</li>
+        <li><strong>Paso muy pequeño:</strong> Acumulación de errores de redondeo</li>
+        <li><strong>Métodos adaptativos:</strong> Ajustan automáticamente el paso</li>
+      </ul>
+
+      <h2 id="aplicaciones-fisicas">5. Aplicaciones Físicas</h2>
+      <p>
+        Las ecuaciones diferenciales son omnipresentes en la física, describiendo 
+        desde movimientos simples hasta fenómenos complejos.
+      </p>
+
+      <h3>5.1 Oscilador Armónico</h3>
+      <p>
+        La ecuación del oscilador armónico simple es:
+      </p>
+
+      <div class="math-block">
+        $$m\frac{d^2x}{dt^2} + kx = 0$$
+      </div>
+
+      <p>
+        Cuya solución general es:
+      </p>
+
+      <div class="math-block">
+        $$x(t) = A\cos(\omega t + \phi), \quad \omega = \sqrt{\frac{k}{m}}$$
+      </div>
+
+      <h3>5.2 Circuitos RLC</h3>
+      <p>
+        Un circuito RLC en serie se describe por:
+      </p>
+
+      <div class="math-block">
+        $$L\frac{d^2q}{dt^2} + R\frac{dq}{dt} + \frac{q}{C} = V(t)$$
+      </div>
+
+      <p>
+        Donde $q$ es la carga, $L$ la inductancia, $R$ la resistencia, y $C$ la capacitancia.
+      </p>
+
+      <h3>5.3 Ecuación de Calor</h3>
+      <p>
+        Para la difusión del calor en una dimensión:
+      </p>
+
+      <div class="math-block">
+        $$\frac{\partial u}{\partial t} = \alpha \frac{\partial^2 u}{\partial x^2}$$
+      </div>
+
+      <p>
+        Donde $u(x,t)$ es la temperatura y $\alpha$ es la difusividad térmica.
+      </p>
+
+      <h3>5.4 Ecuación de Onda</h3>
+      <p>
+        Describe la propagación de ondas:
+      </p>
+
+      <div class="math-block">
+        $$\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}$$
+      </div>
+
+      <p>
+        Donde $c$ es la velocidad de propagación de la onda.
+      </p>
+
+      <h2 id="ejemplos-practicos">6. Ejemplos Prácticos</h2>
+
+      <h3>6.1 Enfriamiento de Newton</h3>
+      <p>
+        Un objeto caliente se enfría según:
+      </p>
+
+      <div class="math-block">
+        $$\frac{dT}{dt} = -k(T - T_{amb})$$
+      </div>
+
+      <div class="solution-box">
+        <h4>📝 Solución</h4>
+        <p>Esta es una EDO lineal separable. La solución es:</p>
+        <div class="math-block">$$T(t) = T_{amb} + (T_0 - T_{amb})e^{-kt}$$</div>
+        <p>Donde $T_0$ es la temperatura inicial.</p>
+      </div>
+
+      <h3>6.2 Caída Libre con Resistencia del Aire</h3>
+      <p>
+        Considerando la resistencia del aire proporcional a la velocidad:
+      </p>
+
+      <div class="math-block">
+        $$m\frac{dv}{dt} = mg - kv$$
+      </div>
+
+      <p>
+        La velocidad terminal es $v_t = \frac{mg}{k}$.
+      </p>
+
+      <h3>6.3 Péndulo No Lineal</h3>
+      <p>
+        Para ángulos grandes, la ecuación del péndulo es no lineal:
+      </p>
+
+      <div class="math-block">
+        $$\frac{d^2\theta}{dt^2} + \frac{g}{l}\sin\theta = 0$$
+      </div>
+
+      <p>
+        Esta ecuación no tiene solución analítica simple y requiere métodos numéricos 
+        o aproximaciones como la expansión en series.
+      </p>
+
+      <h2 id="conclusion">7. Conclusión</h2>
+      <p>
+        Las ecuaciones diferenciales constituyen una herramienta matemática indispensable para:
+      </p>
+
+      <ul>
+        <li><strong>Modelado de fenómenos dinámicos</strong> en ciencias e ingeniería</li>
+        <li><strong>Predicción del comportamiento</strong> de sistemas complejos</li>
+        <li><strong>Optimización y control</strong> de procesos industriales</li>
+        <li><strong>Análisis de estabilidad</strong> en sistemas dinámicos</li>
+        <li><strong>Simulación numérica</strong> de fenómenos reales</li>
+      </ul>
+
+      <div class="info-box application">
+        <h4>🚀 Campos de Aplicación Modernos</h4>
+        <ul>
+          <li><strong>Epidemiología:</strong> Modelos SIR, SEIR para propagación de enfermedades</li>
+          <li><strong>Finanzas:</strong> Ecuación de Black-Scholes para opciones</li>
+          <li><strong>Neurociencia:</strong> Modelo de Hodgkin-Huxley para neuronas</li>
+          <li><strong>Ecología:</strong> Dinámicas poblacionales y ecosistemas</li>
+          <li><strong>Clima:</strong> Modelos de circulación atmosférica</li>
+        </ul>
+      </div>
+
+      <div class="info-box example">
+        <h4>🔗 Herramientas Computacionales</h4>
+        <ul>
+          <li><strong>Python:</strong> SciPy.integrate, NumPy para métodos numéricos</li>
+          <li><strong>MATLAB:</strong> ODE solvers (ode45, ode23s, etc.)</li>
+          <li><strong>Mathematica:</strong> DSolve para soluciones simbólicas</li>
+          <li><strong>R:</strong> deSolve package para sistemas complejos</li>
+        </ul>
+      </div>
+
+      <div class="info-box method">
+        <h4>✅ Próximos Pasos</h4>
+        <p>
+          Para profundizar en ecuaciones diferenciales:
+        </p>
+        <ul>
+          <li>Estudiar ecuaciones en derivadas parciales (EDPs)</li>
+          <li>Explorar métodos de elementos finitos</li>
+          <li>Implementar simulaciones computacionales</li>
+          <li>Aplicar en proyectos de modelado real</li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Article Navigation -->
+    <nav class="article-navigation">
+      <a href="index.html" class="nav-back-to-section">
+        ← Volver a Matemáticas
+      </a>
+    </nav>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" title="Volver arriba">
+    ↑
+  </button>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Back to top functionality
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('backToTop');
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    });
+
+    document.getElementById('backToTop').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Add smooth scrolling to TOC links
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 100;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

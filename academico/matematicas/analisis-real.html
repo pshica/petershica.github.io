@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Análisis Real - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --math-color: #6f42c1;
+      --accent-color: #28a745;
+      --analysis-color: #dc3545;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 900px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Article Container */
+    .article-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+    }
+
+    /* Article Header */
+    .article-header {
+      background: linear-gradient(135deg, var(--analysis-color), #e91e63);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-header::before {
+      content: "∞ ε δ lim sup inf ∀ ∃ ℝ ℚ ℕ ℤ";
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.15;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 1.5rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .article-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .difficulty-badge {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--white);
+      border: 2px solid var(--analysis-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+      max-width: 400px;
+    }
+
+    .toc h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc h4::before {
+      content: "📋";
+      font-size: 1.2rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .toc li:last-child {
+      border-bottom: none;
+    }
+
+    .toc a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: color 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc a::before {
+      content: "▸";
+      color: var(--analysis-color);
+      font-weight: bold;
+    }
+
+    .toc a:hover {
+      color: var(--analysis-color);
+    }
+
+    /* Article Content */
+    .article-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .article-content h2 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--analysis-color);
+      padding-bottom: 0.5rem;
+      scroll-margin-top: 100px;
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-content h3 {
+      color: var(--analysis-color);
+      font-size: 1.4rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      scroll-margin-top: 100px;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      line-height: 1.8;
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
+    }
+
+    /* Math expressions */
+    .math-block {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+
+    /* Info boxes */
+    .info-box {
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid;
+    }
+
+    .info-box.definition {
+      background: #e3f2fd;
+      border-color: #2196f3;
+    }
+
+    .info-box.theorem {
+      background: #f3e5f5;
+      border-color: #9c27b0;
+    }
+
+    .info-box.example {
+      background: #e8f5e8;
+      border-color: #4caf50;
+    }
+
+    .info-box.application {
+      background: #fff3e0;
+      border-color: #ff9800;
+    }
+
+    .info-box.proof {
+      background: #ffeaa7;
+      border-color: var(--analysis-color);
+    }
+
+    .info-box h4 {
+      color: var(--primary-color);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Epsilon-delta visualization */
+    .epsilon-delta {
+      background: #f8f9fa;
+      border: 2px solid var(--analysis-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    .epsilon-delta h4 {
+      color: var(--analysis-color);
+      margin-bottom: 1rem;
+    }
+
+    /* Convergence visualization */
+    .convergence-visual {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+
+    /* Sequence notation */
+    .sequence {
+      font-family: 'Times New Roman', serif;
+      font-style: italic;
+      color: var(--analysis-color);
+      font-weight: bold;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--analysis-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 50;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation between articles */
+    .article-navigation {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .nav-back-to-section {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--analysis-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-back-to-section:hover {
+      background: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .article-header {
+        padding: 2rem 1rem;
+      }
+
+      .article-title {
+        font-size: 2rem;
+      }
+
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .article-content h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .article-content h3 {
+        font-size: 1.2rem;
+      }
+
+      .toc {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .back-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+      }
+
+      .article-navigation {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <a href="index.html">Matemáticas</a> > 
+    <span>Análisis Real</span>
+  </nav>
+
+  <div class="article-container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="header-content">
+        <h1 class="article-title">∞ Análisis Real</h1>
+        <p class="article-subtitle">
+          Fundamentos rigurosos del análisis matemático: límites, continuidad, sucesiones y convergencia
+        </p>
+        <div class="article-meta">
+          <div class="meta-item">
+            <span>📅</span>
+            <span>Enero 2025</span>
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            <span>35 min de lectura</span>
+          </div>
+          <div class="meta-item">
+            <span class="difficulty-badge">Avanzado</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <h4>Contenido</h4>
+      <ul>
+        <li><a href="#introduccion">1. Introducción</a></li>
+        <li><a href="#sucesiones-series">2. Sucesiones y Series</a></li>
+        <li><a href="#funciones">3. Funciones</a></li>
+        <li><a href="#limite">4. Límite</a></li>
+        <li><a href="#continuidad">5. Continuidad</a></li>
+        <li><a href="#aplicaciones">6. Aplicaciones</a></li>
+        <li><a href="#conclusion">7. Conclusión</a></li>
+      </ul>
+    </div>
+
+    <!-- Article Content -->
+    <main class="article-content">
+      <h2 id="introduccion">1. Introducción</h2>
+      <p>
+        El <strong>análisis real</strong> es la rama de las matemáticas que estudia de manera 
+        rigurosa los números reales, las funciones reales y sus propiedades fundamentales. 
+        Proporciona los fundamentos teóricos para el cálculo diferencial e integral, 
+        estableciendo bases sólidas para conceptos como límites, continuidad y convergencia.
+      </p>
+
+      <div class="info-box definition">
+        <h4>🎯 Objetivos del Análisis Real</h4>
+        <p>
+          El análisis real busca formalizar y demostrar rigurosamente conceptos que en cálculo 
+          se presentan de manera intuitiva:
+        </p>
+        <ul>
+          <li><strong>Límites:</strong> Comportamiento de funciones y sucesiones</li>
+          <li><strong>Continuidad:</strong> Funciones sin "saltos" o discontinuidades</li>
+          <li><strong>Convergencia:</strong> Aproximación de valores mediante procesos infinitos</li>
+          <li><strong>Completitud:</strong> Propiedades topológicas de los números reales</li>
+        </ul>
+      </div>
+
+      <p>
+        A diferencia del cálculo elemental, el análisis real emplea demostraciones rigurosas 
+        usando la lógica formal y definiciones precisas con cuantificadores (∀, ∃).
+      </p>
+
+      <h2 id="sucesiones-series">2. Sucesiones y Series</h2>
+      <p>
+        Las <strong>sucesiones</strong> son la base fundamental del análisis real, 
+        proporcionando una manera de estudiar procesos infinitos de aproximación.
+      </p>
+
+      <h3>2.1 Definición de Sucesión</h3>
+      <div class="info-box definition">
+        <h4>📖 Sucesión</h4>
+        <p>
+          Una <strong>sucesión</strong> es una función <span class="sequence">f: ℕ → ℝ</span>. 
+          Usualmente se denota como <span class="sequence">{aₙ}</span> o <span class="sequence">(aₙ)ₙ₌₁^∞</span>, 
+          donde <span class="sequence">aₙ = f(n)</span>.
+        </p>
+      </div>
+
+      <h3>2.2 Convergencia de Sucesiones</h3>
+      <p>
+        El concepto central en el estudio de sucesiones es la <strong>convergencia</strong>:
+      </p>
+
+      <div class="epsilon-delta">
+        <h4>🎯 Definición ε-N de Convergencia</h4>
+        <p>
+          Una sucesión <span class="sequence">{aₙ}</span> <strong>converge</strong> al límite <strong>L</strong> si:
+        </p>
+        <div class="math-block">
+          $$\forall \varepsilon > 0, \exists N \in \mathbb{N} : n \geq N \Rightarrow |a_n - L| < \varepsilon$$
+        </div>
+        <p>
+          Notación: <span class="sequence">lim(n→∞) aₙ = L</span> o <span class="sequence">aₙ → L</span>
+        </p>
+      </div>
+
+      <div class="info-box example">
+        <h4>💡 Ejemplo: Sucesión 1/n</h4>
+        <p>
+          <strong>Sucesión:</strong> <span class="sequence">aₙ = 1/n</span>
+        </p>
+        <p>
+          <strong>Afirmación:</strong> <span class="sequence">lim(n→∞) 1/n = 0</span>
+        </p>
+        <p>
+          <strong>Demostración:</strong> Dado ε > 0, necesitamos N tal que para n ≥ N:
+        </p>
+        <div class="math-block">
+          $$\left|\frac{1}{n} - 0\right| = \frac{1}{n} < \varepsilon$$
+        </div>
+        <p>
+          Esto se cumple si <strong>n > 1/ε</strong>. Tomamos N = ⌈1/ε⌉.
+        </p>
+      </div>
+
+      <h3>2.3 Propiedades de Sucesiones Convergentes</h3>
+      <div class="info-box theorem">
+        <h4>🎓 Teoremas Fundamentales</h4>
+        <ol>
+          <li><strong>Unicidad del límite:</strong> Si existe, el límite es único</li>
+          <li><strong>Acotamiento:</strong> Toda sucesión convergente es acotada</li>
+          <li><strong>Álgebra de límites:</strong> lim(aₙ + bₙ) = lim(aₙ) + lim(bₙ)</li>
+          <li><strong>Teorema del encaje:</strong> Si aₙ ≤ bₙ ≤ cₙ y lim(aₙ) = lim(cₙ) = L, entonces lim(bₙ) = L</li>
+        </ol>
+      </div>
+
+      <h3>2.4 Series Infinitas</h3>
+      <p>
+        Una <strong>serie</strong> es la suma de términos de una sucesión:
+      </p>
+
+      <div class="math-block">
+        $$\sum_{n=1}^{\infty} a_n = \lim_{N \to \infty} \sum_{n=1}^{N} a_n$$
+      </div>
+
+      <div class="info-box example">
+        <h4>💡 Serie Geométrica</h4>
+        <p>
+          Para |r| < 1:
+        </p>
+        <div class="math-block">
+          $$\sum_{n=0}^{\infty} r^n = \frac{1}{1-r}$$
+        </div>
+        <p>
+          <strong>Ejemplo:</strong> ∑(1/2)ⁿ = 1 + 1/2 + 1/4 + 1/8 + ... = 2
+        </p>
+      </div>
+
+      <h3>2.5 Criterios de Convergencia</h3>
+      <div class="info-box theorem">
+        <h4>🔍 Criterios Principales</h4>
+        <ul>
+          <li><strong>Criterio de comparación:</strong> Compara con series conocidas</li>
+          <li><strong>Criterio de la razón:</strong> lim|aₙ₊₁/aₙ| < 1 ⟹ convergencia</li>
+          <li><strong>Criterio de la raíz:</strong> lim(|aₙ|^(1/n)) < 1 ⟹ convergencia</li>
+          <li><strong>Criterio integral:</strong> Para funciones decrecientes positivas</li>
+        </ul>
+      </div>
+
+      <h2 id="funciones">3. Funciones</h2>
+      <p>
+        En análisis real, estudiamos funciones <strong>f: ℝ → ℝ</strong> y sus propiedades 
+        desde una perspectiva rigurosa y formal.
+      </p>
+
+      <h3>3.1 Definiciones Básicas</h3>
+      <div class="info-box definition">
+        <h4>📖 Función Real</h4>
+        <p>
+          Una <strong>función real</strong> es una regla que asigna a cada elemento 
+          del dominio D ⊆ ℝ exactamente un elemento del codominio ℝ.
+        </p>
+        <ul>
+          <li><strong>Dominio:</strong> Dom(f) = {x ∈ ℝ : f(x) está definida}</li>
+          <li><strong>Rango:</strong> Ran(f) = {f(x) : x ∈ Dom(f)}</li>
+          <li><strong>Gráfica:</strong> Graf(f) = {(x, f(x)) : x ∈ Dom(f)}</li>
+        </ul>
+      </div>
+
+      <h3>3.2 Propiedades de Funciones</h3>
+      <div class="info-box definition">
+        <h4>🔧 Clasificación de Funciones</h4>
+        <ul>
+          <li><strong>Inyectiva:</strong> ∀x₁, x₂ ∈ Dom(f), x₁ ≠ x₂ ⟹ f(x₁) ≠ f(x₂)</li>
+          <li><strong>Sobreyectiva:</strong> ∀y ∈ Codom(f), ∃x ∈ Dom(f) : f(x) = y</li>
+          <li><strong>Biyectiva:</strong> Inyectiva y sobreyectiva</li>
+          <li><strong>Monótona creciente:</strong> x₁ < x₂ ⟹ f(x₁) ≤ f(x₂)</li>
+          <li><strong>Acotada:</strong> ∃M > 0 : |f(x)| ≤ M para todo x ∈ Dom(f)</li>
+        </ul>
+      </div>
+
+      <h3>3.3 Funciones Elementales</h3>
+      <div class="convergence-visual">
+        <p><strong>Funciones Polinómicas:</strong> f(x) = aₙxⁿ + aₙ₋₁xⁿ⁻¹ + ... + a₁x + a₀</p>
+        <p><strong>Funciones Racionales:</strong> f(x) = P(x)/Q(x), donde P, Q son polinomios</p>
+        <p><strong>Funciones Trigonométricas:</strong> sin(x), cos(x), tan(x)</p>
+        <p><strong>Función Exponencial:</strong> f(x) = aˣ, a > 0, a ≠ 1</p>
+        <p><strong>Función Logarítmica:</strong> f(x) = log_a(x), x > 0</p>
+      </div>
+
+      <h2 id="limite">4. Límite</h2>
+      <p>
+        El concepto de <strong>límite</strong> es fundamental en análisis real y 
+        permite estudiar el comportamiento de funciones cerca de puntos específicos.
+      </p>
+
+      <h3>4.1 Definición Formal de Límite</h3>
+      <div class="epsilon-delta">
+        <h4>🎯 Definición ε-δ de Límite</h4>
+        <p>
+          Sea f una función y a, L ∈ ℝ. Decimos que:
+        </p>
+        <div class="math-block">
+          $$\lim_{x \to a} f(x) = L$$
+        </div>
+        <p>si y solo si:</p>
+        <div class="math-block">
+          $$\forall \varepsilon > 0, \exists \delta > 0 : 0 < |x - a| < \delta \Rightarrow |f(x) - L| < \varepsilon$$
+        </div>
+      </div>
+
+      <div class="info-box example">
+        <h4>💡 Ejemplo: Límite de función lineal</h4>
+        <p>
+          <strong>Demostrar:</strong> lim(x→2) (3x + 1) = 7
+        </p>
+        <p>
+          <strong>Demostración:</strong> Dado ε > 0, necesitamos δ > 0 tal que:
+        </p>
+        <div class="math-block">
+          $$0 < |x - 2| < \delta \Rightarrow |(3x + 1) - 7| < \varepsilon$$
+        </div>
+        <p>
+          Simplificando: |3x - 6| = 3|x - 2| < ε
+        </p>
+        <p>
+          Por tanto, tomamos <strong>δ = ε/3</strong>.
+        </p>
+      </div>
+
+      <h3>4.2 Propiedades de Límites</h3>
+      <div class="info-box theorem">
+        <h4>🎓 Álgebra de Límites</h4>
+        <p>Si lim(x→a) f(x) = L y lim(x→a) g(x) = M, entonces:</p>
+        <ol>
+          <li><strong>Suma:</strong> lim(x→a) [f(x) + g(x)] = L + M</li>
+          <li><strong>Producto:</strong> lim(x→a) [f(x) · g(x)] = L · M</li>
+          <li><strong>Cociente:</strong> lim(x→a) [f(x)/g(x)] = L/M (si M ≠ 0)</li>
+          <li><strong>Composición:</strong> lim(x→a) [f(g(x))] = f(lim(x→a) g(x))</li>
+        </ol>
+      </div>
+
+      <h3>4.3 Límites Laterales</h3>
+      <p>
+        Los <strong>límites laterales</strong> estudian el comportamiento de la función 
+        acercándose desde un solo lado:
+      </p>
+
+      <div class="math-block">
+        $$\lim_{x \to a^+} f(x) = L^+ \quad \text{(límite por la derecha)}$$
+      </div>
+
+      <div class="math-block">
+        $$\lim_{x \to a^-} f(x) = L^- \quad \text{(límite por la izquierda)}$$
+      </div>
+
+      <div class="info-box theorem">
+        <h4>🔍 Existencia del Límite</h4>
+        <p>
+          lim(x→a) f(x) = L existe si y solo si:
+        </p>
+        <div class="math-block">
+          $$\lim_{x \to a^+} f(x) = \lim_{x \to a^-} f(x) = L$$
+        </div>
+      </div>
+
+      <h3>4.4 Límites al Infinito</h3>
+      <p>
+        Estudiamos el comportamiento cuando x → ∞ o cuando f(x) → ∞:
+      </p>
+
+      <div class="info-box example">
+        <h4>💡 Comportamiento Asintótico</h4>
+        <ul>
+          <li><strong>lim(x→∞) 1/x = 0:</strong> Asíntota horizontal</li>
+          <li><strong>lim(x→0⁺) 1/x = +∞:</strong> Asíntota vertical</li>
+          <li><strong>lim(x→∞) (x² + 1)/(x² + 2) = 1:</strong> Comparación de órdenes</li>
+        </ul>
+      </div>
+
+      <h2 id="continuidad">5. Continuidad</h2>
+      <p>
+        La <strong>continuidad</strong> formaliza la idea intuitiva de una función 
+        "sin saltos" o "que puede dibujarse sin levantar el lápiz".
+      </p>
+
+      <h3>5.1 Definición de Continuidad</h3>
+      <div class="info-box definition">
+        <h4>📖 Continuidad en un Punto</h4>
+        <p>
+          Una función f es <strong>continua en a</strong> si:
+        </p>
+        <ol>
+          <li>f(a) está definida</li>
+          <li>lim(x→a) f(x) existe</li>
+          <li>lim(x→a) f(x) = f(a)</li>
+        </ol>
+        <p>
+          Equivalentemente, usando ε-δ:
+        </p>
+        <div class="math-block">
+          $$\forall \varepsilon > 0, \exists \delta > 0 : |x - a| < \delta \Rightarrow |f(x) - f(a)| < \varepsilon$$
+        </div>
+      </div>
+
+      <h3>5.2 Tipos de Discontinuidades</h3>
+      <div class="info-box definition">
+        <h4>🔍 Clasificación de Discontinuidades</h4>
+        <ul>
+          <li><strong>Removible:</strong> Existe lim(x→a) f(x) pero f(a) ≠ límite o no está definida</li>
+          <li><strong>Salto:</strong> Existen límites laterales diferentes</li>
+          <li><strong>Esencial:</strong> Al menos un límite lateral no existe</li>
+        </ul>
+      </div>
+
+      <div class="info-box example">
+        <h4>💡 Ejemplos de Discontinuidades</h4>
+        <p><strong>1. Removible:</strong> f(x) = sin(x)/x en x = 0 (límite = 1, pero f(0) no definida)</p>
+        <p><strong>2. Salto:</strong> Función escalón unitario</p>
+        <p><strong>3. Esencial:</strong> f(x) = sin(1/x) en x = 0</p>
+      </div>
+
+      <h3>5.3 Propiedades de Funciones Continuas</h3>
+      <div class="info-box theorem">
+        <h4>🎓 Teoremas Fundamentales</h4>
+        <ol>
+          <li><strong>Álgebra de continuidad:</strong> Suma, producto y composición de funciones continuas son continuas</li>
+          <li><strong>Teorema del Valor Intermedio:</strong> Si f es continua en [a,b] y f(a) < k < f(b), entonces ∃c ∈ (a,b) : f(c) = k</li>
+          <li><strong>Teorema de Weierstrass:</strong> Toda función continua en un intervalo cerrado y acotado alcanza su máximo y mínimo</li>
+        </ol>
+      </div>
+
+      <h3>5.4 Continuidad Uniforme</h3>
+      <div class="info-box definition">
+        <h4>🔧 Continuidad Uniforme</h4>
+        <p>
+          f es <strong>uniformemente continua</strong> en D si:
+        </p>
+        <div class="math-block">
+          $$\forall \varepsilon > 0, \exists \delta > 0 : \forall x, y \in D, |x - y| < \delta \Rightarrow |f(x) - f(y)| < \varepsilon$$
+        </div>
+        <p>
+          La diferencia con continuidad ordinaria es que δ no depende del punto específico.
+        </p>
+      </div>
+
+      <div class="info-box theorem">
+        <h4>🎓 Teorema de Heine-Cantor</h4>
+        <p>
+          Toda función continua en un intervalo cerrado y acotado es uniformemente continua.
+        </p>
+      </div>
+
+      <h2 id="aplicaciones">6. Aplicaciones</h2>
+      <p>
+        Los conceptos de análisis real tienen aplicaciones fundamentales en diversas 
+        áreas de las matemáticas y ciencias aplicadas.
+      </p>
+
+      <h3>6.1 Análisis Numérico</h3>
+      <div class="info-box application">
+        <h4>🔢 Métodos Numéricos</h4>
+        <ul>
+          <li><strong>Método de bisección:</strong> Usa el Teorema del Valor Intermedio</li>
+          <li><strong>Método de Newton-Raphson:</strong> Convergencia de sucesiones</li>
+          <li><strong>Aproximación de funciones:</strong> Series de Taylor y convergencia</li>
+          <li><strong>Integración numérica:</strong> Límites de sumas de Riemann</li>
+        </ul>
+      </div>
+
+      <h3>6.2 Ecuaciones Diferenciales</h3>
+      <p>
+        Los teoremas de existencia y unicidad de soluciones dependen de:
+      </p>
+      <ul>
+        <li><strong>Continuidad</strong> de la función f(x,y)</li>
+        <li><strong>Continuidad uniforme</strong> para garantizar convergencia</li>
+        <li><strong>Completitud de ℝ</strong> para el teorema de punto fijo</li>
+      </ul>
+
+      <h3>6.3 Optimización</h3>
+      <div class="info-box application">
+        <h4>📈 Análisis de Optimización</h4>
+        <ul>
+          <li><strong>Teorema de Weierstrass:</strong> Garantiza existencia de óptimos</li>
+          <li><strong>Continuidad:</strong> Preservación de propiedades bajo optimización</li>
+          <li><strong>Convergencia de algoritmos:</strong> Sucesiones de aproximaciones</li>
+        </ul>
+      </div>
+
+      <h3>6.4 Teoría de Probabilidad</h3>
+      <p>
+        Conceptos fundamentales que dependen del análisis real:
+      </p>
+      <ul>
+        <li><strong>Funciones de distribución:</strong> Continuidad por la derecha</li>
+        <li><strong>Teorema del Límite Central:</strong> Convergencia de sucesiones</li>
+        <li><strong>Ley de los Grandes Números:</strong> Límites de promedios</li>
+      </ul>
+
+      <h2 id="conclusion">7. Conclusión</h2>
+      <p>
+        El análisis real proporciona los fundamentos teóricos rigurosos para:
+      </p>
+
+      <ul>
+        <li><strong>Formalización del cálculo</strong> diferencial e integral</li>
+        <li><strong>Comprensión profunda</strong> de convergencia y aproximación</li>
+        <li><strong>Base teórica</strong> para análisis funcional y ecuaciones diferenciales</li>
+        <li><strong>Fundamentos</strong> de la teoría de probabilidad moderna</li>
+        <li><strong>Herramientas</strong> para análisis numérico y computacional</li>
+      </ul>
+
+      <div class="info-box application">
+        <h4>🚀 Conexiones con Otras Áreas</h4>
+        <ul>
+          <li><strong>Análisis Complejo:</strong> Extensión a números complejos</li>
+          <li><strong>Análisis Funcional:</strong> Espacios de funciones infinito-dimensionales</li>
+          <li><strong>Topología:</strong> Generalización de conceptos métricos</li>
+          <li><strong>Teoría de la Medida:</strong> Fundamentos de integración moderna</li>
+        </ul>
+      </div>
+
+      <div class="info-box proof">
+        <h4>✅ Próximos Pasos en el Estudio</h4>
+        <p>
+          Para profundizar en análisis real:
+        </p>
+        <ul>
+          <li>Dominar técnicas de demostración con ε-δ</li>
+          <li>Estudiar espacios métricos y topológicos</li>
+          <li>Explorar teoría de la medida e integración de Lebesgue</li>
+          <li>Aplicar en ecuaciones diferenciales parciales</li>
+          <li>Investigar análisis funcional y espacios de Banach</li>
+        </ul>
+      </div>
+
+      <div class="info-box example">
+        <h4>🔗 Recursos para Profundizar</h4>
+        <ul>
+          <li><strong>Libros clásicos:</strong> Rudin "Principles of Mathematical Analysis"</li>
+          <li><strong>Aplicaciones:</strong> Folland "Real Analysis: Modern Techniques"</li>
+          <li><strong>Computacional:</strong> Implementación de algoritmos de convergencia</li>
+          <li><strong>Visualización:</strong> Software como Mathematica, MATLAB para exploración</li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Article Navigation -->
+    <nav class="article-navigation">
+      <a href="index.html" class="nav-back-to-section">
+        ← Volver a Matemáticas
+      </a>
+    </nav>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" title="Volver arriba">
+    ↑
+  </button>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Back to top functionality
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('backToTop');
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    });
+
+    document.getElementById('backToTop').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Add smooth scrolling to TOC links
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 100;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

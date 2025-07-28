@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Matemáticas Discretas - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --math-color: #6f42c1;
+      --accent-color: #28a745;
+      --discrete-color: #17a2b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 900px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Article Container */
+    .article-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+    }
+
+    /* Article Header */
+    .article-header {
+      background: linear-gradient(135deg, var(--discrete-color), #20c997);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-header::before {
+      content: "ℕ ℤ ℚ ℝ ∈ ⊆ ∩ ∪ ∧ ∨ ¬ →";
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.15;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 1.5rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .article-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .difficulty-badge {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--white);
+      border: 2px solid var(--discrete-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+      max-width: 400px;
+    }
+
+    .toc h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc h4::before {
+      content: "📋";
+      font-size: 1.2rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .toc li:last-child {
+      border-bottom: none;
+    }
+
+    .toc a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: color 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc a::before {
+      content: "▸";
+      color: var(--discrete-color);
+      font-weight: bold;
+    }
+
+    .toc a:hover {
+      color: var(--discrete-color);
+    }
+
+    /* Article Content */
+    .article-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .article-content h2 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--discrete-color);
+      padding-bottom: 0.5rem;
+      scroll-margin-top: 100px;
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-content h3 {
+      color: var(--discrete-color);
+      font-size: 1.4rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      scroll-margin-top: 100px;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      line-height: 1.8;
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
+    }
+
+    /* Math expressions */
+    .math-block {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+
+    /* Info boxes */
+    .info-box {
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid;
+    }
+
+    .info-box.definition {
+      background: #e3f2fd;
+      border-color: #2196f3;
+    }
+
+    .info-box.theorem {
+      background: #f3e5f5;
+      border-color: #9c27b0;
+    }
+
+    .info-box.example {
+      background: #e8f5e8;
+      border-color: #4caf50;
+    }
+
+    .info-box.application {
+      background: #fff3e0;
+      border-color: #ff9800;
+    }
+
+    .info-box.algorithm {
+      background: #e0f7fa;
+      border-color: var(--discrete-color);
+    }
+
+    .info-box h4 {
+      color: var(--primary-color);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Graph display */
+    .graph-display {
+      background: #f8f9fa;
+      border: 2px solid var(--discrete-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      font-family: monospace;
+    }
+
+    .graph-display h4 {
+      color: var(--discrete-color);
+      margin-bottom: 1rem;
+    }
+
+    /* Logic table */
+    .logic-table {
+      background: var(--white);
+      border: 1px solid #dee2e6;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+
+    .logic-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .logic-table th,
+    .logic-table td {
+      padding: 0.8rem;
+      text-align: center;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .logic-table th {
+      background: var(--discrete-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    .logic-table tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--discrete-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 50;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation between articles */
+    .article-navigation {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .nav-back-to-section {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--discrete-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-back-to-section:hover {
+      background: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Set notation */
+    .set-notation {
+      font-family: 'Times New Roman', serif;
+      font-style: italic;
+      color: var(--discrete-color);
+      font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .article-header {
+        padding: 2rem 1rem;
+      }
+
+      .article-title {
+        font-size: 2rem;
+      }
+
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .article-content h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .article-content h3 {
+        font-size: 1.2rem;
+      }
+
+      .toc {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .back-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+      }
+
+      .article-navigation {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .logic-table {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <a href="index.html">Matemáticas</a> > 
+    <span>Matemáticas Discretas</span>
+  </nav>
+
+  <div class="article-container">
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="header-content">
+        <h1 class="article-title">ℕ Matemáticas Discretas</h1>
+        <p class="article-subtitle">
+          Estructuras matemáticas fundamentales para ciencias de la computación, algoritmos y lógica digital
+        </p>
+        <div class="article-meta">
+          <div class="meta-item">
+            <span>📅</span>
+            <span>Enero 2025</span>
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            <span>30 min de lectura</span>
+          </div>
+          <div class="meta-item">
+            <span class="difficulty-badge">Intermedio</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <h4>Contenido</h4>
+      <ul>
+        <li><a href="#introduccion">1. Introducción</a></li>
+        <li><a href="#teoria-grafos">2. Teoría de Grafos</a></li>
+        <li><a href="#combinatoria">3. Combinatoria</a></li>
+        <li><a href="#logica-matematica">4. Lógica Matemática</a></li>
+        <li><a href="#algoritmos-discretos">5. Algoritmos Discretos</a></li>
+        <li><a href="#aplicaciones-computacion">6. Aplicaciones en Computación</a></li>
+        <li><a href="#conclusion">7. Conclusión</a></li>
+      </ul>
+    </div>
+
+    <!-- Article Content -->
+    <main class="article-content">
+      <h2 id="introduccion">1. Introducción</h2>
+      <p>
+        Las <strong>matemáticas discretas</strong> estudian estructuras matemáticas que son 
+        fundamentalmente discretas (contables) en lugar de continuas. Son la base teórica 
+        de las ciencias de la computación, proporcionando herramientas para analizar algoritmos, 
+        diseñar estructuras de datos y formalizar el razonamiento lógico.
+      </p>
+
+      <div class="info-box definition">
+        <h4>📖 ¿Qué estudian las Matemáticas Discretas?</h4>
+        <p>
+          Las matemáticas discretas abarcan áreas como:
+        </p>
+        <ul>
+          <li><strong>Conjuntos finitos e infinitos numerables</strong></li>
+          <li><strong>Grafos y redes</strong> para modelar relaciones</li>
+          <li><strong>Combinatoria</strong> para contar y enumerar</li>
+          <li><strong>Lógica proposicional y de predicados</strong></li>
+          <li><strong>Teoría de números</strong> aplicada a criptografía</li>
+        </ul>
+      </div>
+
+      <p>
+        A diferencia del análisis continuo, las matemáticas discretas se ocupan de objetos 
+        que pueden ser enumerados: enteros, grafos, secuencias, algoritmos. Esto las hace 
+        especialmente relevantes para la programación y el diseño de sistemas computacionales.
+      </p>
+
+      <h2 id="teoria-grafos">2. Teoría de Grafos</h2>
+      <p>
+        La <strong>teoría de grafos</strong> es una de las ramas más importantes de las 
+        matemáticas discretas, proporcionando herramientas para modelar relaciones 
+        entre objetos.
+      </p>
+
+      <div class="info-box definition">
+        <h4>📖 Definiciones Fundamentales</h4>
+        <p>Un <strong>grafo</strong> <span class="set-notation">G = (V, E)</span> consiste en:</p>
+        <ul>
+          <li><strong>V:</strong> Conjunto de vértices (nodos)</li>
+          <li><strong>E:</strong> Conjunto de aristas (conexiones entre vértices)</li>
+        </ul>
+        <p>Los grafos pueden ser <strong>dirigidos</strong> (dírigrafos) o <strong>no dirigidos</strong>.</p>
+      </div>
+
+      <h3>2.1 Tipos de Grafos</h3>
+      <div class="graph-display">
+        <h4>Representación Visual de Grafos</h4>
+        <p><strong>Grafo Simple:</strong> Sin bucles ni aristas múltiples</p>
+        <pre>
+    A ---- B
+    |      |
+    |      |
+    D ---- C
+        </pre>
+        <p><strong>Dírigrafo:</strong> Aristas con dirección</p>
+        <pre>
+    A ---> B
+    ^      |
+    |      v
+    D <--- C
+        </pre>
+      </div>
+
+      <h3>2.2 Propiedades Importantes</h3>
+      <ul>
+        <li><strong>Grado de un vértice:</strong> Número de aristas incidentes</li>
+        <li><strong>Camino:</strong> Secuencia de vértices conectados por aristas</li>
+        <li><strong>Ciclo:</strong> Camino que comienza y termina en el mismo vértice</li>
+        <li><strong>Conectividad:</strong> Existencia de caminos entre cualquier par de vértices</li>
+      </ul>
+
+      <div class="info-box theorem">
+        <h4>🎓 Teorema de Euler</h4>
+        <p>
+          En cualquier grafo, la suma de los grados de todos los vértices es igual 
+          al doble del número de aristas:
+        </p>
+        <div class="math-block">
+          $$\sum_{v \in V} \deg(v) = 2|E|$$
+        </div>
+      </div>
+
+      <h3>2.3 Algoritmos en Grafos</h3>
+      <div class="info-box algorithm">
+        <h4>🔧 Algoritmo de Búsqueda en Profundidad (DFS)</h4>
+        <ol>
+          <li>Marcar el vértice actual como visitado</li>
+          <li>Para cada vértice adyacente no visitado:</li>
+          <ul>
+            <li>Aplicar DFS recursivamente</li>
+          </ul>
+          <li>Retroceder al vértice anterior</li>
+        </ol>
+        <p><strong>Complejidad:</strong> O(V + E)</p>
+      </div>
+
+      <h2 id="combinatoria">3. Combinatoria</h2>
+      <p>
+        La <strong>combinatoria</strong> es el arte de contar. Proporciona técnicas para 
+        determinar el número de maneras de organizar, seleccionar o distribuir objetos 
+        según ciertas reglas.
+      </p>
+
+      <h3>3.1 Principios Fundamentales</h3>
+      <div class="info-box definition">
+        <h4>📊 Principios de Conteo</h4>
+        <p><strong>1. Principio de la Suma:</strong></p>
+        <p>Si hay <em>m</em> maneras de hacer A y <em>n</em> maneras de hacer B (mutuamente excluyentes), 
+           entonces hay <em>m + n</em> maneras de hacer A o B.</p>
+        
+        <p><strong>2. Principio del Producto:</strong></p>
+        <p>Si hay <em>m</em> maneras de hacer A y <em>n</em> maneras de hacer B (independientes), 
+           entonces hay <em>m × n</em> maneras de hacer A y B.</p>
+      </div>
+
+      <h3>3.2 Permutaciones y Combinaciones</h3>
+      <p>
+        Las <strong>permutaciones</strong> cuentan arreglos ordenados, mientras que las 
+        <strong>combinaciones</strong> cuentan selecciones sin considerar el orden.
+      </p>
+
+      <div class="math-block">
+        $$P(n,r) = \frac{n!}{(n-r)!} \quad \text{(Permutaciones)}$$
+      </div>
+
+      <div class="math-block">
+        $$C(n,r) = \binom{n}{r} = \frac{n!}{r!(n-r)!} \quad \text{(Combinaciones)}$$
+      </div>
+
+      <div class="info-box example">
+        <h4>💡 Ejemplo: Comité de Estudiantes</h4>
+        <p>
+          <strong>Problema:</strong> De 10 estudiantes, ¿de cuántas maneras se puede formar un comité de 4?
+        </p>
+        <p>
+          <strong>Solución:</strong> Como el orden no importa, usamos combinaciones:
+        </p>
+        <div class="math-block">
+          $$C(10,4) = \frac{10!}{4!(10-4)!} = \frac{10!}{4! \cdot 6!} = \frac{10 \times 9 \times 8 \times 7}{4 \times 3 \times 2 \times 1} = 210$$
+        </div>
+      </div>
+
+      <h3>3.3 Principio de Inclusión-Exclusión</h3>
+      <p>
+        Para contar elementos en la unión de conjuntos:
+      </p>
+
+      <div class="math-block">
+        $$|A \cup B| = |A| + |B| - |A \cap B|$$
+      </div>
+
+      <p>
+        Para tres conjuntos:
+      </p>
+
+      <div class="math-block">
+        $$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|$$
+      </div>
+
+      <h2 id="logica-matematica">4. Lógica Matemática</h2>
+      <p>
+        La <strong>lógica matemática</strong> proporciona un framework formal para el 
+        razonamiento preciso y es fundamental en ciencias de la computación.
+      </p>
+
+      <h3>4.1 Lógica Proposicional</h3>
+      <p>
+        Estudia proposiciones (afirmaciones que pueden ser verdaderas o falsas) y sus combinaciones 
+        mediante conectivos lógicos.
+      </p>
+
+      <div class="info-box definition">
+        <h4>🔗 Conectivos Lógicos Principales</h4>
+        <ul>
+          <li><strong>Negación (¬):</strong> "no p"</li>
+          <li><strong>Conjunción (∧):</strong> "p y q"</li>
+          <li><strong>Disyunción (∨):</strong> "p o q"</li>
+          <li><strong>Implicación (→):</strong> "si p entonces q"</li>
+          <li><strong>Bicondicional (↔):</strong> "p si y solo si q"</li>
+        </ul>
+      </div>
+
+      <div class="logic-table">
+        <table>
+          <thead>
+            <tr>
+              <th>p</th>
+              <th>q</th>
+              <th>p ∧ q</th>
+              <th>p ∨ q</th>
+              <th>p → q</th>
+              <th>p ↔ q</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>V</td>
+              <td>V</td>
+              <td>V</td>
+              <td>V</td>
+              <td>V</td>
+              <td>V</td>
+            </tr>
+            <tr>
+              <td>V</td>
+              <td>F</td>
+              <td>F</td>
+              <td>V</td>
+              <td>F</td>
+              <td>F</td>
+            </tr>
+            <tr>
+              <td>F</td>
+              <td>V</td>
+              <td>F</td>
+              <td>V</td>
+              <td>V</td>
+              <td>F</td>
+            </tr>
+            <tr>
+              <td>F</td>
+              <td>F</td>
+              <td>F</td>
+              <td>F</td>
+              <td>V</td>
+              <td>V</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.2 Lógica de Predicados</h3>
+      <p>
+        Extiende la lógica proposicional permitiendo cuantificar sobre variables:
+      </p>
+
+      <ul>
+        <li><strong>Cuantificador universal (∀):</strong> "para todo"</li>
+        <li><strong>Cuantificador existencial (∃):</strong> "existe"</li>
+      </ul>
+
+      <div class="info-box example">
+        <h4>💡 Ejemplos de Predicados</h4>
+        <ul>
+          <li><strong>∀x P(x):</strong> "Para todo x, P(x) es verdadero"</li>
+          <li><strong>∃x P(x):</strong> "Existe un x tal que P(x) es verdadero"</li>
+          <li><strong>∀x (P(x) → Q(x)):</strong> "Para todo x, si P(x) entonces Q(x)"</li>
+        </ul>
+      </div>
+
+      <h3>4.3 Métodos de Demostración</h3>
+      <div class="info-box algorithm">
+        <h4>🏗️ Técnicas de Demostración</h4>
+        <ol>
+          <li><strong>Demostración directa:</strong> Partir de hipótesis y llegar a la conclusión</li>
+          <li><strong>Demostración por contradicción:</strong> Asumir la negación y encontrar contradicción</li>
+          <li><strong>Demostración por inducción:</strong> Caso base + paso inductivo</li>
+          <li><strong>Demostración por contraposición:</strong> Demostrar ¬q → ¬p en lugar de p → q</li>
+        </ol>
+      </div>
+
+      <h2 id="algoritmos-discretos">5. Algoritmos Discretos</h2>
+      <p>
+        Los algoritmos que operan sobre estructuras discretas son fundamentales en 
+        ciencias de la computación y programación.
+      </p>
+
+      <h3>5.1 Complejidad Algorítmica</h3>
+      <p>
+        La <strong>notación Big O</strong> describe el comportamiento asintótico de algoritmos:
+      </p>
+
+      <div class="info-box definition">
+        <h4>⏰ Clases de Complejidad Común</h4>
+        <ul>
+          <li><strong>O(1):</strong> Tiempo constante</li>
+          <li><strong>O(log n):</strong> Tiempo logarítmico</li>
+          <li><strong>O(n):</strong> Tiempo lineal</li>
+          <li><strong>O(n log n):</strong> Tiempo lineal-logarítmico</li>
+          <li><strong>O(n²):</strong> Tiempo cuadrático</li>
+          <li><strong>O(2ⁿ):</strong> Tiempo exponencial</li>
+        </ul>
+      </div>
+
+      <h3>5.2 Algoritmos de Ordenamiento</h3>
+      <div class="info-box algorithm">
+        <h4>🔧 Merge Sort (Ordenamiento por Mezcla)</h4>
+        <p><strong>Idea:</strong> Divide y vencerás</p>
+        <ol>
+          <li>Dividir el arreglo en dos mitades</li>
+          <li>Ordenar recursivamente cada mitad</li>
+          <li>Mezclar las mitades ordenadas</li>
+        </ol>
+        <p><strong>Complejidad:</strong> O(n log n) en todos los casos</p>
+      </div>
+
+      <h3>5.3 Algoritmos de Búsqueda</h3>
+      <p>
+        La <strong>búsqueda binaria</strong> es un algoritmo eficiente para arreglos ordenados:
+      </p>
+
+      <div class="math-block">
+        $$T(n) = T(n/2) + O(1) = O(\log n)$$
+      </div>
+
+      <h3>5.4 Programación Dinámica</h3>
+      <p>
+        Técnica para resolver problemas complejos dividiéndolos en subproblemas más simples 
+        y almacenando los resultados para evitar recálculos.
+      </p>
+
+      <div class="info-box example">
+        <h4>💡 Ejemplo: Números de Fibonacci</h4>
+        <p><strong>Recursión ingenua:</strong> O(2ⁿ)</p>
+        <p><strong>Con programación dinámica:</strong> O(n)</p>
+        <div class="math-block">
+          $$F(n) = \begin{cases}
+          0 & \text{si } n = 0 \\
+          1 & \text{si } n = 1 \\
+          F(n-1) + F(n-2) & \text{si } n > 1
+          \end{cases}$$
+        </div>
+      </div>
+
+      <h2 id="aplicaciones-computacion">6. Aplicaciones en Computación</h2>
+      <p>
+        Las matemáticas discretas tienen aplicaciones directas en numerosas áreas 
+        de las ciencias de la computación.
+      </p>
+
+      <h3>6.1 Estructuras de Datos</h3>
+      <div class="info-box application">
+        <h4>🗂️ Aplicaciones de Grafos</h4>
+        <ul>
+          <li><strong>Árboles:</strong> Sistemas de archivos, árboles de decisión</li>
+          <li><strong>Grafos dirigidos:</strong> Representación de dependencias</li>
+          <li><strong>Redes:</strong> Internet, redes sociales, sistemas de transporte</li>
+          <li><strong>Árboles binarios de búsqueda:</strong> Bases de datos eficientes</li>
+        </ul>
+      </div>
+
+      <h3>6.2 Criptografía</h3>
+      <p>
+        La <strong>teoría de números</strong> es fundamental en criptografía moderna:
+      </p>
+
+      <ul>
+        <li><strong>RSA:</strong> Basado en la dificultad de factorizar números grandes</li>
+        <li><strong>Diffie-Hellman:</strong> Intercambio seguro de claves</li>
+        <li><strong>Funciones hash:</strong> Verificación de integridad</li>
+      </ul>
+
+      <h3>6.3 Análisis de Algoritmos</h3>
+      <p>
+        Las técnicas combinatorias permiten analizar el comportamiento de algoritmos:
+      </p>
+
+      <div class="info-box example">
+        <h4>💡 Análisis del Quick Sort</h4>
+        <p><strong>Mejor caso:</strong> O(n log n) cuando el pivote divide equilibradamente</p>
+        <p><strong>Peor caso:</strong> O(n²) cuando el pivote es siempre el mínimo/máximo</p>
+        <p><strong>Caso promedio:</strong> O(n log n) con análisis probabilístico</p>
+      </div>
+
+      <h3>6.4 Bases de Datos y SQL</h3>
+      <p>
+        La <strong>lógica de predicados</strong> fundamenta las consultas en bases de datos relacionales:
+      </p>
+
+      <ul>
+        <li><strong>Operaciones relacionales:</strong> Selección, proyección, unión</li>
+        <li><strong>Consultas complejas:</strong> Equivalen a fórmulas lógicas</li>
+        <li><strong>Optimización:</strong> Transformaciones algebraicas</li>
+      </ul>
+
+      <h3>6.5 Inteligencia Artificial</h3>
+      <div class="info-box application">
+        <h4>🤖 IA y Matemáticas Discretas</h4>
+        <ul>
+          <li><strong>Sistemas expertos:</strong> Lógica proposicional y de predicados</li>
+          <li><strong>Planificación:</strong> Búsqueda en grafos de estados</li>
+          <li><strong>Aprendizaje automático:</strong> Árboles de decisión</li>
+          <li><strong>Procesamiento de lenguaje natural:</strong> Gramáticas formales</li>
+        </ul>
+      </div>
+
+      <h2 id="conclusion">7. Conclusión</h2>
+      <p>
+        Las matemáticas discretas constituyen el fundamento teórico de la computación moderna, 
+        proporcionando herramientas esenciales para:
+      </p>
+
+      <ul>
+        <li><strong>Diseño y análisis de algoritmos</strong> eficientes</li>
+        <li><strong>Modelado de sistemas complejos</strong> mediante grafos</li>
+        <li><strong>Razonamiento formal</strong> en sistemas lógicos</li>
+        <li><strong>Optimización combinatoria</strong> en problemas reales</li>
+        <li><strong>Seguridad informática</strong> y criptografía</li>
+      </ul>
+
+      <div class="info-box application">
+        <h4>🚀 Campos de Aplicación Actuales</h4>
+        <ul>
+          <li><strong>Blockchain:</strong> Criptografía y teoría de grafos</li>
+          <li><strong>Redes sociales:</strong> Análisis de grafos y centralidad</li>
+          <li><strong>Bioinformática:</strong> Algoritmos en secuencias de ADN</li>
+          <li><strong>Optimización logística:</strong> Problemas de rutas y asignación</li>
+          <li><strong>Machine Learning:</strong> Árboles de decisión y optimización combinatoria</li>
+        </ul>
+      </div>
+
+      <div class="info-box algorithm">
+        <h4>🛠️ Herramientas Computacionales</h4>
+        <ul>
+          <li><strong>Python:</strong> NetworkX para grafos, SymPy para lógica</li>
+          <li><strong>Sage:</strong> Sistema algebraico computacional</li>
+          <li><strong>Mathematica:</strong> Funciones combinatorias avanzadas</li>
+          <li><strong>GraphViz:</strong> Visualización de grafos</li>
+        </ul>
+      </div>
+
+      <div class="info-box example">
+        <h4>✅ Próximos Pasos</h4>
+        <p>
+          Para profundizar en matemáticas discretas:
+        </p>
+        <ul>
+          <li>Implementar algoritmos clásicos de grafos</li>
+          <li>Resolver problemas de programación competitiva</li>
+          <li>Estudiar complejidad computacional avanzada</li>
+          <li>Explorar aplicaciones en criptografía moderna</li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Article Navigation -->
+    <nav class="article-navigation">
+      <a href="index.html" class="nav-back-to-section">
+        ← Volver a Matemáticas
+      </a>
+    </nav>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" title="Volver arriba">
+    ↑
+  </button>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Back to top functionality
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('backToTop');
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    });
+
+    document.getElementById('backToTop').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Add smooth scrolling to TOC links
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 100;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
