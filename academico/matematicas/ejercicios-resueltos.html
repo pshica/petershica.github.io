@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ejercicios Resueltos - Matemáticas | Peter Shica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+      --exercise-color: #e74c3c;
+      --exercise-light: #fdf2f2;
+      --exercise-dark: #c0392b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--exercise-color) 0%, var(--exercise-dark) 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: "📊 📝 📈 📋 🎯 ✏️ 📐 📏";
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 2rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Filter Buttons */
+    .filter-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .filter-title {
+      font-size: 1.5rem;
+      color: var(--exercise-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--exercise-light);
+      color: var(--exercise-color);
+      border: 2px solid var(--exercise-color);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--exercise-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Exercise Grid */
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .exercise-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border-top: 4px solid var(--exercise-color);
+    }
+
+    .exercise-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .exercise-preview {
+      height: 200px;
+      background: #f8f9fa;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .pdf-preview {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+    }
+
+    .preview-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .exercise-card:hover .preview-overlay {
+      opacity: 1;
+    }
+
+    .exercise-info {
+      padding: 1.5rem;
+    }
+
+    .exercise-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--exercise-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .exercise-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .exercise-topic {
+      background: var(--exercise-light);
+      color: var(--exercise-dark);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .exercise-difficulty {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .difficulty-star {
+      color: #ffc107;
+      font-size: 0.9rem;
+    }
+
+    .exercise-description {
+      color: #555;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .exercise-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .view-btn {
+      background: var(--exercise-color);
+      color: white;
+    }
+
+    .view-btn:hover {
+      background: var(--exercise-dark);
+      transform: translateY(-1px);
+    }
+
+    .download-btn {
+      background: transparent;
+      color: var(--exercise-color);
+      border: 2px solid var(--exercise-color);
+    }
+
+    .download-btn:hover {
+      background: var(--exercise-color);
+      color: white;
+    }
+
+    /* Modal for PDF Viewer */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+    }
+
+    .modal-content {
+      position: relative;
+      margin: 2% auto;
+      width: 90%;
+      height: 90%;
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: var(--exercise-color);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-body {
+      height: calc(100% - 60px);
+    }
+
+    .modal-pdf {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Statistics Section */
+    .stats-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stats-title {
+      font-size: 1.5rem;
+      color: var(--exercise-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      background: var(--exercise-light);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--exercise-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #666;
+      font-weight: 600;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .page-header {
+        padding: 3rem 1rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.2rem;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .exercise-actions {
+        flex-direction: column;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .modal-content {
+        width: 95%;
+        height: 95%;
+        margin: 2.5% auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 0.5rem;
+      }
+
+      .filter-section,
+      .stats-section {
+        padding: 1.5rem;
+      }
+
+      .page-header {
+        padding: 2rem 1rem;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <a href="index.html">Matemáticas</a> > 
+    <span>Ejercicios Resueltos</span>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="header-content">
+        <h1>📊 Ejercicios Resueltos</h1>
+        <p>
+          Colección de ejercicios resueltos paso a paso para reforzar los conceptos matemáticos. 
+          Incluye problemas de diferentes niveles de dificultad con explicaciones detalladas.
+        </p>
+      </div>
+    </header>
+
+    <!-- Statistics -->
+    <section class="stats-section">
+      <h2 class="stats-title">📈 Estadísticas de la Colección</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">1</div>
+          <div class="stat-label">Ejercicios Disponibles</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Temas Cubiertos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">PDF</div>
+          <div class="stat-label">Formato Disponible</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Actualizaciones</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+      <h2 class="filter-title">
+        <span>🔍</span>
+        Filtrar por Tema
+      </h2>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="calculo">Cálculo</button>
+        <button class="filter-btn" data-filter="algebra">Álgebra Lineal</button>
+        <button class="filter-btn" data-filter="ecuaciones">Ecuaciones Diferenciales</button>
+        <button class="filter-btn" data-filter="discretas">Matemáticas Discretas</button>
+        <button class="filter-btn" data-filter="analisis">Análisis Real</button>
+        <button class="filter-btn" data-filter="optimizacion">Optimización</button>
+      </div>
+    </section>
+
+    <!-- Exercise Grid -->
+    <section class="exercise-grid">
+      <!-- Exercise 1 -->
+      <article class="exercise-card" data-category="calculo">
+        <div class="exercise-preview">
+          <iframe 
+            class="pdf-preview" 
+            src="ejercicios-resueltos/calculo/eje1.pdf#view=FitH" 
+            title="Vista previa del Ejercicio 1">
+          </iframe>
+          <div class="preview-overlay">
+            <span>👁️</span>
+          </div>
+        </div>
+        <div class="exercise-info">
+          <h3 class="exercise-title">Ejercicio 1 - Fundamentos</h3>
+          <div class="exercise-meta">
+            <span class="exercise-topic">Cálculo</span>
+            <div class="exercise-difficulty">
+              <span class="difficulty-star">⭐</span>
+              <span class="difficulty-star">⭐</span>
+              <span class="difficulty-star">⭐</span>
+              <span>Intermedio</span>
+            </div>
+          </div>
+          <p class="exercise-description">
+            Ejercicio fundamental que cubre conceptos básicos de cálculo diferencial e integral. 
+            Incluye problemas de derivadas, integrales y aplicaciones prácticas.
+          </p>
+          <div class="exercise-actions">
+            <button class="action-btn view-btn" onclick="openPDF('ejercicios-resueltos/calculo/eje1.pdf', 'Ejercicio 1 - Fundamentos')">
+              <span>👁️</span>
+              Ver Completo
+            </button>
+            <a href="ejercicios-resueltos/calculo/eje1.pdf" download class="action-btn download-btn">
+              <span>⬇️</span>
+              Descargar
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Placeholder para futuros ejercicios -->
+      <article class="exercise-card" style="opacity: 0.6; pointer-events: none;" data-category="algebra">
+        <div class="exercise-preview" style="background: linear-gradient(45deg, #f8f9fa, #e9ecef); display: flex; align-items: center; justify-content: center; color: #6c757d;">
+          <div style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+            <div>Próximamente</div>
+          </div>
+        </div>
+        <div class="exercise-info">
+          <h3 class="exercise-title">Ejercicio 2 - Álgebra Lineal</h3>
+          <div class="exercise-meta">
+            <span class="exercise-topic">Álgebra Lineal</span>
+            <div class="exercise-difficulty">
+              <span class="difficulty-star">⭐</span>
+              <span class="difficulty-star">⭐</span>
+              <span>Básico</span>
+            </div>
+          </div>
+          <p class="exercise-description">
+            Problemas sobre espacios vectoriales, transformaciones lineales y sistemas de ecuaciones. 
+            En desarrollo.
+          </p>
+          <div class="exercise-actions">
+            <button class="action-btn" style="background: #6c757d; cursor: not-allowed;">
+              <span>⏳</span>
+              Próximamente
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="exercise-card" style="opacity: 0.6; pointer-events: none;" data-category="ecuaciones">
+        <div class="exercise-preview" style="background: linear-gradient(45deg, #f8f9fa, #e9ecef); display: flex; align-items: center; justify-content: center; color: #6c757d;">
+          <div style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+            <div>Próximamente</div>
+          </div>
+        </div>
+        <div class="exercise-info">
+          <h3 class="exercise-title">Ejercicio 3 - Ecuaciones Diferenciales</h3>
+          <div class="exercise-meta">
+            <span class="exercise-topic">Ecuaciones Diferenciales</span>
+            <div class="exercise-difficulty">
+              <span class="difficulty-star">⭐</span>
+              <span class="difficulty-star">⭐</span>
+              <span class="difficulty-star">⭐</span>
+              <span class="difficulty-star">⭐</span>
+              <span>Avanzado</span>
+            </div>
+          </div>
+          <p class="exercise-description">
+            Resolución de EDOs lineales y no lineales con aplicaciones en modelado físico. 
+            En desarrollo.
+          </p>
+          <div class="exercise-actions">
+            <button class="action-btn" style="background: #6c757d; cursor: not-allowed;">
+              <span>⏳</span>
+              Próximamente
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Additional Info -->
+    <section class="filter-section">
+      <h2 class="filter-title">
+        <span>💡</span>
+        Cómo Usar Esta Sección
+      </h2>
+      <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+        <ul style="list-style-type: none; padding: 0;">
+          <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 1rem;">
+            <span style="background: var(--exercise-color); color: white; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</span>
+            <div><strong>Explora:</strong> Usa los filtros para encontrar ejercicios por tema específico</div>
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 1rem;">
+            <span style="background: var(--exercise-color); color: white; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</span>
+            <div><strong>Vista Previa:</strong> Haz hover sobre las tarjetas para ver una vista previa rápida</div>
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 1rem;">
+            <span style="background: var(--exercise-color); color: white; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</span>
+            <div><strong>Visualiza:</strong> Haz clic en "Ver Completo" para abrir el PDF en pantalla completa</div>
+          </li>
+          <li style="display: flex; align-items: flex-start; gap: 1rem;">
+            <span style="background: var(--exercise-color); color: white; border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</span>
+            <div><strong>Descarga:</strong> Guarda los ejercicios en tu dispositivo para estudiar sin conexión</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- PDF Modal -->
+  <div id="pdfModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Ejercicio</h3>
+        <button class="close-btn" onclick="closePDF()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="modalPDF" class="modal-pdf" src="" title="Visor de PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const exerciseCards = document.querySelectorAll('.exercise-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        exerciseCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.3s ease';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // PDF Modal functionality
+    function openPDF(pdfPath, title) {
+      const modal = document.getElementById('pdfModal');
+      const modalPDF = document.getElementById('modalPDF');
+      const modalTitle = document.getElementById('modalTitle');
+
+      modalTitle.textContent = title;
+      modalPDF.src = pdfPath;
+      modal.style.display = 'block';
+
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePDF() {
+      const modal = document.getElementById('pdfModal');
+      const modalPDF = document.getElementById('modalPDF');
+
+      modal.style.display = 'none';
+      modalPDF.src = '';
+      
+      // Restore body scroll
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+      const modal = document.getElementById('pdfModal');
+      if (event.target === modal) {
+        closePDF();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closePDF();
+      }
+    });
+
+    // Add fade-in animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add some loading animation
+      exerciseCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.transition = 'all 0.5s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    });
+  </script>
+
+</body>
+</html>
