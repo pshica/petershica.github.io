@@ -64,7 +64,7 @@ petershica.github.io/
 - [x] Navegación consistente entre secciones
 - [x] Breadcrumb navigation
 - [x] Página principal académica
-- [x] Sección de matemáticas completa con ejemplo
+- [x] Sección de matemáticas completa con ejemplo optimizado
 - [x] Sección de física completa (6 áreas de estudio)
 - [x] Sección de estadística completa (6 áreas de estudio)
 - [x] Sección de machine learning completa (6 áreas de estudio)
@@ -77,6 +77,12 @@ petershica.github.io/
   - ❌ blog.html → ELIMINADO  
   - ❌ matematicas.html → ELIMINADO
   - ❌ curriculum.html → ELIMINADO
+- [x] **MEJORA DE LEGIBILIDAD**: Artículo de derivadas parciales optimizado
+  - ✅ Tabla de contenidos no-sticky para mejor navegación
+  - ✅ Espaciado mejorado entre secciones
+  - ✅ Botón "volver arriba" con scroll suave
+  - ✅ Navegación interna optimizada
+  - ✅ Rutas de navegación actualizadas
 
 ### 🚧 Por Desarrollar
 - [ ] Más artículos académicos en cada sección

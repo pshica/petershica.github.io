@@ -167,32 +167,40 @@
     .article-content h2 {
       color: var(--primary-color);
       font-size: 1.8rem;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
       border-bottom: 2px solid var(--math-color);
       padding-bottom: 0.5rem;
+      scroll-margin-top: 100px; /* Espacio para navegación sticky */
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0; /* Primer h2 sin margen superior */
     }
 
     .article-content h3 {
       color: var(--math-color);
       font-size: 1.4rem;
-      margin-top: 1.5rem;
-      margin-bottom: 0.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      scroll-margin-top: 100px; /* Espacio para navegación sticky */
     }
 
     .article-content p {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
       text-align: justify;
+      line-height: 1.8;
     }
 
     .article-content ul,
     .article-content ol {
       margin-left: 2rem;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
     .article-content li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
     }
 
     /* Math expressions */
@@ -320,17 +328,28 @@
 
     /* Table of Contents */
     .toc {
-      background: var(--light-gray);
+      background: var(--white);
+      border: 2px solid var(--math-color);
       border-radius: var(--border-radius);
       padding: 1.5rem;
       margin: 2rem 0;
-      position: sticky;
-      top: 80px;
+      box-shadow: var(--shadow);
+      max-width: 400px;
+      /* Removido position: sticky para mejor legibilidad */
     }
 
     .toc h4 {
       color: var(--primary-color);
       margin-bottom: 1rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc h4::before {
+      content: "📋";
+      font-size: 1.2rem;
     }
 
     .toc ul {
@@ -340,16 +359,97 @@
 
     .toc li {
       margin-bottom: 0.5rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .toc li:last-child {
+      border-bottom: none;
     }
 
     .toc a {
       text-decoration: none;
       color: var(--text-color);
       transition: color 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc a::before {
+      content: "▸";
+      color: var(--math-color);
+      font-weight: bold;
     }
 
     .toc a:hover {
       color: var(--math-color);
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--math-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 50;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Smooth scrolling for all links */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation between articles */
+    .article-navigation {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .nav-back-to-section {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--math-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-back-to-section:hover {
+      background: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     /* Responsive */
@@ -366,6 +466,20 @@
         padding: 2rem 1.5rem;
       }
 
+      .article-content h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .article-content h3 {
+        font-size: 1.2rem;
+      }
+
+      .toc {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
       .nav-links-article {
         grid-template-columns: 1fr;
       }
@@ -378,6 +492,19 @@
       .nav-links {
         gap: 1rem;
       }
+
+      .back-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+      }
+
+      .article-navigation {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
     }
   </style>
 </head>
@@ -386,21 +513,21 @@
   <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="../index.html" class="logo">Peter Shica</a>
+      <a href="../../index.html" class="logo">Peter Shica</a>
       <ul class="nav-links">
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="../academico.html" class="active">Académico</a></li>
-        <li><a href="../curriculum.html">Currículum</a></li>
-        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- Breadcrumb -->
   <nav class="breadcrumb">
-    <a href="../index.html">Inicio</a> > 
-    <a href="../academico.html">Académico</a> > 
-    <a href="../matematicas.html">Matemáticas</a> > 
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <a href="index.html">Matemáticas</a> > 
     <span>Derivadas Parciales</span>
   </nav>
 
@@ -663,24 +790,59 @@ punto = {x: 1, y: 2}
     </main>
 
     <!-- Article Navigation -->
-    <nav class="article-nav">
-      <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Navegación</h3>
-      <div class="nav-links-article">
-        <a href="#" class="nav-link prev">
-          <div class="nav-direction">← Anterior</div>
-          <div class="nav-title">Límites y Continuidad</div>
-        </a>
-        <a href="#" class="nav-link next">
-          <div class="nav-direction">Siguiente →</div>
-          <div class="nav-title">Derivadas Direccionales</div>
-        </a>
-      </div>
+    <nav class="article-navigation">
+      <a href="index.html" class="nav-back-to-section">
+        ← Volver a Matemáticas
+      </a>
     </nav>
   </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" title="Volver arriba">
+    ↑
+  </button>
 
   <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
     © 2025 Peter Shica — Todos los derechos reservados
   </footer>
+
+  <script>
+    // Back to top functionality
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('backToTop');
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    });
+
+    document.getElementById('backToTop').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Add smooth scrolling to TOC links
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 100; // 100px offset for navbar
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
