@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary-color: #0056b3;
+      --primary-color: #2c3e50;
       --secondary-color: #007bff;
       --text-color: #333;
       --light-gray: #f8f9fa;
@@ -362,12 +362,12 @@
   <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="index.html" class="logo">Peter Shica</a>
+      <a href="../index.html" class="logo">Peter Shica</a>
       <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="academico.html">Académico</a></li>
-        <li><a href="curriculum.html">Currículum</a></li>
-        <li><a href="blog.html">Blog</a></li>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="../academico/index.html">Académico</a></li>
+        <li><a href="index.html" class="active">Currículum</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
       </ul>
     </div>
   </nav>
@@ -376,7 +376,7 @@
     <!-- Page Header -->
     <header class="page-header">
       <div class="header-content">
-        <img src="img/foto_perfil.jpg" alt="Foto de Peter Shica Ramirez" class="profile-photo">
+        <img src="../img/foto_perfil.jpg" alt="Foto de Peter Shica Ramirez" class="profile-photo">
         <div class="header-text">
           <h1>Currículum Vitae</h1>
           <p>Experiencia profesional y formación académica</p>
@@ -766,7 +766,7 @@
 
     <!-- Download Section -->
     <div class="download-section">
-      <a href="docs/cv-print.html" target="_blank" class="download-btn" onclick="openPrintVersion()">
+      <a href="../docs/cv-print.html" target="_blank" class="download-btn" onclick="openPrintVersion()">
         <span>📄</span>
         Descargar CV en PDF
       </a>
@@ -775,7 +775,7 @@
     <script>
       function openPrintVersion() {
         // Abrir la versión para imprimir en una nueva ventana
-        const printWindow = window.open('docs/cv-print.html', '_blank');
+        const printWindow = window.open('../docs/cv-print.html', '_blank');
         
         // Esperar a que cargue y luego mostrar el diálogo de impresión
         printWindow.onload = function() {

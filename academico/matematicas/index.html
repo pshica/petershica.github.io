@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Matemáticas - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+      --math-color: #6f42c1;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Math Hero Section */
+    .math-hero {
+      background: linear-gradient(135deg, var(--math-color) 0%, #8e5ec2 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .math-hero::before {
+      content: "∫ ∂ ∑ π √ ∞ ∇ ≈ ∈ ℝ";
+      position: absolute;
+      font-size: 4rem;
+      opacity: 0.1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 2rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .math-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .math-hero p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Topics Grid */
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .topic-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      transition: all 0.3s ease;
+      border-top: 4px solid var(--math-color);
+    }
+
+    .topic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .topic-icon {
+      font-size: 2.5rem;
+      color: var(--math-color);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .topic-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .topic-description {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .topic-subtopics {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .topic-subtopics li {
+      padding: 0.3rem 0;
+      color: #555;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .topic-subtopics li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--math-color);
+      font-weight: bold;
+    }
+
+    .topic-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--math-color);
+      font-weight: 600;
+      padding: 0.5rem 0;
+      transition: color 0.3s ease;
+    }
+
+    .topic-link:hover {
+      color: var(--primary-color);
+    }
+
+    /* Featured Content Section */
+    .featured-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .featured-item {
+      border: 1px solid #e9ecef;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .featured-item:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .featured-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .featured-title a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+
+    .featured-title a:hover {
+      color: var(--math-color);
+    }
+
+    .featured-description {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .featured-date {
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    /* Quick Access Section */
+    .quick-access {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .quick-link {
+      background: var(--white);
+      border: 2px solid var(--math-color);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--math-color);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .quick-link:hover {
+      background: var(--math-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .math-hero {
+        padding: 3rem 1rem;
+      }
+
+      .math-hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .math-hero p {
+        font-size: 1.1rem;
+      }
+
+      .topics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-links {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topic-card,
+      .featured-content,
+      .quick-access {
+        padding: 1.5rem;
+      }
+
+      .quick-links {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <span>Matemáticas</span>
+  </nav>
+
+  <div class="container">
+    <!-- Math Hero Section -->
+    <section class="math-hero">
+      <div class="hero-content">
+        <h1>∫ Matemáticas</h1>
+        <p>
+          Explora los fundamentos matemáticos que sustentan la ciencia de datos, la física y la ingeniería. 
+          Desde conceptos básicos hasta aplicaciones avanzadas en optimización y análisis.
+        </p>
+      </div>
+    </section>
+
+    <!-- Math Topics Grid -->
+    <section class="topics-grid">
+      <div class="topic-card">
+        <span class="topic-icon">∂</span>
+        <h2 class="topic-title">Cálculo Diferencial e Integral</h2>
+        <p class="topic-description">
+          Fundamentos del cálculo para una y múltiples variables, con aplicaciones en optimización y análisis de funciones.
+        </p>
+        <ul class="topic-subtopics">
+          <li>Derivadas parciales y gradientes</li>
+          <li>Integrales múltiples</li>
+          <li>Teoremas fundamentales</li>
+          <li>Aplicaciones en optimización</li>
+        </ul>
+        <a href="derivadas-parciales.html" class="topic-link">
+          Ver contenido
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">⊗</span>
+        <h2 class="topic-title">Álgebra Lineal</h2>
+        <p class="topic-description">
+          Vectores, matrices y transformaciones lineales. Base fundamental para machine learning y análisis de datos.
+        </p>
+        <ul class="topic-subtopics">
+          <li>Espacios vectoriales</li>
+          <li>Eigenvalores y eigenvectores</li>
+          <li>Descomposición matricial</li>
+          <li>Aplicaciones en ML</li>
+        </ul>
+        <a href="#" class="topic-link">
+          Próximamente
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">∇</span>
+        <h2 class="topic-title">Ecuaciones Diferenciales</h2>
+        <p class="topic-description">
+          Modelado de sistemas dinámicos y fenómenos que cambian en el tiempo y el espacio.
+        </p>
+        <ul class="topic-subtopics">
+          <li>EDOs lineales y no lineales</li>
+          <li>Sistemas de ecuaciones</li>
+          <li>Métodos numéricos</li>
+          <li>Aplicaciones físicas</li>
+        </ul>
+        <a href="#" class="topic-link">
+          Próximamente
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">ℕ</span>
+        <h2 class="topic-title">Matemáticas Discretas</h2>
+        <p class="topic-description">
+          Estructuras matemáticas fundamentales para ciencias de la computación y algoritmos.
+        </p>
+        <ul class="topic-subtopics">
+          <li>Teoría de grafos</li>
+          <li>Combinatoria</li>
+          <li>Lógica matemática</li>
+          <li>Algoritmos discretos</li>
+        </ul>
+        <a href="#" class="topic-link">
+          Próximamente
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">∞</span>
+        <h2 class="topic-title">Análisis Real</h2>
+        <p class="topic-description">
+          Fundamentos rigurosos del análisis matemático, límites, continuidad y convergencia.
+        </p>
+        <ul class="topic-subtopics">
+          <li>Espacios métricos</li>
+          <li>Sucesiones y series</li>
+          <li>Continuidad uniforme</li>
+          <li>Teoría de la medida</li>
+        </ul>
+        <a href="#" class="topic-link">
+          Próximamente
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="topic-card">
+        <span class="topic-icon">⊕</span>
+        <h2 class="topic-title">Optimización</h2>
+        <p class="topic-description">
+          Métodos para encontrar máximos y mínimos en problemas de ingeniería y ciencia de datos.
+        </p>
+        <ul class="topic-subtopics">
+          <li>Optimización lineal</li>
+          <li>Programación no lineal</li>
+          <li>Métodos de gradiente</li>
+          <li>Optimización estocástica</li>
+        </ul>
+        <a href="#" class="topic-link">
+          Próximamente
+          <span>→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Featured Content -->
+    <section class="featured-content">
+      <h2 class="section-title">
+        <span>⭐</span>
+        Contenido Destacado
+      </h2>
+      <div class="featured-grid">
+        <article class="featured-item">
+          <h3 class="featured-title">
+            <a href="derivadas-parciales.html">Derivadas Parciales: Fundamentos y Aplicaciones</a>
+          </h3>
+          <p class="featured-description">
+            Una introducción completa a las derivadas parciales con ejemplos prácticos y aplicaciones en optimización.
+          </p>
+          <div class="featured-date">Enero 2025</div>
+        </article>
+
+        <article class="featured-item">
+          <h3 class="featured-title">
+            <a href="#">El Teorema Fundamental del Cálculo</a>
+          </h3>
+          <p class="featured-description">
+            Exploramos la conexión profunda entre diferenciación e integración a través de este teorema fundamental.
+          </p>
+          <div class="featured-date">Próximamente</div>
+        </article>
+
+        <article class="featured-item">
+          <h3 class="featured-title">
+            <a href="#">Aplicaciones del Álgebra Lineal en ML</a>
+          </h3>
+          <p class="featured-description">
+            Cómo los conceptos de álgebra lineal se aplican directamente en algoritmos de machine learning.
+          </p>
+          <div class="featured-date">Próximamente</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Quick Access -->
+    <section class="quick-access">
+      <h2 class="section-title">
+        <span>🚀</span>
+        Acceso Rápido
+      </h2>
+      <div class="quick-links">
+        <a href="#" class="quick-link">📊 Ejercicios Resueltos</a>
+        <a href="#" class="quick-link">💻 Código Python</a>
+        <a href="#" class="quick-link">📚 Referencias</a>
+        <a href="#" class="quick-link">🎯 Proyectos</a>
+      </div>
+    </section>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+</body>
+</html>

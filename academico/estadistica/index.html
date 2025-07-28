@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estadística - Peter Shica Ramirez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #9b59b6;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --stats-accent: #9b59b6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 3rem 0;
+      background: linear-gradient(135deg, var(--stats-accent), #c39bd3);
+      color: white;
+      border-radius: var(--border-radius);
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    /* Topic Grid */
+    .topics-section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .topic-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 4px solid var(--stats-accent);
+    }
+
+    .topic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .topic-card h3 {
+      color: var(--stats-accent);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .topic-card .icon {
+      font-size: 1.5rem;
+    }
+
+    .topic-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .topic-card ul {
+      margin-top: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    .topic-card li {
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+
+    /* Featured Content */
+    .featured-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      padding: 3rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 3rem;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .featured-item {
+      padding: 1.5rem;
+      border: 2px solid #eee;
+      border-radius: var(--border-radius);
+      transition: border-color 0.3s ease;
+    }
+
+    .featured-item:hover {
+      border-color: var(--stats-accent);
+    }
+
+    .featured-item h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .featured-item p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Coming Soon */
+    .coming-soon {
+      text-align: center;
+      padding: 3rem;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 3rem;
+    }
+
+    .coming-soon h3 {
+      color: var(--stats-accent);
+      margin-bottom: 1rem;
+    }
+
+    .coming-soon p {
+      color: #666;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .topics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-section {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../index.html" class="active">Académico</a></li>
+        <li><a href="../../curriculum/index.html">Currículum</a></li>
+        <li><a href="../../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="../../index.html">Inicio</a> > 
+    <a href="../index.html">Académico</a> > 
+    <span>Estadística</span>
+  </div>
+
+  <div class="container">
+    <!-- Page Header -->
+    <header class="page-header">
+      <h1>📊 Estadística</h1>
+      <p>Analizando datos para descubrir patrones y tendencias</p>
+    </header>
+
+    <!-- Topics Section -->
+    <section class="topics-section">
+      <h2 class="section-title">Áreas de Estudio</h2>
+      
+      <div class="topics-grid">
+        <div class="topic-card">
+          <h3><span class="icon">📈</span>Estadística Descriptiva</h3>
+          <p>Métodos para resumir y visualizar datos de manera comprensible.</p>
+          <ul>
+            <li>Medidas de tendencia central</li>
+            <li>Medidas de dispersión</li>
+            <li>Distribuciones de frecuencia</li>
+            <li>Visualización de datos</li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <h3><span class="icon">🎯</span>Inferencia Estadística</h3>
+          <p>Técnicas para hacer conclusiones sobre poblaciones basándose en muestras.</p>
+          <ul>
+            <li>Estimación de parámetros</li>
+            <li>Pruebas de hipótesis</li>
+            <li>Intervalos de confianza</li>
+            <li>Análisis de varianza</li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <h3><span class="icon">🎲</span>Probabilidad</h3>
+          <p>Fundamentos teóricos de la incertidumbre y el azar.</p>
+          <ul>
+            <li>Teoría de probabilidades</li>
+            <li>Variables aleatorias</li>
+            <li>Distribuciones de probabilidad</li>
+            <li>Teorema del límite central</li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <h3><span class="icon">📉</span>Regresión y Correlación</h3>
+          <p>Análisis de relaciones entre variables y predicción.</p>
+          <ul>
+            <li>Regresión lineal simple</li>
+            <li>Regresión múltiple</li>
+            <li>Correlación de Pearson</li>
+            <li>Análisis de residuos</li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <h3><span class="icon">🧪</span>Diseño de Experimentos</h3>
+          <p>Planificación y análisis de estudios experimentales.</p>
+          <ul>
+            <li>Principios del diseño experimental</li>
+            <li>ANOVA de una vía</li>
+            <li>ANOVA factorial</li>
+            <li>Diseños de bloques</li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <h3><span class="icon">📊</span>Estadística No Paramétrica</h3>
+          <p>Métodos que no requieren supuestos sobre la distribución de los datos.</p>
+          <ul>
+            <li>Prueba de Mann-Whitney</li>
+            <li>Prueba de Kruskal-Wallis</li>
+            <li>Correlación de Spearman</li>
+            <li>Prueba de los signos</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Content -->
+    <section class="featured-section">
+      <h2 class="section-title">Herramientas y Aplicaciones</h2>
+      
+      <div class="featured-grid">
+        <div class="featured-item">
+          <h4>R Programming</h4>
+          <p>Lenguaje de programación especializado en análisis estadístico y visualización de datos.</p>
+        </div>
+
+        <div class="featured-item">
+          <h4>Python Statistics</h4>
+          <p>Librerías como NumPy, Pandas, SciPy y Matplotlib para análisis estadístico.</p>
+        </div>
+
+        <div class="featured-item">
+          <h4>SPSS y SAS</h4>
+          <p>Software especializado para análisis estadístico en investigación y negocios.</p>
+        </div>
+
+        <div class="featured-item">
+          <h4>Estadística Bayesiana</h4>
+          <p>Enfoque moderno que incorpora conocimiento previo en el análisis estadístico.</p>
+        </div>
+
+        <div class="featured-item">
+          <h4>Big Data Analytics</h4>
+          <p>Técnicas estadísticas aplicadas a grandes volúmenes de datos.</p>
+        </div>
+
+        <div class="featured-item">
+          <h4>Control de Calidad</h4>
+          <p>Aplicación de métodos estadísticos en procesos industriales y de servicios.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coming Soon -->
+    <section class="coming-soon">
+      <h3>🚧 Contenido en Desarrollo</h3>
+      <p>Estamos preparando ejemplos prácticos, casos de estudio y tutoriales interactivos 
+         para cada área de la estadística. Próximamente incluiremos ejercicios con R y Python.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 2rem; color: #666; border-top: 1px solid #eee; margin-top: 3rem;">
+      <p>&copy; 2025 Peter Shica Ramirez. Estadística - Transformando datos en conocimiento.</p>
+    </footer>
+  </div>
+</body>
+</html>
