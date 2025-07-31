@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Código Python - Peter Shica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #007bff;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --border-radius: 10px;
+      --accent-color: #28a745;
+      --python-color: #3776ab;
+      --python-light: #e3f2fd;
+      --python-dark: #1565c0;
+      --jupyter-color: #f37626;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.7;
+    }
+
+    /* Header Navigation */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--python-color) 0%, var(--python-dark) 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: "🐍 💻 📊 🔬 ⚡ 📈 🎯 🔧";
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 2rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Statistics Section */
+    .stats-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stats-title {
+      font-size: 1.5rem;
+      color: var(--python-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      background: var(--python-light);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--python-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #666;
+      font-weight: 600;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .filter-title {
+      font-size: 1.5rem;
+      color: var(--python-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--python-light);
+      color: var(--python-color);
+      border: 2px solid var(--python-color);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--python-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Publications Grid */
+    .publications-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .publication-card {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--python-color);
+    }
+
+    .publication-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .publication-header {
+      background: linear-gradient(135deg, var(--python-light), #bbdefb);
+      padding: 1.5rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .publication-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--python-dark);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .publication-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+      flex-wrap: wrap;
+    }
+
+    .publication-category {
+      background: var(--python-color);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .publication-type {
+      background: var(--jupyter-color);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .publication-date {
+      color: #777;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .publication-content {
+      padding: 1.5rem;
+    }
+
+    .publication-description {
+      color: #555;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .publication-topics {
+      margin-bottom: 1.5rem;
+    }
+
+    .topics-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--python-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .topic-tag {
+      background: #f5f5f5;
+      color: #666;
+      padding: 0.25rem 0.5rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      border: 1px solid #e0e0e0;
+    }
+
+    .publication-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .view-btn {
+      background: var(--python-color);
+      color: white;
+    }
+
+    .view-btn:hover {
+      background: var(--python-dark);
+      transform: translateY(-1px);
+    }
+
+    .github-btn {
+      background: #333;
+      color: white;
+    }
+
+    .github-btn:hover {
+      background: #000;
+      transform: translateY(-1px);
+    }
+
+    /* Featured Section */
+    .featured-section {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      border-top: 4px solid var(--jupyter-color);
+    }
+
+    .featured-title {
+      font-size: 1.5rem;
+      color: var(--jupyter-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .featured-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .featured-image {
+      background: linear-gradient(135deg, var(--python-light), var(--jupyter-color));
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      text-align: center;
+      color: var(--python-dark);
+      font-size: 4rem;
+    }
+
+    .featured-info h3 {
+      font-size: 1.3rem;
+      color: var(--python-dark);
+      margin-bottom: 1rem;
+    }
+
+    .featured-info p {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .featured-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--jupyter-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .featured-link:hover {
+      background: #e64a19;
+      transform: translateY(-2px);
+    }
+
+    /* Help Section */
+    .help-section {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .help-title {
+      font-size: 1.5rem;
+      color: var(--python-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .help-item {
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .help-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .help-item h4 {
+      color: var(--python-dark);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .help-item p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .page-header {
+        padding: 3rem 1rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.2rem;
+      }
+
+      .publications-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .publication-actions {
+        flex-direction: column;
+      }
+
+      .featured-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .help-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 0.5rem;
+      }
+
+      .filter-section,
+      .stats-section {
+        padding: 1.5rem;
+      }
+
+      .page-header {
+        padding: 2rem 1rem;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">Peter Shica</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="../academico/index.html">Académico</a></li>
+        <li><a href="../curriculum/index.html">Currículum</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="../index.html">Inicio</a> > 
+    <span>Código Python</span>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="header-content">
+        <h1>🐍 Código Python</h1>
+        <p>
+          Colección de notebooks de Jupyter, scripts y proyectos de Python aplicados a 
+          matemáticas, física, estadística y machine learning. Código práctico y educativo.
+        </p>
+      </div>
+    </header>
+
+    <!-- Statistics -->
+    <section class="stats-section">
+      <h2 class="stats-title">📊 Estadísticas de la Colección</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">1</div>
+          <div class="stat-label">Publicaciones</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4</div>
+          <div class="stat-label">Categorías</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Jupyter</div>
+          <div class="stat-label">Notebooks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Python</div>
+          <div class="stat-label">Lenguaje Principal</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Publication -->
+    <section class="featured-section">
+      <h2 class="featured-title">
+        <span>⭐</span>
+        Publicación Destacada
+      </h2>
+      <div class="featured-content">
+        <div class="featured-image">
+          🔬
+        </div>
+        <div class="featured-info">
+          <h3>Computación Numérica - Pregunta 5.1</h3>
+          <p>
+            Notebook de Jupyter que explora métodos numéricos aplicados a problemas matemáticos. 
+            Incluye implementaciones en Python con visualizaciones y análisis detallado.
+          </p>
+          <a href="https://nbviewer.org/github/pshica/CdD_UAM/blob/main/Computacion_numerica/Preg%205.1%20Comp.%20Numerica.ipynb" 
+             target="_blank" 
+             class="featured-link">
+            <span>👁️</span>
+            Ver Notebook
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+      <h2 class="filter-title">
+        <span>🔍</span>
+        Filtrar por Categoría
+      </h2>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="computacion-numerica">Computación Numérica</button>
+        <button class="filter-btn" data-filter="machine-learning">Machine Learning</button>
+        <button class="filter-btn" data-filter="estadistica">Estadística</button>
+        <button class="filter-btn" data-filter="fisica">Física</button>
+      </div>
+    </section>
+
+    <!-- Publications Grid -->
+    <section class="publications-grid">
+      <!-- Publication 1 -->
+      <article class="publication-card" data-category="computacion-numerica">
+        <div class="publication-header">
+          <h3 class="publication-title">Computación Numérica - Pregunta 5.1</h3>
+          <div class="publication-meta">
+            <span class="publication-category">Computación Numérica</span>
+            <span class="publication-type">Jupyter Notebook</span>
+            <div class="publication-date">
+              <span>📅</span>
+              <span>2024</span>
+            </div>
+          </div>
+        </div>
+        <div class="publication-content">
+          <p class="publication-description">
+            Implementación de métodos numéricos para resolver problemas matemáticos complejos. 
+            Incluye análisis de convergencia, visualizaciones interactivas y comparación de algoritmos.
+          </p>
+          <div class="publication-topics">
+            <div class="topics-title">Temas cubiertos:</div>
+            <div class="topic-tags">
+              <span class="topic-tag">Métodos Numéricos</span>
+              <span class="topic-tag">Python</span>
+              <span class="topic-tag">NumPy</span>
+              <span class="topic-tag">Matplotlib</span>
+              <span class="topic-tag">Análisis</span>
+            </div>
+          </div>
+          <div class="publication-actions">
+            <a href="https://nbviewer.org/github/pshica/CdD_UAM/blob/main/Computacion_numerica/Preg%205.1%20Comp.%20Numerica.ipynb" 
+               target="_blank" 
+               class="action-btn view-btn">
+              <span>👁️</span>
+              Ver Notebook
+            </a>
+            <a href="https://github.com/pshica/CdD_UAM/blob/main/Computacion_numerica/Preg%205.1%20Comp.%20Numerica.ipynb" 
+               target="_blank" 
+               class="action-btn github-btn">
+              <span>📁</span>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Placeholder para futuras publicaciones -->
+      <article class="publication-card" style="opacity: 0.6; pointer-events: none;" data-category="machine-learning">
+        <div class="publication-header">
+          <h3 class="publication-title">Machine Learning Básico</h3>
+          <div class="publication-meta">
+            <span class="publication-category">Machine Learning</span>
+            <span class="publication-type">Jupyter Notebook</span>
+            <div class="publication-date">
+              <span>📅</span>
+              <span>Próximamente</span>
+            </div>
+          </div>
+        </div>
+        <div class="publication-content">
+          <p class="publication-description">
+            Introducción a algoritmos de machine learning con implementaciones desde cero y 
+            uso de librerías populares como scikit-learn.
+          </p>
+          <div class="publication-topics">
+            <div class="topics-title">Temas cubiertos:</div>
+            <div class="topic-tags">
+              <span class="topic-tag">Regresión</span>
+              <span class="topic-tag">Clasificación</span>
+              <span class="topic-tag">Scikit-learn</span>
+              <span class="topic-tag">Pandas</span>
+            </div>
+          </div>
+          <div class="publication-actions">
+            <button class="action-btn" style="background: #6c757d; cursor: not-allowed;">
+              <span>⏳</span>
+              Próximamente
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="publication-card" style="opacity: 0.6; pointer-events: none;" data-category="estadistica">
+        <div class="publication-header">
+          <h3 class="publication-title">Análisis Estadístico con Python</h3>
+          <div class="publication-meta">
+            <span class="publication-category">Estadística</span>
+            <span class="publication-type">Jupyter Notebook</span>
+            <div class="publication-date">
+              <span>📅</span>
+              <span>Próximamente</span>
+            </div>
+          </div>
+        </div>
+        <div class="publication-content">
+          <p class="publication-description">
+            Análisis estadístico descriptivo e inferencial usando Python. Incluye pruebas de hipótesis, 
+            intervalos de confianza y visualizaciones estadísticas.
+          </p>
+          <div class="publication-topics">
+            <div class="topics-title">Temas cubiertos:</div>
+            <div class="topic-tags">
+              <span class="topic-tag">Estadística Descriptiva</span>
+              <span class="topic-tag">Pruebas de Hipótesis</span>
+              <span class="topic-tag">SciPy</span>
+              <span class="topic-tag">Seaborn</span>
+            </div>
+          </div>
+          <div class="publication-actions">
+            <button class="action-btn" style="background: #6c757d; cursor: not-allowed;">
+              <span>⏳</span>
+              Próximamente
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Help Section -->
+    <section class="help-section">
+      <h2 class="help-title">
+        <span>💡</span>
+        Cómo Usar Esta Sección
+      </h2>
+      <div class="help-grid">
+        <div class="help-item">
+          <div class="help-icon">🔍</div>
+          <h4>Explora</h4>
+          <p>Usa los filtros para encontrar notebooks por categoría específica</p>
+        </div>
+        <div class="help-item">
+          <div class="help-icon">👁️</div>
+          <h4>Visualiza</h4>
+          <p>Haz clic en "Ver Notebook" para abrir en nbviewer con renderizado completo</p>
+        </div>
+        <div class="help-item">
+          <div class="help-icon">📁</div>
+          <h4>Descarga</h4>
+          <p>Usa los enlaces de GitHub para acceder al código fuente y descargar</p>
+        </div>
+        <div class="help-item">
+          <div class="help-icon">🚀</div>
+          <h4>Experimenta</h4>
+          <p>Copia el código y experimenta con tus propios datos y parámetros</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: #777; background: white; margin-top: 3rem; border-top: 1px solid #eee;">
+    © 2025 Peter Shica — Todos los derechos reservados
+  </footer>
+
+  <script>
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const publicationCards = document.querySelectorAll('.publication-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        publicationCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.3s ease';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Add fade-in animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initialize page with loading animation
+    document.addEventListener('DOMContentLoaded', () => {
+      publicationCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.transition = 'all 0.5s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    });
+  </script>
+
+</body>
+</html>
