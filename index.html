@@ -448,6 +448,61 @@
       border-color: var(--primary-color);
     }
 
+    /* Quick Access Section */
+    .quick-access {
+      background: linear-gradient(135deg, var(--light-gray), #e9ecef);
+      border-radius: var(--border-radius);
+      padding: 3rem 2rem;
+      margin: 3rem auto;
+      max-width: 1100px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 700;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .quick-link {
+      background: var(--white);
+      border: 2px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 1.2rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--secondary-color);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .quick-link:hover {
+      background: var(--secondary-color);
+      color: var(--white);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3);
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -588,6 +643,27 @@
         height: 150px;
       }
 
+      /* Responsive para acceso rápido */
+      .quick-access {
+        padding: 2rem 1rem;
+        margin: 2rem 1rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .quick-links {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .quick-link {
+        padding: 1rem;
+        font-size: 0.9rem;
+      }
+
       /* Responsive para el contador de visitas */
       .visit-counter {
         padding: 0.6rem 1.2rem;
@@ -597,6 +673,17 @@
 
       #visit-counter-text::before {
         font-size: 1rem;
+      }
+    }
+
+    /* Media query adicional para pantallas muy pequeñas */
+    @media (max-width: 480px) {
+      .quick-links {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
       }
     }
   </style>
@@ -654,39 +741,20 @@
         <a href="blog/index.html">VER TODO</a>
       </div>
     </div>
-
-    <section class="featured-section">
-      <div class="container">
-        <h2>Últimas Publicaciones</h2>
-        <div class="featured-items-grid">
-          <div class="featured-item">
-            <img src="img/blog-ia.jpg" alt="Imagen de artículo sobre IA" loading="lazy">
-            <h3>El Futuro de la IA y sus Implicaciones</h3>
-            <span class="date">15 de Julio, 2025</span>
-            <p>Una reflexión profunda sobre cómo la inteligencia artificial está redefiniendo nuestro mundo y los desafíos éticos que presenta...</p>
-            <a href="blog/2025/07/futuro-ia.html">Leer Más</a>
-          </div>
-          <div class="featured-item">
-            <img src="img/blog-matematicas.jpg" alt="Imagen de artículo de matemáticas" loading="lazy">
-            <h3>La Belleza Oculta del Cálculo Multivariable</h3>
-            <span class="date">1 de Julio, 2025</span>
-            <p>Exploramos conceptos clave del cálculo multivariable y cómo se aplican en la física y la ingeniería...</p>
-            <a href="academico/matematicas/calculo-multivariable.html">Leer Más</a>
-          </div>
-          <div class="featured-item">
-            <img src="img/blog-fisica.jpg" alt="Imagen de artículo de física" loading="lazy">
-            <h3>Entendiendo la Relatividad General de Einstein</h3>
-            <span class="date">20 de Junio, 2025</span>
-            <p>Un recorrido simplificado por los principios fundamentales de la teoría de la relatividad general...</p>
-            <a href="academico/fisica/relatividad.html">Leer Más</a>
-          </div>
-        </div>
-        <a href="blog/index.html" class="cta-button" style="margin-top: 3rem;">Ver Todas las Publicaciones</a>
-      </div>
-    </section>
-
   </main>
 
+  <!-- Sección de Acceso Rápido -->
+  <section class="quick-access">
+    <h2 class="section-title">
+      Acceso Rápido
+    </h2>
+    <div class="quick-links">
+      <a href="academico/matematicas/ejercicios-resueltos.html" class="quick-link">📊 Ejercicios Resueltos</a>
+      <a href="#" class="quick-link">💻 Código Python</a>
+      <a href="#" class="quick-link">🎯 Proyectos</a>
+    </div>
+  </section>
+  
   <footer>
     <div class="container">
       © 2025 Peter Shica — Todos los derechos reservados
