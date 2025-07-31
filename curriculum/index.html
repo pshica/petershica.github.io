@@ -191,6 +191,36 @@
       color: var(--secondary-color);
     }
 
+    /* LinkedIn Link Styling */
+    .info-item a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .info-item a:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+
+    .info-item a:before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: var(--secondary-color);
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .info-item a:hover:before {
+      visibility: visible;
+      width: 100%;
+    }
+
     /* Experience & Education Items */
     .experience-item,
     .education-item {
@@ -405,7 +435,7 @@
         </div>
         <div class="info-item">
           <span class="info-icon">💼</span>
-          <span>LinkedIn: www.linkedin.com/in/peter-shica-ramirez-34581018b</span>
+          <a href="https://www.linkedin.com/in/peter-shica-ramirez/" target="_blank">LinkedIn: www.linkedin.com/in/peter-shica-ramirez</a>
         </div>
       </div>
     </section>
